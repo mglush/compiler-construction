@@ -7,7 +7,7 @@
 **Output**:
   - Results of the print statements within the main method of the Main class of the input program.
 
-Project aspects:
+**Project aspects**:
   - Uses Flex scanner generator to consume input one token at a time and pass it on to the parser.
   - Uses Bison parser to parse the input program, bottom-up, and build an abstract syntax tree while doing so.
   - Uses typeChecker visitor pattern to build a symbol table for the input program.

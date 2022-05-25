@@ -10,6 +10,6 @@ Project aspects:
   - The generated assembly code is linked to a C entry point via the tester.c driver, and compiled with gcc.
 
 Input:
-  - Program written in a small object-oriented programming language.
+  - Program written in a small object-oriented programming language. <br />
 Output:
   - Results of the print statements within the main method of the Main class of the input program.

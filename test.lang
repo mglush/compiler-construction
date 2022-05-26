@@ -5,3 +5,15 @@ Main {
 		print x;						/* should output 20 */
 	}
 }
+
+Class0 {
+	class0() -> none {
+		print 10 + 10;
+	}
+}
+
+Class1 extends Class0 {
+	f0() -> none {
+		print 10 - 10 + (10 * 10);
+	}
+}

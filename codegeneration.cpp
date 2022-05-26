@@ -6,13 +6,10 @@ bool COMMENTS_ON = false;   // set to false if you don't want the generated asse
 
 std::string getOffset(int num_tabs) {
     std::string result = "";
-    if (INDENT_ON) {
+    if (INDENT_ON)
         while (--num_tabs > 0)
             result += "    ";
-        return result;
-    } else {
-        return "    ";
-    }
+    return result;
 }
 
 // helper function to find the proper offset of a variable/member.

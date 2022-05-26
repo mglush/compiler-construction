@@ -28,6 +28,7 @@ void CodeGenerator::visitProgramNode(ProgramNode* node) {
 }
 
 void CodeGenerator::visitClassNode(ClassNode* node) {
+    std::cout << "# Visiting ClassNode" << std::endl;
     // uncomment the following line to have the output display when a class definition is entered.
     // std::cout << "---------------------------\n" << "Visiting " << node->identifier_1->name << " class" << "\n---------------------------" << std::endl;
 
@@ -37,9 +38,11 @@ void CodeGenerator::visitClassNode(ClassNode* node) {
 
     // process the children.
     node->visit_children(this);
+    std::cout << "# Processing ClassNode" << std::endl;
 }
 
 void CodeGenerator::visitMethodNode(MethodNode* node) {
+    std::cout << "# Visiting MethodNode" << std::endl;
     // find which class the method is defined in.
     // if it's not the current class, it must be
     // one of the superclasses of the current class.
@@ -55,6 +58,7 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     std::cout << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
 
     node->visit_children(this);
+    std::cout << "# Processing MethodBodyNode" << std::endl;
 }
 
 void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
@@ -65,32 +69,25 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     std::cout << "push %ebp" << "           # push old base frame pointer onto the stack." << std::endl;
     std::cout << "mov %esp, %ebp" << "      # set current base frame pointer to stack pointer position." << std::endl;
     std::cout << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "         # allocate space for local variables of the method." << std::endl;
-
-    // process the children.
-    std::cout << "# processing the method body." << std::endl;
     
-    std::cout << "push %ebx" << "   # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "push %esi" << "   # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "push %edi" << "   # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "push %ebx" << "         # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "push %esi" << "         # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "push %edi" << "         # callee responsible for preserving contents of this register." << std::endl;
 
     node->visit_children(this);
-
-    // std::cout << "      # printing after da return statement!" << std::endl;
-    // // for testing purposes, we will print out the value returned by a method.
-    // std::cout << "      # print returned value for testing purposes only. next 3 lines of code should be removed when submitting final version." << std::endl;
-    // std::cout << "      push $printstr" << "          # load format to be used for printing." << std::endl;
-    // std::cout << "      call printf" << "             # print value in the return expression." << std::endl;
+    std::cout << "# Processing MethodBodyNode" << std::endl;
 
     // function callee epilogue.
     std::cout << "# Starting callee function epilogue." << std::endl;
     std::cout << "pop %eax" << "    # save the return value in %eax as per __cdecl convention." << std::endl;
-    std::cout << "mov %ebp, %esp" << "      # deallocate space for local variables of the method." << std::endl;
-    std::cout << "pop %ebp" << "    # restore previous base frame pointer." << std::endl;
-    std::cout << "ret" << "         # jump back to return address of the caller." << std::endl;
 
-    std::cout << "pop %edi" << "    # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "pop %esi" << "    # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "pop %ebx" << "    # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "pop %edi" << "          # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "pop %esi" << "          # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "pop %ebx" << "          # callee responsible for preserving contents of this register." << std::endl;
+
+    std::cout << "mov %ebp, %esp" << "      # deallocate space for local variables of the method." << std::endl;
+    std::cout << "pop %ebp" << "          # restore previous base frame pointer." << std::endl;
+    std::cout << "ret" << "               # jump back to return address of the caller." << std::endl;
 }
 
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
@@ -98,17 +95,21 @@ void CodeGenerator::visitParameterNode(ParameterNode* node) {
 }
 
 void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
+    std::cout << "# Visiting DeclarationNode." << std::endl;
     node->visit_children(this);
+    std::cout << "# Processing DeclarationNode." << std::endl;
 }
 
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
-    node->visit_children(this);
     std::cout << "# Visiting ReturnStatementNode." << std::endl;
+    node->visit_children(this);
+    std::cout << "# Processing ReturnStatementNode." << std::endl;
 }
 
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
+    std::cout << "# Visiting AssignmentNode." << std::endl;
     node->visit_children(this);
-
+    std::cout << "# Processing AssignmentNode." << std::endl;
     if (node->identifier_2) {
         
     } else {
@@ -119,36 +120,43 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
 }
 
 void CodeGenerator::visitCallNode(CallNode* node) {
+    std::cout << "# Visiting CallNode." << std::endl;
     node->visit_children(this);
+    std::cout << "# Processing CallNode." << std::endl;
 }
 
 void CodeGenerator::visitIfElseNode(IfElseNode* node) {
+    std::cout << "# Visiting IfElseNode." << std::endl;
     node->visit_children(this);
+    std::cout << "# Processing IfElseNode." << std::endl;
 }
 
 void CodeGenerator::visitWhileNode(WhileNode* node) {
+    std::cout << "# Visiting WhileNode." << std::endl;
     node->visit_children(this);
+    std::cout << "# Processing WhileNode." << std::endl;
 }
 
 void CodeGenerator::visitPrintNode(PrintNode* node) {
+    std::cout << "# Visiting PrintNode." << std::endl;
     node->visit_children(this);
-
-    // for testing purposes, we will use this to check values of variables via print statements in our code.
-    std::cout << "# Visiting print statement." << std::endl;
-    
+    std::cout << "# Processing PrintNode." << std::endl;
     std::cout << "push $printstr" << "          # load format to be used for printing." << std::endl;
     std::cout << "call printf" << "             # print value in the return expression." << std::endl;
     std::cout << "pop %eax" << "                # load format to be used for printing." << std::endl;
 }
 
 void CodeGenerator::visitDoWhileNode(DoWhileNode* node) {
+    std::cout << "# Visiting DoWhileNode." << std::endl;
     node->visit_children(this);
+    std::cout << "# Processing DoWhileNode." << std::endl;
 }
 
 void CodeGenerator::visitPlusNode(PlusNode* node) {
+    std::cout << "# Visiting PlusNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Visiting PlusNode." << std::endl;
+    std::cout << "# Processing PlusNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "pop %eax" << std::endl;
     std::cout << "add %edx, %eax" << std::endl;
@@ -156,9 +164,10 @@ void CodeGenerator::visitPlusNode(PlusNode* node) {
 }
 
 void CodeGenerator::visitMinusNode(MinusNode* node) {
+    std::cout << "# Visiting MinusNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Visiting MinusNode." << std::endl;
+    std::cout << "# Processing MinusNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "pop %eax" << std::endl;
     std::cout << "sub %edx, %eax" << std::endl;
@@ -166,9 +175,10 @@ void CodeGenerator::visitMinusNode(MinusNode* node) {
 }
 
 void CodeGenerator::visitTimesNode(TimesNode* node) {
+    std::cout << "# Visiting TimesNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Visiting TimesNode." << std::endl;
+    std::cout << "# Processing TimesNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "pop %eax" << std::endl;
     std::cout << "imul %edx, %eax" << std::endl;
@@ -176,9 +186,10 @@ void CodeGenerator::visitTimesNode(TimesNode* node) {
 }
 
 void CodeGenerator::visitDivideNode(DivideNode* node) {
+    std::cout << "# Visiting DivideNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Visiting DivideNode." << std::endl;
+    std::cout << "# Processing DivideNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "pop %eax" << std::endl;
     std::cout << "idiv %edx, %eax" << std::endl;
@@ -186,20 +197,22 @@ void CodeGenerator::visitDivideNode(DivideNode* node) {
 }
 
 void CodeGenerator::visitNegationNode(NegationNode* node) {
+    std::cout << "# Visiting NegationNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Visiting NegationNode." << std::endl;
+    std::cout << "# Processing NegationNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "neg %edx" << std::endl;
     std::cout << "push %edx" << std::endl;
 }
 
 void CodeGenerator::visitGreaterNode(GreaterNode* node) {
+    std::cout << "# Visiting GreaterNode." << std::endl;
     node->visit_children(this);
     
     int temp = this->nextLabel();
 
-    std::cout << "# Visiting GreaterNode." << std::endl;
+    std::cout << "# Processing GreaterNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "pop %eax" << std::endl;
     std::cout << "cmp %edx, %eax" << std::endl;
@@ -210,11 +223,12 @@ void CodeGenerator::visitGreaterNode(GreaterNode* node) {
 }
 
 void CodeGenerator::visitGreaterEqualNode(GreaterEqualNode* node) {
+    std::cout << "# Visiting GreaterEqualNode." << std::endl;
     node->visit_children(this);
     
     int temp = this->nextLabel();
 
-    std::cout << "# Visiting GreaterEqualNode." << std::endl;
+    std::cout << "# Processing GreaterEqualNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "pop %eax" << std::endl;
     std::cout << "cmp %edx, %eax" << std::endl;
@@ -225,11 +239,12 @@ void CodeGenerator::visitGreaterEqualNode(GreaterEqualNode* node) {
 }
 
 void CodeGenerator::visitEqualNode(EqualNode* node) {
+    std::cout << "# Visiting EqualNode." << std::endl;
     node->visit_children(this);
 
     int temp = this->nextLabel();
 
-    std::cout << "# Visiting EqualNode." << std::endl;
+    std::cout << "# Processing EqualNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "pop %eax" << std::endl;
     std::cout << "cmp %edx, %eax" << std::endl;
@@ -240,9 +255,10 @@ void CodeGenerator::visitEqualNode(EqualNode* node) {
 }
 
 void CodeGenerator::visitAndNode(AndNode* node) {
+    std::cout << "# Visiting AndNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Visiting AndNode." << std::endl;
+    std::cout << "# Processing AndNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "pop %eax" << std::endl;
     std::cout << "andl %edx, %eax" << std::endl;
@@ -250,9 +266,10 @@ void CodeGenerator::visitAndNode(AndNode* node) {
 }
 
 void CodeGenerator::visitOrNode(OrNode* node) {
+    std::cout << "# Visiting OrNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Visiting OrNode." << std::endl;
+    std::cout << "# Processing OrNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "pop %eax" << std::endl;
     std::cout << "orl %edx, %eax" << std::endl;
@@ -260,15 +277,17 @@ void CodeGenerator::visitOrNode(OrNode* node) {
 }
 
 void CodeGenerator::visitNotNode(NotNode* node) {
+    std::cout << "# Visiting NotNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Visiting NotNode." << std::endl;
+    std::cout << "# Processing NotNode." << std::endl;
     std::cout << "pop %edx" << std::endl;
     std::cout << "notl %edx" << std::endl;
     std::cout << "push %edx" << std::endl;
 }
 
 void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
+    std::cout << "# Visiting MethodCallNode."
     std::cout << "push %eax" << "   # caller responsible for preserving contents of this register." << std::endl;
     std::cout << "push %ecx" << "   # caller responsible for preserving contents of this register." << std::endl;
     std::cout << "push %edx" << "   # caller responsible for preserving contents of this register." << std::endl;

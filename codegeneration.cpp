@@ -53,9 +53,9 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     
     // callee function prologue.
     std::cout << "# Starting callee function prologue." << std::endl;
-    std::cout << "    push $ebp" << "   # push old base frame pointer onto the stack." << std::endl;
-    std::cout << "  mov $esp $ebp" << " # set current base frame pointer to stack pointer position." << std::endl;
-    std::cout << "  sub $" << this->currentMethodInfo.localsSize << ", %esp" << "# allocate space for local variables of the method." << std::endl;
+    std::cout << "push $ebp" << "   # push old base frame pointer onto the stack." << std::endl;
+    std::cout << "mov $esp $ebp" << " # set current base frame pointer to stack pointer position." << std::endl;
+    std::cout << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "# allocate space for local variables of the method." << std::endl;
 
     // process the children.
     std::cout << "# processing the method body." << std::endl;
@@ -70,16 +70,16 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
 }
 
 void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
-    std::cout << "  # Visiting MethodBodyNode" << std::endl;
-    std::cout << "      push $ebx" << "   # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "      push $esi" << "   # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "      push $edi" << "   # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "# Visiting MethodBodyNode" << std::endl;
+    std::cout << "push $ebx" << "   # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "push $esi" << "   # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "push $edi" << "   # callee responsible for preserving contents of this register." << std::endl;
 
     node->visit_children(this);
 
-    std::cout << "      pop $edi" << "    # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "      pop $esi" << "    # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "      pop $ebx" << "    # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "pop $edi" << "    # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "pop $esi" << "    # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "pop $ebx" << "    # callee responsible for preserving contents of this register." << std::endl;
 }
 
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
@@ -100,9 +100,9 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (node->identifier_2) {
         
     } else {
-        std::cout << "  pop %edx" << "        # get value of the expression from the top of the stack." << std::endl;
-        std::cout << "  mov %edx, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
-        std::cout << " # store value of right-hand side expression at the right place in memory." << std::endl;
+        std::cout << "pop %edx" << "          # get value of the expression from the top of the stack." << std::endl;
+        std::cout << "mov %edx, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
+        std::cout << "      # store value of right-hand side expression at the right place in memory." << std::endl;
     }
 }
 

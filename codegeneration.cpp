@@ -2,18 +2,18 @@
 
 
 // helper function to find the proper offset of a variable/member.
-int findVariableOffset(CodeGenerator* visitor) {
+int findVariableOffset(CodeGenerator* visitor, std::string name) {
     int result = 0;
-    if (visitor->currentMethodInfo.variables->count(node->identifier_1->name)) {
-        result = visitor->currentMethodInfo.variables->at(node->identifier_1->name);
+    if (visitor->currentMethodInfo.variables->count(name)) {
+        result = visitor->currentMethodInfo.variables->at(name);
     }
     else {
         std::string class_name = visitor->currentClassName;
-        while (visitor->classTable->at(class_name).members->count(node->identifier_1->name) == 0) {
+        while (visitor->classTable->at(class_name).members->count(name) == 0) {
             result -= visitor->classTable->at(class_name).membersSize;
             class_name = visitor->classTable->at(class_name).superClassName;
         }
-        result -= visitor->classTable->at(class_name).members->at(node->identifier_1->name).offset;
+        result -= visitor->classTable->at(class_name).members->at(name).offset;
     }
     return result;
 }
@@ -99,7 +99,8 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
         
     } else {
         std::cout << "          pop %edx" << "            # get value of the expression from the top of the stack." << std::endl;
-        std::cout << "          mov %edx, " << findVariableOffset(this) << "(%ebp)" << "   # store value of right-hand side expression at the right place in memory." << std::endl;
+        std::cout << "          mov %edx, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
+        std::cout << "   # store value of right-hand side expression at the right place in memory." << std::endl;
     }
 }
 
@@ -265,7 +266,8 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
 
 void CodeGenerator::visitVariableNode(VariableNode* node) {
     std::cout << "      # Visiting Variable." << std::endl;
-    std::cout << "          mov " << findVariableOffset(this) << "(%ebp)" << ", %edx" << "   # store value of right-hand side expression at the right place in memory." << std::endl;
+    std::cout << "          mov " << findVariableOffset(this, node->identifier->name) << "(%ebp)" << ", %edx";
+    std::cout << "   # store value of right-hand side expression at the right place in memory." << std::endl;
 }
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {

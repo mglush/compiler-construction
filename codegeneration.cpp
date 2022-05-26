@@ -5,7 +5,7 @@
 int findVariableOffset(CodeGenerator* visitor, std::string name) {
     int result = 0;
     if (visitor->currentMethodInfo.variables->count(name)) {
-        result = visitor->currentMethodInfo.variables->at(name);
+        result = visitor->currentMethodInfo.variables->at(name).offset;
     }
     else {
         std::string class_name = visitor->currentClassName;

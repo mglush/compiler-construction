@@ -76,8 +76,7 @@ void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
 
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     node->visit_children(this);
-
-    // load result of expression (should be on the stack) into a variable.
+    // if there are two identifiers, find the class where the member resides to check for member offset in memory.
 }
 
 void CodeGenerator::visitCallNode(CallNode* node) {
@@ -225,17 +224,17 @@ void CodeGenerator::visitNotNode(NotNode* node) {
 
 void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     // The caller save registers are: %eax, %ecx, and %edx.
-    std::cout << "          push $eax" << "       # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << "          push $ecx" << "       # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << "          push $edx" << "       # caller responsible for preserving contents of this register." << std::endl;
+    // std::cout << "          push $eax" << "       # caller responsible for preserving contents of this register." << std::endl;
+    // std::cout << "          push $ecx" << "       # caller responsible for preserving contents of this register." << std::endl;
+    // std::cout << "          push $edx" << "       # caller responsible for preserving contents of this register." << std::endl;
     
     std::cout << "      # making a method call here." << std::endl;
 
     node->visit_children(this);
 
-    std::cout << "          pop $edx" << "        # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << "          pop $ecx" << "        # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << "          pop $eax" << "        # caller responsible for preserving contents of this register." << std::endl;
+    // std::cout << "          pop $edx" << "        # caller responsible for preserving contents of this register." << std::endl;
+    // std::cout << "          pop $ecx" << "        # caller responsible for preserving contents of this register." << std::endl;
+    // std::cout << "          pop $eax" << "        # caller responsible for preserving contents of this register." << std::endl;
 }
 
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {

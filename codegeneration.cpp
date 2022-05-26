@@ -80,7 +80,6 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
         std::cout << "      # print returned value for testing purposes only. next 3 lines of code should be removed when submitting final version." << std::endl;
         std::cout << "      push $printstr" << "          # load format to be used for printing." << std::endl;
         std::cout << "      call printf" << "             # print value in the return expression." << std::endl;
-        std::cout << "      add $4, %esp" << "            # move the stack pointer back to below $printstr." << std::endl;
     }
 
     // function callee epilogue.
@@ -139,7 +138,6 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
     std::cout << "      # print returned value for testing purposes only. next 3 lines of code should be removed when submitting final version." << std::endl;
     std::cout << "      push $printstr" << "          # load format to be used for printing." << std::endl;
     std::cout << "      call printf" << "             # print value in the return expression." << std::endl;
-    std::cout << "      add $4, %esp" << "            # move the stack pointer back to below $printstr." << std::endl;
 }
 
 void CodeGenerator::visitDoWhileNode(DoWhileNode* node) {

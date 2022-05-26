@@ -1,7 +1,12 @@
 Main {
 	main() -> none {
 		integer x;
-		x = 10;
-		print x;
+		x = 5 * 5;
+		x = x - 20;
+		x = x / 5;
+		print x; /* prints 1 */
+
+		x = 5 * x;
+		print x * x; /* prints 25 */
 	}
 }

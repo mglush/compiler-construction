@@ -164,6 +164,7 @@ CompoundType undefinedMember(TypeCheck* visitor, std::string class_name, std::st
   }
 
   typeError(undefined_member);
+  return {bt_none, ""}; // line is never reached but prevents a compiler warning.
 }
 
 // throws error when a variable is referred to when
@@ -184,6 +185,7 @@ CompoundType undefinedVariable(TypeCheck* visitor, std::string name) {
   }
 
   typeError(undefined_variable);
+  return {bt_none, ""}; // line is never reached but prevents a compiler warning.
 }
 
 // throws error when a method is called on or a member
@@ -207,6 +209,7 @@ std::string notAnObject(TypeCheck* visitor, std::string name) {
   }
 
   typeError(not_object);
+  return ""; // line is never reached but prevents a compiler warning.
 }
 
 // This applies when the expression in the return
@@ -238,6 +241,7 @@ std::list<CompoundType>* methodArgumentNumberMismatch(TypeCheck* visitor, std::s
   }
 
   typeError(argument_number_mismatch);
+  return NULL; // line is never reached but prevents a compiler warning.
 }
 
 // throws error when a method or a constructor is called

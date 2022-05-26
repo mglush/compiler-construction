@@ -229,9 +229,9 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     
     node->visit_children(this);
 
-    std::cout << "          push $edx" << "       # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << "          push $ecx" << "       # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << "          push $eax" << "       # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          pop $edx" << "        # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          pop $ecx" << "        # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          pop $eax" << "        # caller responsible for preserving contents of this register." << std::endl;
 }
 
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {

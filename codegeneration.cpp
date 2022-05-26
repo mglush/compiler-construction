@@ -139,8 +139,8 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
     std::cout << "      push %eax" << "               # push the result of the return statement." << std::endl;
     std::cout << "      push $printstr" << "          # load format to be used for printing." << std::endl;
     std::cout << "      call printf" << "             # print value in the return expression." << std::endl;
-    std::cout << "      add $4, %esp" << "            # move stack pointer back to where it belongs" << std::endl;
-    //std::cout << "      add $4, %esp" << "            # move stack pointer back to where it belongs" << std::endl;
+    // std::cout << "      add $4, %esp" << "            # move stack pointer back to where it belongs" << std::endl;
+    // std::cout << "      add $4, %esp" << "            # move stack pointer back to where it belongs" << std::endl;
 }
 
 void CodeGenerator::visitDoWhileNode(DoWhileNode* node) {

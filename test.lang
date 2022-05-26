@@ -2,6 +2,10 @@ Counter {
 	integer x;
 	count() -> integer {
 		x = 10 + 1;
+		x = 10 - 1;
+		x = 10 * 1;
+		x = 10 / 1;
+		x = -1;
 		return x;
 	}
 	Counter() -> none {

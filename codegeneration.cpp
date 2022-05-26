@@ -1,8 +1,16 @@
 #include "codegeneration.hpp"
 
-bool COMMENTS_ON = false;
-bool INDENT_ON = false;
-int TAB_COUNTER = 0; // to put the assembly code output into readable format, we keep track of tabs.
+int TAB_COUNTER = 0;        // keeps track of tabs to use when printing assembly code.
+bool INDENT_ON = false;     // set to false if no indentation is wanted.
+bool COMMENTS_ON = false;   // set to false if you don't want the generated assembly to generate comments.
+
+std::string getOffset(int num_tabs) {
+    std::string result = "";
+    if (INDENT_ON)
+        while (--num_tabs > 0)
+            result += "    ";
+    return result;
+}
 
 // helper function to find the proper offset of a variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string name) {
@@ -18,14 +26,6 @@ int findVariableOffset(CodeGenerator* visitor, std::string name) {
         }
         result += visitor->classTable->at(class_name).members->at(name).offset;
     }
-    return result;
-}
-
-std::string getOffset(int num_tabs) {
-    std::string result = "";
-    if (INDENT_ON)
-        while (--num_tabs > 0)
-            result += "    ";
     return result;
 }
 
@@ -81,20 +81,20 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     std::cout << getOffset(TAB_COUNTER) << "mov %esp, %ebp" << "      # set current base frame pointer to stack pointer position." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "         # allocate space for local variables of the method." << std::endl;
     
-    std::cout << getOffset(TAB_COUNTER) << "push %ebx" << "         # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %esi" << "         # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %edi" << "         # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %ebx" << "             # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %esi" << "             # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %edi" << "             # callee responsible for preserving contents of this register." << std::endl;
 
     node->visit_children(this);
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing MethodBodyNode" << std::endl;
 
     // function callee epilogue.
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Starting callee function epilogue." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "    # save the return value in %eax as per __cdecl convention." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "              # save the return value in %eax as per __cdecl convention." << std::endl;
 
-    std::cout << getOffset(TAB_COUNTER) << "pop %edi" << "          # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %esi" << "          # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %ebx" << "          # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edi" << "              # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %esi" << "              # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %ebx" << "              # callee responsible for preserving contents of this register." << std::endl;
 
     std::cout << getOffset(TAB_COUNTER) << "mov %ebp, %esp" << "      # deallocate space for local variables of the method." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "pop %ebp" << "          # restore previous base frame pointer." << std::endl;

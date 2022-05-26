@@ -3,7 +3,6 @@ Main {
 		integer x;
 		x = 10 + 10;
 		print x;
-		x = 20 + x + 60;
-		print x;
+		print 20 + x + 60;
 	}
 }

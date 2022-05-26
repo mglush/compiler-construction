@@ -9,12 +9,21 @@ void CodeGenerator::visitProgramNode(ProgramNode* node) {
 }
 
 void CodeGenerator::visitClassNode(ClassNode* node) {
+    std::cout << "# Vistied ClassNode.." << std::endl;
+
+    // set current method info and current method name variables.
+    this->currentClassInfo = this->classTable->at(node->identifier_1->name);
     this->currentClassName = node->identifier_1->name;
+
+    // process the children.
     node->visit_children(this);
 }
 
 void CodeGenerator::visitMethodNode(MethodNode* node) {
-    std::cout << "# Vistied MethodNode." << std::endl;
+    std::cout << "  # Vistied MethodNode." << std::endl;
+    
+    // give the method a label so it can be referred to later.
+    std::cout << "  " << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
 
     // find which class the method is defined in.
     // if it's not the current class, it must be
@@ -28,21 +37,21 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     this->currentMethodName = node->identifier->name;
 
     // function prologue.
-    std::cout << "  # Starting function prologue." << std::endl;
-    std::cout << "      push $ebp" << "       # push old base frame pointer onto the stack." << std::endl;
-    std::cout << "      mov $esp $ebp" << "   # set current base frame pointer to stack pointer position." << std::endl;
-    std::cout << "      sub $" << this->currentMethodInfo.localsSize << ", %esp" << "    # allocate space for local variables of the method." << std::endl;
+    std::cout << "      # Starting function prologue." << std::endl;
+    std::cout << "          push $ebp" << "       # push old base frame pointer onto the stack." << std::endl;
+    std::cout << "          mov $esp $ebp" << "   # set current base frame pointer to stack pointer position." << std::endl;
+    std::cout << "          sub $" << this->currentMethodInfo.localsSize << ", %esp" << "    # allocate space for local variables of the method." << std::endl;
 
     // process the children.
-    std::cout << "  # processing method body." << std::endl;
+    std::cout << "      # processing method body." << std::endl;
     node->visit_children(this);
     
     // function epilogue.
-    std::cout << "  # Starting function epilogue." << std::endl;
-    std::cout << "      pop $eax" << "       # save the return value in $eax as per __cdecl convention." << std::endl;
-    std::cout << "      mov $ebp $esp" << "  # deallocate space for local variables of the method." << std::endl;
-    std::cout << "      pop $ebp" << "       # restore previous base frame pointer." << std::endl;
-    std::cout << "      ret" << "            # jump back to return address of the caller." << std::endl;
+    std::cout << "      # Starting function epilogue." << std::endl;
+    std::cout << "          pop $eax" << "       # save the return value in $eax as per __cdecl convention." << std::endl;
+    std::cout << "          mov $ebp $esp" << "  # deallocate space for local variables of the method." << std::endl;
+    std::cout << "          pop $ebp" << "       # restore previous base frame pointer." << std::endl;
+    std::cout << "          ret" << "            # jump back to return address of the caller." << std::endl;
 }
 
 void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {

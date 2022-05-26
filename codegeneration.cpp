@@ -31,7 +31,7 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     std::cout << "  # Starting function prologue." << std::endl;
     std::cout << "      push $ebp" << "       # push old base frame pointer onto the stack." << std::endl;
     std::cout << "      mov $esp $ebp" << "   # set current base frame pointer to stack pointer position." << std::endl;
-    std::cout << "      sub $" << this->currentMethodInfo.localsSize << ", %esp" << "     # allocate space for local variables of the method." << std::endl;
+    std::cout << "      sub $" << this->currentMethodInfo.localsSize << ", %esp" << "    # allocate space for local variables of the method." << std::endl;
 
     // process the children.
     std::cout << "  # processing method body." << std::endl;

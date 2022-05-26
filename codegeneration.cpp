@@ -33,9 +33,9 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
 
     // give the method a label so it can be referred to later.
     std::cout << "  " << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
-    // The callee save registers are: %ebx, %esi, and %edi.
-    // function prologue.
-    std::cout << "      # Starting function prologue." << std::endl;
+    
+    // callee function prologue.
+    std::cout << "      # Starting callee function prologue." << std::endl;
     std::cout << "          push $ebx" << "       # callee responsible for preserving contents of this register." << std::endl;
     std::cout << "          push $esi" << "       # callee responsible for preserving contents of this register." << std::endl;
     std::cout << "          push $edi" << "       # callee responsible for preserving contents of this register." << std::endl;
@@ -44,11 +44,11 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     std::cout << "          sub $" << this->currentMethodInfo.localsSize << ", %esp" << "    # allocate space for local variables of the method." << std::endl;
 
     // process the children.
-    std::cout << "      # processing method body." << std::endl;
+    std::cout << "      # processing the method body." << std::endl;
     node->visit_children(this);
     
-    // function epilogue.
-    std::cout << "      # Starting function epilogue." << std::endl;
+    // function callee epilogue.
+    std::cout << "      # Starting callee function epilogue." << std::endl;
     std::cout << "          pop $eax" << "       # save the return value in $eax as per __cdecl convention." << std::endl;
     std::cout << "          mov $ebp $esp" << "  # deallocate space for local variables of the method." << std::endl;
     std::cout << "          pop $ebp" << "       # restore previous base frame pointer." << std::endl;

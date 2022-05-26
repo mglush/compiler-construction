@@ -13,7 +13,7 @@ Main {
 	main() -> none {
 		Counter c;
 		c = new Counter();
-		c.x = 25;
+		c->x = 25;
 		print c.count();
 		print c.count();
 	}

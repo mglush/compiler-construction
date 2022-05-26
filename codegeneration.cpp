@@ -98,11 +98,11 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
         }
         else {
             std::string class_name = this->currentClassName;
-            while (this->classTable->at(class_name).members->count(node->identifier->name) == 0) {
+            while (this->classTable->at(class_name).members->count(node->identifier_1->name) == 0) {
                 total_offset += this->classTable->at(class_name).membersSize;
                 class_name = this->classTable->at(class_name).superClassName;
             }
-            temp = this->classTable->at(class_name).members->at(node->identifier->name);
+            temp = this->classTable->at(class_name).members->at(node->identifier_1->name);
             total_offset += temp.offset;
         }
 

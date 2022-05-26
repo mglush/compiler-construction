@@ -1,11 +1,3 @@
-Main {
-	main() -> none {
-		integer x;
-		x = 10 + 10;
-		print x;						/* should output 20 */
-	}
-}
-
 Class0 {
 	class0() -> none {
 		print 10 + 10;
@@ -15,5 +7,13 @@ Class0 {
 Class1 extends Class0 {
 	f0() -> none {
 		print 10 - 10 + (10 * 10);
+	}
+}
+
+Main {
+	main() -> none {
+		integer x;
+		x = 10 + 10;
+		print x;						/* should output 20 */
 	}
 }

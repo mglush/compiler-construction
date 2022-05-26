@@ -10,10 +10,10 @@ int findVariableOffset(CodeGenerator* visitor, std::string name) {
     else {
         std::string class_name = visitor->currentClassName;
         while (visitor->classTable->at(class_name).members->count(name) == 0) {
-            result -= visitor->classTable->at(class_name).membersSize;
+            result += visitor->classTable->at(class_name).membersSize;
             class_name = visitor->classTable->at(class_name).superClassName;
         }
-        result -= visitor->classTable->at(class_name).members->at(name).offset;
+        result += visitor->classTable->at(class_name).members->at(name).offset;
     }
     return result;
 }
@@ -276,6 +276,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     
     std::cout << "# making a method call here." << std::endl;
     node->visit_children(this);
+    
 
     std::cout << "pop %edx" << "    # caller responsible for preserving contents of this register." << std::endl;
     std::cout << "pop %ecx" << "    # caller responsible for preserving contents of this register." << std::endl;

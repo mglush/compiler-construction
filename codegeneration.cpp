@@ -165,7 +165,7 @@ void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
     std::cout << "# Visited Boolean" << std::endl;
-    std::cout << "pushl $0x" << node->integer->value << std::endl;
+    std::cout << "pushl $" << node->integer->value << std::endl;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {

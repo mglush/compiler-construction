@@ -77,13 +77,13 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     // callee function prologue.
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Starting callee function prologue." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %ebp" << "           # push old base frame pointer onto the stack." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "mov %esp, %ebp" << "      # set current base frame pointer to stack pointer position." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "         # allocate space for local variables of the method." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %ebp" << "                                     # push old base frame pointer onto the stack." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "mov %esp, %ebp" << "                                # set current base frame pointer to stack pointer position." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "                     # allocate space for local variables of the method." << std::endl;
     
-    std::cout << getOffset(TAB_COUNTER) << "push %ebx" << "             # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %esi" << "             # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %edi" << "             # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %ebx" << "                        # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %esi" << "                        # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %edi" << "                        # callee responsible for preserving contents of this register." << std::endl;
 
     node->visit_children(this);
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing MethodBodyNode" << std::endl;
@@ -96,9 +96,9 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     std::cout << getOffset(TAB_COUNTER) << "pop %esi" << "              # callee responsible for preserving contents of this register." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "pop %ebx" << "              # callee responsible for preserving contents of this register." << std::endl;
 
-    std::cout << getOffset(TAB_COUNTER) << "mov %ebp, %esp" << "      # deallocate space for local variables of the method." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %ebp" << "          # restore previous base frame pointer." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "ret" << "               # jump back to return address of the caller." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "mov %ebp, %esp" << "                   # deallocate space for local variables of the method." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %ebp" << "                         # restore previous base frame pointer." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "ret" << "                              # jump back to return address of the caller." << std::endl;
     TAB_COUNTER--;
 }
 

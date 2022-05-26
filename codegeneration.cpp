@@ -5,8 +5,7 @@
 int findVariableOffset(CodeGenerator* visitor) {
     int result = 0;
     if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
-        temp = this->currentMethodInfo.variables->at(node->identifier_1->name);
-        result = temp.offset;
+        result = this->currentMethodInfo.variables->at(node->identifier_1->name);
     }
     else {
         std::string class_name = this->currentClassName;
@@ -14,8 +13,7 @@ int findVariableOffset(CodeGenerator* visitor) {
             result -= this->classTable->at(class_name).membersSize;
             class_name = this->classTable->at(class_name).superClassName;
         }
-        temp = this->classTable->at(class_name).members->at(node->identifier_1->name);
-        result -= temp.offset;
+        result -= this->classTable->at(class_name).members->at(node->identifier_1->name).offset;
     }
     return result;
 }

@@ -108,8 +108,8 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
 
         // store value of the expression (should be on
         // top of the stack now) in the right place in memory.
-        std::cout << "pop %edx" << "          # get value of the expression from the top of the stack." << std::endl;
-        std::cout << "mov %edx, " << temp.offset << "(%ebp)" << "   # store value of right-hand side expression at the right place in memory." << std::endl;
+        std::cout << "          pop %edx" << "          # get value of the expression from the top of the stack." << std::endl;
+        std::cout << "          mov %edx, " << temp.offset << "(%ebp)" << "   # store value of right-hand side expression at the right place in memory." << std::endl;
     }
 }
 

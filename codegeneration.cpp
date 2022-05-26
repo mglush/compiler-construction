@@ -1,6 +1,6 @@
 #include "codegeneration.hpp"
 
-int TAB_COUNTER = 0; // to put the assembly code output into readable format, we keep track of tabs.
+int TAB_COUNTER = 1; // to put the assembly code output into readable format, we keep track of tabs.
 
 // helper function to find the proper offset of a variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string name) {

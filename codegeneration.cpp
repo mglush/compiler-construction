@@ -19,7 +19,6 @@ int findVariableOffset(CodeGenerator* visitor, std::string name) {
 }
 
 void CodeGenerator::visitProgramNode(ProgramNode* node) {
-    std::cout << "\n------------------------------------\n" << "ASSEMBLY CODE:" << "\n------------------------------------\n";
     std::cout << ".globl Main_main" << "          # tell the linker Main_main is a callable function." << std::endl;
     node->visit_children(this);
 }

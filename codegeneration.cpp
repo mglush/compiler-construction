@@ -6,10 +6,13 @@ bool COMMENTS_ON = false;   // set to false if you don't want the generated asse
 
 std::string getOffset(int num_tabs) {
     std::string result = "";
-    if (INDENT_ON)
+    if (INDENT_ON) {
         while (--num_tabs > 0)
             result += "    ";
-    return result;
+        return result;
+    } else {
+        return "    ";
+    }
 }
 
 // helper function to find the proper offset of a variable/member.
@@ -65,9 +68,9 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     this->currentMethodName = node->identifier->name;
 
     // give the method a label so it can be referred to later.
-    std::cout << getOffset(TAB_COUNTER - 1) << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
+    std::cout << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
     node->visit_children(this);
-    if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing MethodBodyNode" << std::endl;
+    if (COMMENTS_ON) std::cout << "# Processing MethodBodyNode" << std::endl;
     TAB_COUNTER--;
 }
 

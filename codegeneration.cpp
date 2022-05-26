@@ -4,7 +4,7 @@
 // you will complete to generate the x86 assembly code.
 
 void CodeGenerator::visitProgramNode(ProgramNode* node) {
-    std::cout << "\n------------------------------------\n";
+    std::cout << "\n ASSEMBLY CODE:" << "\n------------------------------------\n";
     node->visit_children(this);
 }
 

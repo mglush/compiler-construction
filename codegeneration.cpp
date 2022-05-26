@@ -1,7 +1,7 @@
 #include "codegeneration.hpp"
 
 bool COMMENTS_ON = false;
-bool INDENT_ON = true;
+bool INDENT_ON = false;
 int TAB_COUNTER = 0; // to put the assembly code output into readable format, we keep track of tabs.
 
 // helper function to find the proper offset of a variable/member.

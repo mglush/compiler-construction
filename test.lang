@@ -1,8 +1,8 @@
 Main {
 	main() -> none {
-		integer x;
 		integer y;
 		integer z;
+		integer x;
 		x = 10 + 10;					/* should output 20 */
 		print x;
 		x = 1;

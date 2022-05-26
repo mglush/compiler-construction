@@ -91,7 +91,7 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 }
 
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
-    node->visit_children(this);
+    // node->visit_children(this);
 }
 
 void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {

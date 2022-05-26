@@ -62,8 +62,9 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
 
     // give the method a label so it can be referred to later.
     std::cout << getOffset(TAB_COUNTER) << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
-
+    TAB_COUNTER++;
     node->visit_children(this);
+    TAB_COUNTER--;
     std::cout << getOffset(TAB_COUNTER) << "# Processing MethodBodyNode" << std::endl;
 }
 

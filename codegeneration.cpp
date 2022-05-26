@@ -1,7 +1,24 @@
 #include "codegeneration.hpp"
 
-// CodeGenerator Visitor Functions: These are the functions
-// you will complete to generate the x86 assembly code.
+
+// helper function to find the proper offset of a variable/member.
+int findVariableOffset(CodeGenerator* visitor) {
+    int result = 0;
+    if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
+        temp = this->currentMethodInfo.variables->at(node->identifier_1->name);
+        result = temp.offset;
+    }
+    else {
+        std::string class_name = this->currentClassName;
+        while (this->classTable->at(class_name).members->count(node->identifier_1->name) == 0) {
+            result -= this->classTable->at(class_name).membersSize;
+            class_name = this->classTable->at(class_name).superClassName;
+        }
+        temp = this->classTable->at(class_name).members->at(node->identifier_1->name);
+        result -= temp.offset;
+    }
+    return result;
+}
 
 void CodeGenerator::visitProgramNode(ProgramNode* node) {
     std::cout << "\n------------------------------------\n" << "ASSEMBLY CODE:" << "\n------------------------------------\n";
@@ -80,30 +97,11 @@ void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     node->visit_children(this);
 
-    VariableInfo temp;
-    int total_offset = 0;
     if (node->identifier_2) {
         
     } else {
-        // find the VariableInfo table of variable at identifier1.
-        if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
-            temp = this->currentMethodInfo.variables->at(node->identifier_1->name);
-            total_offset = temp.offset;
-        }
-        else {
-            std::string class_name = this->currentClassName;
-            while (this->classTable->at(class_name).members->count(node->identifier_1->name) == 0) {
-                total_offset -= this->classTable->at(class_name).membersSize;
-                class_name = this->classTable->at(class_name).superClassName;
-            }
-            temp = this->classTable->at(class_name).members->at(node->identifier_1->name);
-            total_offset -= temp.offset;
-        }
-
-        // store value of the expression (should be on
-        // top of the stack now) in the right place in memory.
         std::cout << "          pop %edx" << "            # get value of the expression from the top of the stack." << std::endl;
-        std::cout << "          mov %edx, " << total_offset << "(%ebp)" << "   # store value of right-hand side expression at the right place in memory." << std::endl;
+        std::cout << "          mov %edx, " << findVariableOffset(this) << "(%ebp)" << "   # store value of right-hand side expression at the right place in memory." << std::endl;
     }
 }
 
@@ -268,7 +266,8 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
 }
 
 void CodeGenerator::visitVariableNode(VariableNode* node) {
-    node->visit_children(this);
+    std::cout << "      # Visiting Variable." << std::endl;
+    std::cout << "          mov " << findVariableOffset(this) << "(%ebp)" << ", %edx" << "   # store value of right-hand side expression at the right place in memory." << std::endl;
 }
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {

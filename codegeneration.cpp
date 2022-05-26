@@ -83,13 +83,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     VariableInfo temp;
     int total_offset = 0;
     if (node->identifier_2) {
-        // check which object type identifier1 has.
-
-        // find VariableInfo of variable with name identifier2.
-        // check this class.
-
-        // check all superclasses until we find it.
-
+        
     } else {
         // find the VariableInfo table of variable at identifier1.
         if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {

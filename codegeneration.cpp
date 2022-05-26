@@ -95,9 +95,9 @@ void CodeGenerator::visitParameterNode(ParameterNode* node) {
 }
 
 void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
-    std::cout << "# Visiting DeclarationNode." << std::endl;
-    node->visit_children(this);
-    std::cout << "# Processing DeclarationNode." << std::endl;
+    // std::cout << "# Visiting DeclarationNode." << std::endl;
+    // node->visit_children(this);
+    // std::cout << "# Processing DeclarationNode." << std::endl;
 }
 
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {

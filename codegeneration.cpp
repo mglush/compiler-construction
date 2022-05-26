@@ -222,7 +222,16 @@ void CodeGenerator::visitNotNode(NotNode* node) {
 }
 
 void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
+    // The caller save registers are: %eax, %ecx, and %edx.
+    std::cout << "          push $eax" << "       # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          push $ecx" << "       # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          push $edx" << "       # caller responsible for preserving contents of this register." << std::endl;
+    
     node->visit_children(this);
+
+    std::cout << "          push $edx" << "       # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          push $ecx" << "       # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          push $eax" << "       # caller responsible for preserving contents of this register." << std::endl;
 }
 
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {

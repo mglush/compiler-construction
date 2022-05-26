@@ -119,14 +119,31 @@ void CodeGenerator::visitEqualNode(EqualNode* node) {
 
 void CodeGenerator::visitAndNode(AndNode* node) {
     node->visit_children(this);
+
+    std::cout << "  # Visited AndNode" << std::endl;
+    std::cout << "  pop %edx" << std::endl;
+    std::cout << "  pop %eax" << std::endl;
+    std::cout << "  andl %edx, %eax" << std::endl;
+    std::cout << "  push %eax" << std::endl;
 }
 
 void CodeGenerator::visitOrNode(OrNode* node) {
     node->visit_children(this);
+
+    std::cout << "  # Visited OrNode" << std::endl;
+    std::cout << "  pop %edx" << std::endl;
+    std::cout << "  pop %eax" << std::endl;
+    std::cout << "  orl %edx, %eax" << std::endl;
+    std::cout << "  push %eax" << std::endl;
 }
 
 void CodeGenerator::visitNotNode(NotNode* node) {
     node->visit_children(this);
+
+    std::cout << "  # Visited NotNode" << std::endl;
+    std::cout << "  pop %edx" << std::endl;
+    std::cout << "  notl %edx" << std::endl;
+    std::cout << "  push %edx" << std::endl;
 }
 
 void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
@@ -147,7 +164,8 @@ void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
 }
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
-    node->visit_children(this);
+    std::cout << "# Visited Boolean" << std::endl;
+    std::cout << "pushl $0x" << node->integer->value << std::endl;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {

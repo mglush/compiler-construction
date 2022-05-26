@@ -1,11 +1,11 @@
 Counter {
-	integer x;
+	boolean x;
 	count() -> integer {
-		x = 10 + 1;
-		x = 10 - 1;
-		x = 10 * 1;
-		x = 10 / 1;
-		x = -1;
+		x = x and true;
+		x = false or x;
+		x = not x;
+		x = not true;
+		x = not false;
 		return x;
 	}
 	Counter() -> none {

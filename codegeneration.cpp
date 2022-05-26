@@ -20,7 +20,7 @@ int findVariableOffset(CodeGenerator* visitor, std::string name) {
 }
 
 std::string getOffset(int num_tabs) {
-    std::string result = "";
+    std::string result;
     while (num_tabs > 0)
         result += "    ";
     return result;

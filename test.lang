@@ -4,6 +4,6 @@ Main {
 		x = 10 + 10;
 		print x;
 		x = 1;
-		print x * x;
+		print x * x + x * x + x * x;
 	}
 }

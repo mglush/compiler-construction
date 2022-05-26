@@ -94,7 +94,7 @@ void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
 
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
     node->visit_children(this);
-    std::cout << "# Visiting ReturnStatementNode."
+    std::cout << "# Visiting ReturnStatementNode." << std::endl;
 }
 
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {

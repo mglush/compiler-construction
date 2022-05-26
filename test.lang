@@ -1,7 +1,4 @@
 Main {
-	f0() -> integer {
-		return 10 + 10;
-	}
 	main() -> none {
 		integer x;
 		x = 10;

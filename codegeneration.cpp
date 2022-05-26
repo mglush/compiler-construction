@@ -164,9 +164,9 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Visiting PrintNode." << std::endl;
     node->visit_children(this);
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing PrintNode." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push $printstr" << "                         # load format to be used for printing." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "call printf" << "                            # print value in the return expression." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                               # pop format used for printing off the stack." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push $printstr" << "                   # load format to be used for printing." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "call printf" << "                      # print value in the return expression." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                         # pop format used for printing off the stack." << std::endl;
     TAB_COUNTER--;
 }
 
@@ -361,8 +361,8 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
     TAB_COUNTER++;
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Visiting Variable." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "mov " << findVariableOffset(this, node->identifier->name) << "(%ebp)" << ", %eax";
-    std::cout << getOffset(TAB_COUNTER) << "      # load the variable value from the right place in memory." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %eax" << "           # put it on top of the stack." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "                     # load the variable value from the right place in memory." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << "                            # put it on top of the stack." << std::endl;
     TAB_COUNTER--;
 }
 

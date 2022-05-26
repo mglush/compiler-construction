@@ -9,7 +9,7 @@ void CodeGenerator::visitProgramNode(ProgramNode* node) {
 }
 
 void CodeGenerator::visitClassNode(ClassNode* node) {
-    std::cout << "---------------------------\n" << "Visiting " << node->identifier_1->name << "\n---------------------------" << std::endl;
+    std::cout << "---------------------------\n" << "Visiting " << node->identifier_1->name << " class" << "\n---------------------------" << std::endl;
 
     // set current method info and current method name variables.
     this->currentClassInfo = this->classTable->at(node->identifier_1->name);

@@ -6,7 +6,7 @@ Bruh {
 	}
 }
 
-Counter {
+Counter extends Bruh {
 	integer x;
 	count() -> integer {
 		x = x + 1;

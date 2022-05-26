@@ -28,20 +28,21 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     this->currentMethodName = node->identifier->name;
 
     // function prologue.
-    std::cout << "# Starting function prologue." << std::endl;
-    std::cout << "push $ebp" << "       # push old base frame pointer onto the stack." << std::endl;
-    std::cout << "mov $esp $ebp" << "   # set current base frame pointer to stack pointer position." << std::endl;
-    std::cout << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "     # allocate space for local variables of the method." << std::endl;
+    std::cout << "  # Starting function prologue." << std::endl;
+    std::cout << "      push $ebp" << "       # push old base frame pointer onto the stack." << std::endl;
+    std::cout << "      mov $esp $ebp" << "   # set current base frame pointer to stack pointer position." << std::endl;
+    std::cout << "      sub $" << this->currentMethodInfo.localsSize << ", %esp" << "     # allocate space for local variables of the method." << std::endl;
 
     // process the children.
+    std::cout << "  # processing method body." << std::endl;
     node->visit_children(this);
     
     // function epilogue.
-    std::cout << "# Starting function epilogue." << std::endl;
-    std::cout << "pop $eax" << "       # save the return value in $eax as per __cdecl convention." << std::endl;
-    std::cout << "mov $ebp $esp" << "  # deallocate space for local variables of the method." << std::endl;
-    std::cout << "pop $ebp" << "       # restore previous base frame pointer." << std::endl;
-    std::cout << "ret" << "            # jump back to return address of the caller." << std::endl;
+    std::cout << "  # Starting function epilogue." << std::endl;
+    std::cout << "      pop $eax" << "       # save the return value in $eax as per __cdecl convention." << std::endl;
+    std::cout << "      mov $ebp $esp" << "  # deallocate space for local variables of the method." << std::endl;
+    std::cout << "      pop $ebp" << "       # restore previous base frame pointer." << std::endl;
+    std::cout << "      ret" << "            # jump back to return address of the caller." << std::endl;
 }
 
 void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {

@@ -1,3 +1,11 @@
+Bruh {
+	integer y;
+	integer z;
+	bruh() -> none {
+		/* yomp */
+	}
+}
+
 Counter {
 	integer x;
 	count() -> integer {

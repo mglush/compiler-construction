@@ -20,8 +20,6 @@ void CodeGenerator::visitClassNode(ClassNode* node) {
 }
 
 void CodeGenerator::visitMethodNode(MethodNode* node) {
-    std::cout << "  # Vistied MethodNode." << std::endl;
-
     // find which class the method is defined in.
     // if it's not the current class, it must be
     // one of the superclasses of the current class.

@@ -19,7 +19,7 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     // find which class the method is defined in.
     // if it's not the current class, it must be
     // one of the superclasses of the current class.
-    std::string class_name this->currentClassName;
+    std::string class_name = this->currentClassName;
     while (this->classTable->at(class_name).methods->count(node->identifier->name) == 0)
         class_name = this->classTable->at(class_name).superClassName;
     

@@ -4,11 +4,7 @@ Main {
 	}
 	main() -> none {
 		integer x;
-		x = f0();
-		print 10 + (5 * 5);
-		x = 10 + 10;
-		print 10 + (5 * 5);
-		x = 5 + 5;
-		print 10 + (5 * 5);
+		x = 10;
+		print x;
 	}
 }

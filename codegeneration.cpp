@@ -4,16 +4,16 @@
 // helper function to find the proper offset of a variable/member.
 int findVariableOffset(CodeGenerator* visitor) {
     int result = 0;
-    if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
-        result = this->currentMethodInfo.variables->at(node->identifier_1->name);
+    if (visitor->currentMethodInfo.variables->count(node->identifier_1->name)) {
+        result = visitor->currentMethodInfo.variables->at(node->identifier_1->name);
     }
     else {
-        std::string class_name = this->currentClassName;
-        while (this->classTable->at(class_name).members->count(node->identifier_1->name) == 0) {
-            result -= this->classTable->at(class_name).membersSize;
-            class_name = this->classTable->at(class_name).superClassName;
+        std::string class_name = visitor->currentClassName;
+        while (visitor->classTable->at(class_name).members->count(node->identifier_1->name) == 0) {
+            result -= visitor->classTable->at(class_name).membersSize;
+            class_name = visitor->classTable->at(class_name).superClassName;
         }
-        result -= this->classTable->at(class_name).members->at(node->identifier_1->name).offset;
+        result -= visitor->classTable->at(class_name).members->at(node->identifier_1->name).offset;
     }
     return result;
 }

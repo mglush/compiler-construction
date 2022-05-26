@@ -147,7 +147,8 @@ std::pair<CompoundType, int> undefinedMethod(TypeCheck* visitor, std::string cla
   }
 
   typeError(undefined_method);
-  return std::make_pair({bt_none, ""}, 0); // line should never be reached
+  CompoundType temp = {bt_none, ""};
+  return std::make_pair(temp, 0); // line should never be reached
 }
 
 // throws error when a member is referred to on an object

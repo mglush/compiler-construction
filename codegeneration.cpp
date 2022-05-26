@@ -1,7 +1,7 @@
 #include "codegeneration.hpp"
 
 int TAB_COUNTER = 0;        // keeps track of tabs to use when printing assembly code.
-bool INDENT_ON = true;     // set to false if no indentation is wanted.
+bool INDENT_ON = false;     // set to false if no indentation is wanted.
 bool COMMENTS_ON = false;   // set to false if you don't want the generated assembly to generate comments.
 
 std::string getOffset(int num_tabs) {
@@ -114,9 +114,9 @@ void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
 
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
     TAB_COUNTER++;
-    std::cout << "# Visiting ReturnStatementNode." << std::endl;
+    if (COMMENTS_ON) std::cout << "# Visiting ReturnStatementNode." << std::endl;
     node->visit_children(this);
-    std::cout << "# Processing ReturnStatementNode." << std::endl;
+    if (COMMENTS_ON) std::cout << "# Processing ReturnStatementNode." << std::endl;
     TAB_COUNTER--;
 }
 

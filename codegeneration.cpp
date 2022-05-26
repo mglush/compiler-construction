@@ -23,6 +23,7 @@ void CodeGenerator::visitProgramNode(ProgramNode* node) {
 // printstr: .asciz "%d\n"
 
 // .text
+    std::cout << ".text" << "                     # start code segment." << std::endl();
     std::cout << ".globl Main_main" << "          # tell the linker Main_main is a callable function." << std::endl;
     node->visit_children(this);
 }

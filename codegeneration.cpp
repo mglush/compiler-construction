@@ -72,22 +72,20 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     // process the children.
     std::cout << "# processing the method body." << std::endl;
-
-    if (this->currentMethodName != "main") {
-        std::cout << "push %ebx" << "   # callee responsible for preserving contents of this register." << std::endl;
-        std::cout << "push %esi" << "   # callee responsible for preserving contents of this register." << std::endl;
-        std::cout << "push %edi" << "   # callee responsible for preserving contents of this register." << std::endl;
-    }
+    
+    std::cout << "push %ebx" << "   # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "push %esi" << "   # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "push %edi" << "   # callee responsible for preserving contents of this register." << std::endl;
 
     node->visit_children(this);
 
-    if (this->currentMethodName != "main") {
-        // for testing purposes, we will print out the value returned by a method.
-        std::cout << "# print returned value for testing purposes only. next 3 lines of code should be removed when submitting final version." << std::endl;
-        std::cout << "push $printstr" << "          # load format to be used for printing." << std::endl;
-        std::cout << "call printf" << "             # print value in the return expression." << std::endl;
-        std::cout << "add $4, %esp" << "            # move the stack pointer back to below $printstr." << std::endl;
-    }
+    // if (this->currentMethodName != "main") {
+    //     // for testing purposes, we will print out the value returned by a method.
+    //     std::cout << "# print returned value for testing purposes only. next 3 lines of code should be removed when submitting final version." << std::endl;
+    //     std::cout << "push $printstr" << "          # load format to be used for printing." << std::endl;
+    //     std::cout << "call printf" << "             # print value in the return expression." << std::endl;
+    //     std::cout << "add $4, %esp" << "            # move the stack pointer back to below $printstr." << std::endl;
+    // }
 
     // function callee epilogue.
     std::cout << "# Starting callee function epilogue." << std::endl;
@@ -96,11 +94,9 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     std::cout << "pop %ebp" << "    # restore previous base frame pointer." << std::endl;
     std::cout << "ret" << "         # jump back to return address of the caller." << std::endl;
 
-    if (this->currentMethodName != "main") {
-        std::cout << "pop %edi" << "    # callee responsible for preserving contents of this register." << std::endl;
-        std::cout << "pop %esi" << "    # callee responsible for preserving contents of this register." << std::endl;
-        std::cout << "pop %ebx" << "    # callee responsible for preserving contents of this register." << std::endl;
-    }
+    std::cout << "pop %edi" << "    # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "pop %esi" << "    # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "pop %ebx" << "    # callee responsible for preserving contents of this register." << std::endl;
 }
 
 void CodeGenerator::visitParameterNode(ParameterNode* node) {

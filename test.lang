@@ -10,7 +10,7 @@ Main {
 
 Class0 {
 	integer y;
-	class0() -> {
+	class0() -> none{
 		y = 10;
 		print y;
 	}

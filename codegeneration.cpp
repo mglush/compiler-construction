@@ -76,6 +76,8 @@ void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
 
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     node->visit_children(this);
+
+    // load result of expression (should be on the stack) into a variable.
 }
 
 void CodeGenerator::visitCallNode(CallNode* node) {

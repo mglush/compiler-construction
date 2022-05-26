@@ -59,50 +59,50 @@ void CodeGenerator::visitDoWhileNode(DoWhileNode* node) {
 void CodeGenerator::visitPlusNode(PlusNode* node) {
     node->visit_children(this);
 
-    std::cout << "# Visited PlusNode" << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "add %edx, %eax" << std::endl;
-    std::cout << "push %eax" << std::endl;
+    std::cout << "  # Visited PlusNode" << std::endl;
+    std::cout << "  pop %edx" << std::endl;
+    std::cout << "  pop %eax" << std::endl;
+    std::cout << "  add %edx, %eax" << std::endl;
+    std::cout << "  push %eax" << std::endl;
 }
 
 void CodeGenerator::visitMinusNode(MinusNode* node) {
     node->visit_children(this);
 
-    std::cout << "# Visited MinusNode" << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "sub %edx, %eax" << std::endl;
-    std::cout << "push %eax" << std::endl;
+    std::cout << "  # Visited MinusNode" << std::endl;
+    std::cout << "  pop %edx" << std::endl;
+    std::cout << "  pop %eax" << std::endl;
+    std::cout << "  sub %edx, %eax" << std::endl;
+    std::cout << "  push %eax" << std::endl;
 }
 
 void CodeGenerator::visitTimesNode(TimesNode* node) {
     node->visit_children(this);
 
-    std::cout << "# Visited TimesNode" << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "imul %edx, %eax" << std::endl;
-    std::cout << "push %eax" << std::endl;
+    std::cout << "  # Visited TimesNode" << std::endl;
+    std::cout << "  pop %edx" << std::endl;
+    std::cout << "  pop %eax" << std::endl;
+    std::cout << "  imul %edx, %eax" << std::endl;
+    std::cout << "  push %eax" << std::endl;
 }
 
 void CodeGenerator::visitDivideNode(DivideNode* node) {
     node->visit_children(this);
 
-    std::cout << "# Visited DivideNode" << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "idiv %edx, %eax" << std::endl;
-    std::cout << "push %eax" << std::endl;
+    std::cout << "  # Visited DivideNode" << std::endl;
+    std::cout << "  pop %edx" << std::endl;
+    std::cout << "  pop %eax" << std::endl;
+    std::cout << "  idiv %edx, %eax" << std::endl;
+    std::cout << "  push %eax" << std::endl;
 }
 
 void CodeGenerator::visitNegationNode(NegationNode* node) {
     node->visit_children(this);
 
-    std::cout << "# Visited NegationNode" << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "neg %edx" << std::endl;
-    std::cout << "push %edx" << std::endl;
+    std::cout << "  # Visited NegationNode" << std::endl;
+    std::cout << "  pop %edx" << std::endl;
+    std::cout << "  neg %edx" << std::endl;
+    std::cout << "  push %edx" << std::endl;
 }
 
 void CodeGenerator::visitGreaterNode(GreaterNode* node) {

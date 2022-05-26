@@ -1,9 +1,9 @@
 Counter {
 	boolean x;
 	count() -> boolean {
-		x = false and true;
-		x = false or true;
-		x = not true;
+		x = 5 > 2;
+		x = x equal true;
+		x = 5 >= 2;
 		return x;
 	}
 	Counter() -> none {

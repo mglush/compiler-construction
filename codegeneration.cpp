@@ -36,9 +36,6 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     
     // callee function prologue.
     std::cout << "      # Starting callee function prologue." << std::endl;
-    std::cout << "          push $ebx" << "       # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "          push $esi" << "       # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "          push $edi" << "       # callee responsible for preserving contents of this register." << std::endl;
     std::cout << "          push $ebp" << "       # push old base frame pointer onto the stack." << std::endl;
     std::cout << "          mov $esp $ebp" << "   # set current base frame pointer to stack pointer position." << std::endl;
     std::cout << "          sub $" << this->currentMethodInfo.localsSize << ", %esp" << "    # allocate space for local variables of the method." << std::endl;
@@ -52,14 +49,20 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     std::cout << "          pop $eax" << "        # save the return value in $eax as per __cdecl convention." << std::endl;
     std::cout << "          mov $ebp $esp" << "   # deallocate space for local variables of the method." << std::endl;
     std::cout << "          pop $ebp" << "        # restore previous base frame pointer." << std::endl;
-    std::cout << "          pop $edi" << "        # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "          pop $esi" << "        # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "          pop $ebx" << "        # callee responsible for preserving contents of this register." << std::endl;
     std::cout << "          ret" << "             # jump back to return address of the caller." << std::endl;
 }
 
 void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
+    std::cout << "          Visiting MethodBodyNode" << std::endl;
+    std::cout << "              push $ebx" << "       # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "              push $esi" << "       # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "              push $edi" << "       # callee responsible for preserving contents of this register." << std::endl;
+
     node->visit_children(this);
+
+    std::cout << "              pop $edi" << "        # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "              pop $esi" << "        # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << "              pop $ebx" << "        # callee responsible for preserving contents of this register." << std::endl;
 }
 
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
@@ -76,7 +79,38 @@ void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
 
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     node->visit_children(this);
-    // if there are two identifiers, find the class where the member resides to check for member offset in memory.
+
+    VariableInfo temp;
+    int total_offset = 0;
+    if (node->identifier_2) {
+        // check which object type identifier1 has.
+
+        // find VariableInfo of variable with name identifier2.
+        // check this class.
+
+        // check all superclasses until we find it.
+
+    } else {
+        // find the VariableInfo table of variable at identifier1.
+        if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
+            temp = this->currentMethodInfo.variables->at(node->identifier_1->name);
+            total_offset = temp.offset;
+        }
+        else {
+            std::string class_name = this->currentClassName;
+            while (this->classTable->at(class_name).members->count(node->identifier->name) == 0) {
+                total_offset += this->classTable->at(class_name).membersSize;
+                class_name = this->classTable->at(class_name).superClassName;
+            }
+            temp = this->classTable->at(class_name).members->at(node->identifier->name);
+            total_offset += temp.offset;
+        }
+
+        // store value of the expression (should be on
+        // top of the stack now) in the right place in memory.
+        std::cout << "pop %edx" << "          # get value of the expression from the top of the stack." << std::endl;
+        std::cout << "mov %edx, " << temp.offset << "(%ebp)" << "   # store value of right-hand side expression at the right place in memory." << std::endl;
+    }
 }
 
 void CodeGenerator::visitCallNode(CallNode* node) {
@@ -223,18 +257,16 @@ void CodeGenerator::visitNotNode(NotNode* node) {
 }
 
 void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
-    // The caller save registers are: %eax, %ecx, and %edx.
-    // std::cout << "          push $eax" << "       # caller responsible for preserving contents of this register." << std::endl;
-    // std::cout << "          push $ecx" << "       # caller responsible for preserving contents of this register." << std::endl;
-    // std::cout << "          push $edx" << "       # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          push $eax" << "       # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          push $ecx" << "       # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          push $edx" << "       # caller responsible for preserving contents of this register." << std::endl;
     
     std::cout << "      # making a method call here." << std::endl;
-
     node->visit_children(this);
 
-    // std::cout << "          pop $edx" << "        # caller responsible for preserving contents of this register." << std::endl;
-    // std::cout << "          pop $ecx" << "        # caller responsible for preserving contents of this register." << std::endl;
-    // std::cout << "          pop $eax" << "        # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          pop $edx" << "        # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          pop $ecx" << "        # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << "          pop $eax" << "        # caller responsible for preserving contents of this register." << std::endl;
 }
 
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {

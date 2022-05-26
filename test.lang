@@ -1,11 +1,9 @@
 Counter {
 	boolean x;
 	count() -> boolean {
-		x = x and true;
-		x = false or x;
-		x = not x;
+		x = false and true;
+		x = false or true;
 		x = not true;
-		x = not false;
 		return x;
 	}
 	Counter() -> none {

@@ -99,17 +99,17 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
         else {
             std::string class_name = this->currentClassName;
             while (this->classTable->at(class_name).members->count(node->identifier_1->name) == 0) {
-                total_offset += this->classTable->at(class_name).membersSize;
+                total_offset -= this->classTable->at(class_name).membersSize;
                 class_name = this->classTable->at(class_name).superClassName;
             }
             temp = this->classTable->at(class_name).members->at(node->identifier_1->name);
-            total_offset += temp.offset;
+            total_offset -= temp.offset;
         }
 
         // store value of the expression (should be on
         // top of the stack now) in the right place in memory.
         std::cout << "          pop %edx" << "            # get value of the expression from the top of the stack." << std::endl;
-        std::cout << "          mov %edx, -" << total_offset << "(%ebp)" << "   # store value of right-hand side expression at the right place in memory." << std::endl;
+        std::cout << "          mov %edx, " << total_offset << "(%ebp)" << "   # store value of right-hand side expression at the right place in memory." << std::endl;
     }
 }
 

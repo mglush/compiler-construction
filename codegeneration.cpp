@@ -367,17 +367,13 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
 }
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
-    TAB_COUNTER++;
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Visiting Integer." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "pushl $" << node->integer->value << std::endl;
-    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
-    TAB_COUNTER++;
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Visited Boolean." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "pushl $" << node->integer->value << std::endl;
-    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {

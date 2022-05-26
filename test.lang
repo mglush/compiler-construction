@@ -1,9 +1,11 @@
 Main {
 	main() -> none {
 		integer x;
-		x = 10 + 10;
+		integer y;
+		integer z;
+		x = 10 + 10;					/* should output 20 */
 		print x;
 		x = 1;
-		print x * x + x * x + x * x;
+		print x * x + x * x + x * x;	/* should output 3 */
 	}
 }

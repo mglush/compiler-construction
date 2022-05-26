@@ -137,7 +137,6 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
     std::cout << "      # printing after da print statement!" << std::endl;
     std::cout << "      # print returned value for testing purposes only. next 3 lines of code should be removed when submitting final version." << std::endl;
     
-    std::cout << "      push %eax" << "               # push the result of the return statement." << std::endl;
     std::cout << "      push $printstr" << "          # load format to be used for printing." << std::endl;
     std::cout << "      call printf" << "             # print value in the return expression." << std::endl;
     std::cout << "      pop %eax" << "                # load format to be used for printing." << std::endl;
@@ -293,6 +292,7 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
     std::cout << "# Visiting Variable." << std::endl;
     std::cout << "mov " << findVariableOffset(this, node->identifier->name) << "(%ebp)" << ", %eax";
     std::cout << "      # load the variable value from the right place in memory." << std::endl;
+    std::cout << "push %eax" << "           # put it on top of the stack." << std::endl;
 }
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {

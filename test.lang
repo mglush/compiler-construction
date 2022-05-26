@@ -5,6 +5,6 @@ Main {
 	main() -> none {
 		integer x;
 		x = f0();
-		print 10 + 10;
+		print x;
 	}
 }

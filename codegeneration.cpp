@@ -268,7 +268,7 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
     std::cout << "      # Visiting Variable." << std::endl;
     std::cout << "          mov " << findVariableOffset(this, node->identifier->name) << "(%ebp)" << ", %edx";
     std::cout << "   # load the variable value from the right place in memory." << std::endl;
-    std::cout << "          push %edx" << "         #save the variable's value on the stack."
+    std::cout << "          push %edx" << "         #save the variable's value on the stack." << std::endl;
 }
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {

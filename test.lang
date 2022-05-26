@@ -1,19 +1,8 @@
-Counter {
-	integer x;
-	count() -> integer {
-		x = x + 1;
-		return x;
-	}
-	Counter() -> none {
-		x = 5;
-	}
-}
-
 Main {
 	main() -> none {
-		Counter c;
-		c = new Counter();
-		print c.count();
-		print c.count();
+		integer x = f0();
+	}
+	f0() -> integer {
+		return 10 + 10;
 	}
 }

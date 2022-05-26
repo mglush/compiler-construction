@@ -77,8 +77,8 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     // callee function prologue.
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Starting callee function prologue." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %ebp" << "                                     # push old base frame pointer onto the stack." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "mov %esp, %ebp" << "                                # set current base frame pointer to stack pointer position." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %ebp" << "                        # push old base frame pointer onto the stack." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "mov %esp, %ebp" << "                   # set current base frame pointer to stack pointer position." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "                     # allocate space for local variables of the method." << std::endl;
     
     std::cout << getOffset(TAB_COUNTER) << "push %ebx" << "                        # callee responsible for preserving contents of this register." << std::endl;
@@ -128,9 +128,9 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (node->identifier_2) {
         
     } else {
-        std::cout << getOffset(TAB_COUNTER) << "pop %edx" << "          # get value of the expression from the top of the stack." << std::endl;
+        std::cout << getOffset(TAB_COUNTER) << "pop %edx" << "                         # get value of the expression from the top of the stack." << std::endl;
         std::cout << getOffset(TAB_COUNTER) << "mov %edx, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
-        std::cout << getOffset(TAB_COUNTER) << "      # store value of right-hand side expression at the right place in memory." << std::endl;
+        std::cout << getOffset(TAB_COUNTER) << "               # store value of right-hand side expression at the right place in memory." << std::endl;
     }
     TAB_COUNTER--;
 }
@@ -164,9 +164,9 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Visiting PrintNode." << std::endl;
     node->visit_children(this);
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing PrintNode." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push $printstr" << "          # load format to be used for printing." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "call printf" << "             # print value in the return expression." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                # load format to be used for printing." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push $printstr" << "                         # load format to be used for printing." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "call printf" << "                            # print value in the return expression." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                               # pop format used for printing off the stack." << std::endl;
     TAB_COUNTER--;
 }
 

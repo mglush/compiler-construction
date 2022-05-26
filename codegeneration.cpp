@@ -133,7 +133,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     } else {
         std::cout << getOffset(TAB_COUNTER) << "pop %edx" << "                         # get value of the expression from the top of the stack." << std::endl;
         std::cout << getOffset(TAB_COUNTER) << "mov %edx, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
-        std::cout << getOffset(TAB_COUNTER) << "               # store value of right-hand side expression at the right place in memory." << std::endl;
+        std::cout << getOffset(TAB_COUNTER) << "           # store value of right-hand side expression at the right place in memory." << std::endl;
     }
     TAB_COUNTER--;
 }
@@ -363,7 +363,7 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
 void CodeGenerator::visitVariableNode(VariableNode* node) {
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Visiting Variable." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "mov " << findVariableOffset(this, node->identifier->name) << "(%ebp)" << ", %eax";
-    std::cout << getOffset(TAB_COUNTER) << "               # load the variable value from the right place in memory." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "           # load the variable value from the right place in memory." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl;
 }
 

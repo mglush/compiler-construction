@@ -4,8 +4,12 @@ Main {
 		integer z;
 		integer x;
 		x = 10 + 10;					/* should output 20 */
+		y = 5 + 5;						/* should output 10 */
 		print x;
+		print y;
 		x = 1;
-		print x * x + x * x + x * x;	/* should output 3 */
+		y = 1;
+		z = 1;
+		print z * x + y * z + y * x;	/* should output 3 */
 	}
 }

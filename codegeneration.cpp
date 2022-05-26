@@ -79,6 +79,12 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     node->visit_children(this);
 
+    // for testing purposes, we will print out the value returned by a method.
+    std::cout << "# print returned value for testing purposes only. next 3 lines of code should be removed when submitting final version." << std::endl;
+    std::cout << "push $printstr" << "          # load format to be used for printing." << std::endl;
+    std::cout << "call printf" << "             # print value in the return expression." << std::endl;
+    std::cout << "add $4, %esp" << "            # move the stack pointer back to below $printstr." << std::endl;
+
     // function callee epilogue.
     std::cout << "# Starting callee function epilogue." << std::endl;
     std::cout << "pop %eax" << "    # save the return value in %eax as per __cdecl convention." << std::endl;

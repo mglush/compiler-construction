@@ -1,15 +1,7 @@
 Main {
 	main() -> none {
-		integer y;
-		integer z;
 		integer x;
-		x = 10 + 10;					/* should output 20 */
-		y = 5 + 5;						/* should output 10 */
-		print x;
-		print y;
-		x = 1;
-		y = 1;
-		z = 1;
-		print z * x + y * z + y * x;	/* should output 3 */
+		x = 10 + 10;
+		print x;						/* should output 20 */
 	}
 }

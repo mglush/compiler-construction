@@ -1,8 +1,9 @@
 Main {
-	main() -> none {
-		integer x = f0();
-	}
 	f0() -> integer {
 		return 10 + 10;
+	}
+	main() -> none {
+		integer x;
+		x = f0();
 	}
 }

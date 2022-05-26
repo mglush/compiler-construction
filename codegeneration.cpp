@@ -24,7 +24,7 @@ void CodeGenerator::visitProgramNode(ProgramNode* node) {
 
     std::cout << ".data" << "                     # start data segment." << std::endl;
     std::cout << "printstr: .asciz \"%d\\n\"" << "          # define printing format for ints." << std::endl << std::endl;
-    
+
     std::cout << ".text" << "                     # start code segment." << std::endl;
     std::cout << ".globl Main_main" << "          # tell the linker Main_main is a callable function." << std::endl;
     node->visit_children(this);
@@ -78,13 +78,13 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     node->visit_children(this);
 
-    // if (this->currentMethodName != "main") {
-    //     // for testing purposes, we will print out the value returned by a method.
-    //     std::cout << "# print returned value for testing purposes only. next 3 lines of code should be removed when submitting final version." << std::endl;
-    //     std::cout << "push $printstr" << "          # load format to be used for printing." << std::endl;
-    //     std::cout << "call printf" << "             # print value in the return expression." << std::endl;
-    //     std::cout << "add $4, %esp" << "            # move the stack pointer back to below $printstr." << std::endl;
-    // }
+    if (this->currentMethodName != "main") {
+        // for testing purposes, we will print out the value returned by a method.
+        std::cout << "# print returned value for testing purposes only. next 3 lines of code should be removed when submitting final version." << std::endl;
+        std::cout << "push $printstr" << "          # load format to be used for printing." << std::endl;
+        std::cout << "call printf" << "             # print value in the return expression." << std::endl;
+        std::cout << "add $4, %esp" << "            # move the stack pointer back to below $printstr." << std::endl;
+    }
 
     // function callee epilogue.
     std::cout << "# Starting callee function epilogue." << std::endl;

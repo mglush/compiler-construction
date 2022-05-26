@@ -1,13 +1,11 @@
 Counter {
-	boolean x;
-	count() -> boolean {
-		x = 5 > 2;
-		x = x equals true;
-		x = 5 >= 2;
+	integer x;
+	count() -> integer {
+		x = x + 1;
 		return x;
 	}
 	Counter() -> none {
-		x = true;
+		x = 0;
 	}
 }
 

@@ -192,13 +192,13 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
 }
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
-    std::cout << "      # Visited Integer" << std::endl;
-    std::cout << "      pushl $" << node->integer->value << std::endl;
+    std::cout << "  # Visited Integer" << std::endl;
+    std::cout << "  pushl $" << node->integer->value << std::endl;
 }
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
-    std::cout << "      # Visited Boolean" << std::endl;
-    std::cout << "      pushl $" << node->integer->value << std::endl;
+    std::cout << "  # Visited Boolean" << std::endl;
+    std::cout << "  pushl $" << node->integer->value << std::endl;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {
@@ -206,19 +206,19 @@ void CodeGenerator::visitNewNode(NewNode* node) {
 }
 
 void CodeGenerator::visitIntegerTypeNode(IntegerTypeNode* node) {
-    node->visit_children(this);
+    // node->visit_children(this);
 }
 
 void CodeGenerator::visitBooleanTypeNode(BooleanTypeNode* node) {
-    node->visit_children(this);
+    // node->visit_children(this);
 }
 
 void CodeGenerator::visitObjectTypeNode(ObjectTypeNode* node) {
-    node->visit_children(this);
+    // node->visit_children(this);
 }
 
 void CodeGenerator::visitNoneNode(NoneNode* node) {
-    node->visit_children(this);
+    // node->visit_children(this);
 }
 
 void CodeGenerator::visitIdentifierNode(IdentifierNode* node) {

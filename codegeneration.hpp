@@ -5,14 +5,11 @@
 #include "typecheck.hpp"
 
 // This defines the CodeGenerator visitor, which will visit
-// the AST and generate x86 assembly code. You will do all
-// your implementation of the code generation in the visitor
-// functions for this visitor.
+// the AST and generate x86 assembly code.
 //
-// NOTE: This visitor will visit _after_ the TypeCheck visitor,
+// NOTE: This visitor visits after the TypeCheck visitor,
 // which means the symbol table will already be completely
-// constructed when generating code. You will need to use
-// the symbol table when generating code.
+// constructed when generating code.
 class CodeGenerator : public Visitor {
 private:
   int currentLabel;
@@ -21,8 +18,7 @@ public:
   // table. The main file sets this appropraitely to the
   // root of the symbol table constructed by the TypeCheck
   // visitor.
-  //
-  // NOTE: Remember that it is a _pointer_.
+
   ClassTable* classTable;
   
   // These members represent the current class and method
@@ -31,9 +27,7 @@ public:
   // as the class info and method info for the current class
   // and method. This allows us to get information about
   // variables, members, and other class methods very easily.
-  //
-  // NOTE: These are not automatically set, you will need to
-  // maintain/set them as your visitor visits the AST.
+
   std::string currentClassName;
   std::string currentMethodName;
   ClassInfo currentClassInfo;

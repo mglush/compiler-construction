@@ -20,8 +20,7 @@ int main(void) {
         astRoot->accept(typecheck);
         ClassTable* classTable = typecheck->classTable;
         if (classTable) {
-            // Uncomment the following line to print the class table after it is generated
-            //print(*classTable);
+            print(*classTable);
             CodeGenerator* codegen = new CodeGenerator();
             codegen->classTable = classTable;
             astRoot->accept(codegen);

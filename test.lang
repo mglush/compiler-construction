@@ -1,3 +1,11 @@
+Class0 {
+	integer y;
+	class0() -> none{
+		y = 10;
+		print y;
+	}
+}
+
 Main {
 	main() -> none {
 		integer x;
@@ -5,13 +13,5 @@ Main {
 		print x;
 		x = 1;
 		print x * x + x * x + x * x;
-	}
-}
-
-Class0 {
-	integer y;
-	class0() -> none{
-		y = 10;
-		print y;
 	}
 }

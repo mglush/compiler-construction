@@ -136,15 +136,19 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
     // for testing purposes, we will use this to check values of variables via print statements in our code.
     std::cout << "      # printing after da print statement!" << std::endl;
     std::cout << "      # print returned value for testing purposes only. next 3 lines of code should be removed when submitting final version." << std::endl;
+    
+    std::cout << "      push %eax" << "               # push the result of the return statement." << std::endl;
+    std::cout << "      push $printstr" << "          # load format to be used for printing." << std::endl;
+    std::cout << "      call printf" << "             # print value in the return expression." << std::endl;
+
+    std::cout << "      pop $printstr" << "          # load format to be used for printing." << std::endl;
+    std::cout << "      pop %eax" << "               # push the result of the return statement." << std::endl;
     std::cout << "      push %eax" << "               # push the result of the return statement." << std::endl;
     std::cout << "      push $printstr" << "          # load format to be used for printing." << std::endl;
     std::cout << "      call printf" << "             # print value in the return expression." << std::endl;
     
     
-    std::cout << "      call printf" << "             # print value in the return expression." << std::endl;
-    
-    
-    std::cout << "      call printf" << "             # print value in the return expression." << std::endl;
+    //std::cout << "      call printf" << "             # print value in the return expression." << std::endl;
 }
 
 void CodeGenerator::visitDoWhileNode(DoWhileNode* node) {

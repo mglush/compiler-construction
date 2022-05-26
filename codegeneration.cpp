@@ -68,7 +68,7 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
 }
 
 void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
-    std::cout << "          Visiting MethodBodyNode" << std::endl;
+    std::cout << "          # Visiting MethodBodyNode" << std::endl;
     std::cout << "              push $ebx" << "       # callee responsible for preserving contents of this register." << std::endl;
     std::cout << "              push $esi" << "       # callee responsible for preserving contents of this register." << std::endl;
     std::cout << "              push $edi" << "       # callee responsible for preserving contents of this register." << std::endl;

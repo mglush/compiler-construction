@@ -59,23 +59,50 @@ void CodeGenerator::visitDoWhileNode(DoWhileNode* node) {
 void CodeGenerator::visitPlusNode(PlusNode* node) {
     node->visit_children(this);
 
-    std::cout << "  # Plus" << std::endl;
-    std::cout << "  pop %edx" << std::endl;
-    std::cout << "  pop %eax" << std::endl;
-    std::cout << "  add %edx, %eax" << std::endl;
-    std::cout << "  push %eax" << std::endl;
+    std::cout << "# Visited PlusNode" << std::endl;
+    std::cout << "pop %edx" << std::endl;
+    std::cout << "pop %eax" << std::endl;
+    std::cout << "add %edx, %eax" << std::endl;
+    std::cout << "push %eax" << std::endl;
 }
 
 void CodeGenerator::visitMinusNode(MinusNode* node) {
     node->visit_children(this);
+
+    std::cout << "# Visited MinusNode" << std::endl;
+    std::cout << "pop %edx" << std::endl;
+    std::cout << "pop %eax" << std::endl;
+    std::cout << "sub %edx, %eax" << std::endl;
+    std::cout << "push %eax" << std::endl;
 }
 
 void CodeGenerator::visitTimesNode(TimesNode* node) {
     node->visit_children(this);
+
+    std::cout << "# Visited TimesNode" << std::endl;
+    std::cout << "pop %edx" << std::endl;
+    std::cout << "pop %eax" << std::endl;
+    std::cout << "imul %edx, %eax" << std::endl;
+    std::cout << "push %eax" << std::endl;
 }
 
 void CodeGenerator::visitDivideNode(DivideNode* node) {
     node->visit_children(this);
+
+    std::cout << "# Visited DivideNode" << std::endl;
+    std::cout << "pop %edx" << std::endl;
+    std::cout << "pop %eax" << std::endl;
+    std::cout << "idiv %edx, %eax" << std::endl;
+    std::cout << "push %eax" << std::endl;
+}
+
+void CodeGenerator::visitNegationNode(NegationNode* node) {
+    node->visit_children(this);
+
+    std::cout << "# Visited NegationNode" << std::endl;
+    std::cout << "pop %edx" << std::endl;
+    std::cout << "neg %edx" << std::endl;
+    std::cout << "push %edx" << std::endl;
 }
 
 void CodeGenerator::visitGreaterNode(GreaterNode* node) {
@@ -102,10 +129,6 @@ void CodeGenerator::visitNotNode(NotNode* node) {
     node->visit_children(this);
 }
 
-void CodeGenerator::visitNegationNode(NegationNode* node) {
-    node->visit_children(this);
-}
-
 void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     node->visit_children(this);
 }
@@ -119,7 +142,8 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
 }
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
-    node->visit_children(this);
+    std::cout << "# Visited Integer" << std::endl;
+    std::cout << "push $" << node->integer->value << std::endl;
 }
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
@@ -147,9 +171,9 @@ void CodeGenerator::visitNoneNode(NoneNode* node) {
 }
 
 void CodeGenerator::visitIdentifierNode(IdentifierNode* node) {
-    node->visit_children(this);
+    /* do nothing */
 }
 
 void CodeGenerator::visitIntegerNode(IntegerNode* node) {
-    node->visit_children(this);
+    /* do nothing */
 }

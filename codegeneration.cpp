@@ -50,32 +50,34 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
 
     // give the method a label so it can be referred to later.
     std::cout << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
-    
-    // callee function prologue.
-    std::cout << "# Starting callee function prologue." << std::endl;
-    std::cout << "push $ebp" << "   # push old base frame pointer onto the stack." << std::endl;
-    std::cout << "mov $esp $ebp" << " # set current base frame pointer to stack pointer position." << std::endl;
-    std::cout << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "# allocate space for local variables of the method." << std::endl;
 
-    // process the children.
-    std::cout << "# processing the method body." << std::endl;
     node->visit_children(this);
-    
-    // function callee epilogue.
-    std::cout << "# Starting callee function epilogue." << std::endl;
-    std::cout << "pop $eax" << "    # save the return value in $eax as per __cdecl convention." << std::endl;
-    std::cout << "mov $ebp $esp" << " # deallocate space for local variables of the method." << std::endl;
-    std::cout << "pop $ebp" << "    # restore previous base frame pointer." << std::endl;
-    std::cout << "ret" << "         # jump back to return address of the caller." << std::endl;
 }
 
 void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     std::cout << "# Visiting MethodBodyNode" << std::endl;
+
+    // callee function prologue.
+    std::cout << "# Starting callee function prologue." << std::endl;
+    std::cout << "push $ebp" << "   # push old base frame pointer onto the stack." << std::endl;
+    std::cout << "mov $esp, $ebp" << " # set current base frame pointer to stack pointer position." << std::endl;
+    std::cout << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "# allocate space for local variables of the method." << std::endl;
+
+    // process the children.
+    std::cout << "# processing the method body." << std::endl;
+
     std::cout << "push $ebx" << "   # callee responsible for preserving contents of this register." << std::endl;
     std::cout << "push $esi" << "   # callee responsible for preserving contents of this register." << std::endl;
     std::cout << "push $edi" << "   # callee responsible for preserving contents of this register." << std::endl;
 
     node->visit_children(this);
+
+    // function callee epilogue.
+    std::cout << "# Starting callee function epilogue." << std::endl;
+    std::cout << "pop $eax" << "    # save the return value in $eax as per __cdecl convention." << std::endl;
+    std::cout << "mov $ebp, $esp" << " # deallocate space for local variables of the method." << std::endl;
+    std::cout << "pop $ebp" << "    # restore previous base frame pointer." << std::endl;
+    std::cout << "ret" << "         # jump back to return address of the caller." << std::endl;
 
     std::cout << "pop $edi" << "    # callee responsible for preserving contents of this register." << std::endl;
     std::cout << "pop $esi" << "    # callee responsible for preserving contents of this register." << std::endl;
@@ -92,6 +94,7 @@ void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
 
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
     node->visit_children(this);
+    std::cout << "# Visiting ReturnStatementNode."
 }
 
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {

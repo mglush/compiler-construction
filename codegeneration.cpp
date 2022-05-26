@@ -1,5 +1,6 @@
 #include "codegeneration.hpp"
 
+int TAB_COUNTER = 0; // to put the assembly code output into readable format, we keep track of tabs.
 
 // helper function to find the proper offset of a variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string name) {
@@ -18,19 +19,24 @@ int findVariableOffset(CodeGenerator* visitor, std::string name) {
     return result;
 }
 
-void CodeGenerator::visitProgramNode(ProgramNode* node) {
-    std::cout << ".data" << "                     # start data segment." << std::endl;
-    std::cout << "printstr: .asciz \"%d\\n\"" << "          # define printing format for ints." << std::endl << std::endl;
+std::string getOffset(int num_tabs) {
+    std::string result = "";
+    while (num_tabs > 0)
+        result += "    ";
+    return result;
+}
 
-    std::cout << ".text" << "                     # start code segment." << std::endl;
-    std::cout << ".globl Main_main" << "          # tell the linker Main_main is a callable function." << std::endl;
+void CodeGenerator::visitProgramNode(ProgramNode* node) {
+    std::cout << getOffset(TAB_COUNTER) << ".data" << "                     # start data segment." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "printstr: .asciz \"%d\\n\"" << "          # define printing format for ints." << std::endl << std::endl;
+
+    std::cout << getOffset(TAB_COUNTER) << ".text" << "                     # start code segment." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << ".globl Main_main" << "          # tell the linker Main_main is a callable function." << std::endl;
     node->visit_children(this);
 }
 
 void CodeGenerator::visitClassNode(ClassNode* node) {
-    std::cout << "# Visiting ClassNode" << std::endl;
-    // uncomment the following line to have the output display when a class definition is entered.
-    // std::cout << "---------------------------\n" << "Visiting " << node->identifier_1->name << " class" << "\n---------------------------" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting ClassNode" << std::endl;
 
     // set current method info and current method name variables.
     this->currentClassInfo = this->classTable->at(node->identifier_1->name);
@@ -38,11 +44,11 @@ void CodeGenerator::visitClassNode(ClassNode* node) {
 
     // process the children.
     node->visit_children(this);
-    std::cout << "# Processing ClassNode" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing ClassNode" << std::endl;
 }
 
 void CodeGenerator::visitMethodNode(MethodNode* node) {
-    std::cout << "# Visiting MethodNode" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting MethodNode" << std::endl;
     // find which class the method is defined in.
     // if it's not the current class, it must be
     // one of the superclasses of the current class.
@@ -55,39 +61,41 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     this->currentMethodName = node->identifier->name;
 
     // give the method a label so it can be referred to later.
-    std::cout << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
 
     node->visit_children(this);
-    std::cout << "# Processing MethodBodyNode" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing MethodBodyNode" << std::endl;
 }
 
 void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
-    std::cout << "# Visiting MethodBodyNode" << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting MethodBodyNode" << std::endl;
 
     // callee function prologue.
-    std::cout << "# Starting callee function prologue." << std::endl;
-    std::cout << "push %ebp" << "           # push old base frame pointer onto the stack." << std::endl;
-    std::cout << "mov %esp, %ebp" << "      # set current base frame pointer to stack pointer position." << std::endl;
-    std::cout << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "         # allocate space for local variables of the method." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Starting callee function prologue." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %ebp" << "           # push old base frame pointer onto the stack." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "mov %esp, %ebp" << "      # set current base frame pointer to stack pointer position." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "         # allocate space for local variables of the method." << std::endl;
     
-    std::cout << "push %ebx" << "         # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "push %esi" << "         # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "push %edi" << "         # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %ebx" << "         # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %esi" << "         # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %edi" << "         # callee responsible for preserving contents of this register." << std::endl;
 
     node->visit_children(this);
-    std::cout << "# Processing MethodBodyNode" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing MethodBodyNode" << std::endl;
 
     // function callee epilogue.
-    std::cout << "# Starting callee function epilogue." << std::endl;
-    std::cout << "pop %eax" << "    # save the return value in %eax as per __cdecl convention." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Starting callee function epilogue." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "    # save the return value in %eax as per __cdecl convention." << std::endl;
 
-    std::cout << "pop %edi" << "          # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "pop %esi" << "          # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << "pop %ebx" << "          # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edi" << "          # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %esi" << "          # callee responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %ebx" << "          # callee responsible for preserving contents of this register." << std::endl;
 
-    std::cout << "mov %ebp, %esp" << "      # deallocate space for local variables of the method." << std::endl;
-    std::cout << "pop %ebp" << "          # restore previous base frame pointer." << std::endl;
-    std::cout << "ret" << "               # jump back to return address of the caller." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "mov %ebp, %esp" << "      # deallocate space for local variables of the method." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %ebp" << "          # restore previous base frame pointer." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "ret" << "               # jump back to return address of the caller." << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
@@ -101,225 +109,271 @@ void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
 }
 
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
+    TAB_COUNTER++;
     std::cout << "# Visiting ReturnStatementNode." << std::endl;
     node->visit_children(this);
     std::cout << "# Processing ReturnStatementNode." << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
-    std::cout << "# Visiting AssignmentNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting AssignmentNode." << std::endl;
     node->visit_children(this);
-    std::cout << "# Processing AssignmentNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing AssignmentNode." << std::endl;
     if (node->identifier_2) {
         
     } else {
-        std::cout << "pop %edx" << "          # get value of the expression from the top of the stack." << std::endl;
-        std::cout << "mov %edx, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
-        std::cout << "      # store value of right-hand side expression at the right place in memory." << std::endl;
+        std::cout << getOffset(TAB_COUNTER) << "pop %edx" << "          # get value of the expression from the top of the stack." << std::endl;
+        std::cout << getOffset(TAB_COUNTER) << "mov %edx, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
+        std::cout << getOffset(TAB_COUNTER) << "      # store value of right-hand side expression at the right place in memory." << std::endl;
     }
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitCallNode(CallNode* node) {
-    std::cout << "# Visiting CallNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting CallNode." << std::endl;
     node->visit_children(this);
-    std::cout << "# Processing CallNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing CallNode." << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitIfElseNode(IfElseNode* node) {
-    std::cout << "# Visiting IfElseNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting IfElseNode." << std::endl;
     node->visit_children(this);
-    std::cout << "# Processing IfElseNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing IfElseNode." << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitWhileNode(WhileNode* node) {
-    std::cout << "# Visiting WhileNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting WhileNode." << std::endl;
     node->visit_children(this);
-    std::cout << "# Processing WhileNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing WhileNode." << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitPrintNode(PrintNode* node) {
-    std::cout << "# Visiting PrintNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting PrintNode." << std::endl;
     node->visit_children(this);
-    std::cout << "# Processing PrintNode." << std::endl;
-    std::cout << "push $printstr" << "          # load format to be used for printing." << std::endl;
-    std::cout << "call printf" << "             # print value in the return expression." << std::endl;
-    std::cout << "pop %eax" << "                # load format to be used for printing." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing PrintNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push $printstr" << "          # load format to be used for printing." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "call printf" << "             # print value in the return expression." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                # load format to be used for printing." << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitDoWhileNode(DoWhileNode* node) {
-    std::cout << "# Visiting DoWhileNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting DoWhileNode." << std::endl;
     node->visit_children(this);
-    std::cout << "# Processing DoWhileNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing DoWhileNode." << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitPlusNode(PlusNode* node) {
-    std::cout << "# Visiting PlusNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting PlusNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Processing PlusNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "add %edx, %eax" << std::endl;
-    std::cout << "push %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing PlusNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "add %edx, %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitMinusNode(MinusNode* node) {
-    std::cout << "# Visiting MinusNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting MinusNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Processing MinusNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "sub %edx, %eax" << std::endl;
-    std::cout << "push %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing MinusNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "sub %edx, %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitTimesNode(TimesNode* node) {
-    std::cout << "# Visiting TimesNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting TimesNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Processing TimesNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "imul %edx, %eax" << std::endl;
-    std::cout << "push %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing TimesNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "imul %edx, %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitDivideNode(DivideNode* node) {
-    std::cout << "# Visiting DivideNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting DivideNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Processing DivideNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "idiv %edx, %eax" << std::endl;
-    std::cout << "push %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing DivideNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "idiv %edx, %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitNegationNode(NegationNode* node) {
-    std::cout << "# Visiting NegationNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting NegationNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Processing NegationNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "neg %edx" << std::endl;
-    std::cout << "push %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing NegationNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "neg %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %edx" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitGreaterNode(GreaterNode* node) {
-    std::cout << "# Visiting GreaterNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting GreaterNode." << std::endl;
     node->visit_children(this);
     
     int temp = this->nextLabel();
 
-    std::cout << "# Processing GreaterNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "cmp %edx, %eax" << std::endl;
-    std::cout << "jg label_" << temp << std::endl;
-    std::cout << "pushl $0" << std::endl;
-    std::cout << "label_" << temp << ":" << std::endl;
-    std::cout << "    pushl $1" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing GreaterNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "cmp %edx, %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "jg label_" << temp << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pushl $0" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "label_" << temp << ":" << std::endl;
+    std::cout << getOffset(TAB_COUNTER + 1) << "pushl $1" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitGreaterEqualNode(GreaterEqualNode* node) {
-    std::cout << "# Visiting GreaterEqualNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting GreaterEqualNode." << std::endl;
     node->visit_children(this);
     
     int temp = this->nextLabel();
 
-    std::cout << "# Processing GreaterEqualNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "cmp %edx, %eax" << std::endl;
-    std::cout << "jge label_" << temp << std::endl;
-    std::cout << "pushl $0" << std::endl;
-    std::cout << "label_" << temp << ":" << std::endl;
-    std::cout << "    pushl $1" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing GreaterEqualNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "cmp %edx, %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "jge label_" << temp << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pushl $0" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "label_" << temp << ":" << std::endl;
+    std::cout << getOffset(TAB_COUNTER + 1) << "pushl $1" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitEqualNode(EqualNode* node) {
-    std::cout << "# Visiting EqualNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting EqualNode." << std::endl;
     node->visit_children(this);
 
     int temp = this->nextLabel();
 
-    std::cout << "# Processing EqualNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "cmp %edx, %eax" << std::endl;
-    std::cout << "je label_" << temp << std::endl;
-    std::cout << "pushl $0" << std::endl;
-    std::cout << "label_" << temp << ":" << std::endl;
-    std::cout << "    pushl $1" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing EqualNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "cmp %edx, %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "je label_" << temp << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pushl $0" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "label_" << temp << ":" << std::endl;
+    std::cout << getOffset(TAB_COUNTER + 1) << "pushl $1" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitAndNode(AndNode* node) {
-    std::cout << "# Visiting AndNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting AndNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Processing AndNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "andl %edx, %eax" << std::endl;
-    std::cout << "push %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing AndNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "andl %edx, %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitOrNode(OrNode* node) {
-    std::cout << "# Visiting OrNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting OrNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Processing OrNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "pop %eax" << std::endl;
-    std::cout << "orl %edx, %eax" << std::endl;
-    std::cout << "push %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing OrNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "orl %edx, %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitNotNode(NotNode* node) {
-    std::cout << "# Visiting NotNode." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting NotNode." << std::endl;
     node->visit_children(this);
 
-    std::cout << "# Processing NotNode." << std::endl;
-    std::cout << "pop %edx" << std::endl;
-    std::cout << "notl %edx" << std::endl;
-    std::cout << "push %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# Processing NotNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "notl %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %edx" << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
-    std::cout << "# Visiting MethodCallNode." << std::endl;
-    std::cout << "push %eax" << "   # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << "push %ecx" << "   # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << "push %edx" << "   # caller responsible for preserving contents of this register." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting MethodCallNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << "   # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %ecx" << "   # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %edx" << "   # caller responsible for preserving contents of this register." << std::endl;
     
-    std::cout << "# making a method call here." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "# making a method call here." << std::endl;
     node->visit_children(this);
     
 
-    std::cout << "pop %edx" << "    # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << "pop %ecx" << "    # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << "pop %eax" << "    # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << "    # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %ecx" << "    # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "    # caller responsible for preserving contents of this register." << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
+    TAB_COUNTER++;
     node->visit_children(this);
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitVariableNode(VariableNode* node) {
-    std::cout << "# Visiting Variable." << std::endl;
-    std::cout << "mov " << findVariableOffset(this, node->identifier->name) << "(%ebp)" << ", %eax";
-    std::cout << "      # load the variable value from the right place in memory." << std::endl;
-    std::cout << "push %eax" << "           # put it on top of the stack." << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting Variable." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "mov " << findVariableOffset(this, node->identifier->name) << "(%ebp)" << ", %eax";
+    std::cout << getOffset(TAB_COUNTER) << "      # load the variable value from the right place in memory." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << "           # put it on top of the stack." << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
-    std::cout << "# Visiting Integer." << std::endl;
-    std::cout << "pushl $" << node->integer->value << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visiting Integer." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pushl $" << node->integer->value << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
-    std::cout << "# Visited Boolean." << std::endl;
-    std::cout << "pushl $" << node->integer->value << std::endl;
+    TAB_COUNTER++;
+    std::cout << getOffset(TAB_COUNTER) << "# Visited Boolean." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pushl $" << node->integer->value << std::endl;
+    TAB_COUNTER--;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {

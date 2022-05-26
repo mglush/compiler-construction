@@ -1,4 +1,4 @@
-# x86 Code Generation
+# Stack-Based x86 Code Generation
 #### By Michael Glushchenko for UCSB CS160 Spring 2022 (Transaltion of Programming Languages).
 
 **Input**:

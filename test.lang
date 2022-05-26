@@ -1,16 +1,7 @@
-Bruh {
-	integer y;
-	integer z;
-	bruh() -> none {
-		/* yomp */
-	}
-}
-
-Counter extends Bruh {
+Counter {
 	integer x;
 	count() -> integer {
 		x = x + 1;
-		z = x + 5;
 		return x;
 	}
 	Counter() -> none {

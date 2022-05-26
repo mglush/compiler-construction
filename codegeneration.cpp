@@ -30,11 +30,11 @@ int findVariableOffset(CodeGenerator* visitor, std::string name) {
 }
 
 void CodeGenerator::visitProgramNode(ProgramNode* node) {
-    std::cout << getOffset(TAB_COUNTER) << ".data" << "                     # start data segment." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << ".data" << "                            # start data segment." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "printstr: .asciz \"%d\\n\"" << "          # define printing format for ints." << std::endl << std::endl;
 
-    std::cout << getOffset(TAB_COUNTER) << ".text" << "                     # start code segment." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << ".globl Main_main" << "          # tell the linker Main_main is a callable function." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << ".text" << "                            # start code segment." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << ".globl Main_main" << "                 # tell the linker Main_main is a callable function." << std::endl;
     node->visit_children(this);
 }
 

@@ -3,6 +3,8 @@ Main {
 		return 10 + 10;
 	}
 	main() -> none {
-		print f0();
+		integer x;
+		x = f0();
+		print x;
 	}
 }

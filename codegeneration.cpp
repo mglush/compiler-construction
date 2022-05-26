@@ -23,10 +23,10 @@ void CodeGenerator::visitProgramNode(ProgramNode* node) {
 // printstr: .asciz "%d\n"
 
 // .text
-    std::cout << ".data" << "                     # start the data section." << std::endl;
+    std::cout << ".data" << "                      # start the data section." << std::endl;
     std::cout << "printstr: .asciz \"%d\"\\n" << "    # format for printing an integer." << std::endl;
 
-    std::cout << std::endl << ".text" << "            # start the text (code) section." << std::endl;
+    std::cout << std::endl << ".text" << "                  # start the text (code) section." << std::endl;
     std::cout << ".globl Main_main" << "          # tell the linker Main_main is a callable function." << std::endl;
     node->visit_children(this);
 }
@@ -102,6 +102,11 @@ void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
     node->visit_children(this);
     std::cout << "# Visiting ReturnStatementNode." << std::endl;
+
+    // for testing purposes, we will print out the value returned by a method.
+    std::cout << "push $printstr" << "          # load format to be used for printing." << std::endl;
+    std::cout << "call printf" << "             # print value in the return expression." << std::endl;
+    std::cout << "add $4, %esp" << "            # move the stack pointer back to below $printstr." << std::endl;
 }
 
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {

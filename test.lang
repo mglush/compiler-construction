@@ -9,7 +9,7 @@ Counter {
 		return x;
 	}
 	Counter() -> none {
-		x = 0;
+		x = true;
 	}
 }
 

@@ -21,9 +21,6 @@ void CodeGenerator::visitClassNode(ClassNode* node) {
 
 void CodeGenerator::visitMethodNode(MethodNode* node) {
     std::cout << "  # Vistied MethodNode." << std::endl;
-    
-    // give the method a label so it can be referred to later.
-    std::cout << "  " << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
 
     // find which class the method is defined in.
     // if it's not the current class, it must be
@@ -35,6 +32,9 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     // set current method info and current method name variables.
     this->currentMethodInfo = this->classTable->at(class_name).methods->at(node->identifier->name);
     this->currentMethodName = node->identifier->name;
+
+    // give the method a label so it can be referred to later.
+    std::cout << "  " << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
 
     // function prologue.
     std::cout << "      # Starting function prologue." << std::endl;

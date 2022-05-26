@@ -2,7 +2,7 @@ Counter {
 	boolean x;
 	count() -> boolean {
 		x = 5 > 2;
-		x = x equal true;
+		x = x == true;
 		x = 5 >= 2;
 		return x;
 	}

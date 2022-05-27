@@ -369,12 +369,14 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Visiting Integer." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pushl $" << node->integer->value << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pushl $" << node->integer->value << "                # push integer onto the stack." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "mov 0(%esp) %eax" << "                        # record integer literal in %eax." << std::endl;
 }
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Visited Boolean." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pushl $" << node->integer->value << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pushl $" << node->integer->value << "                # push boolean onto the stack." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "mov 0(%esp) %eax" << "                        # record boolean literal in %eax." << std::endl;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {

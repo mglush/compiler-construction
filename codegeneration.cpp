@@ -2,7 +2,7 @@
 
 int TAB_COUNTER = 0;        // keeps track of tabs to use when printing assembly code.
 bool INDENT_ON = true;      // set to false if no indentation is wanted.
-bool COMMENTS_ON = false;   // set to false if you don't want the generated assembly to generate comments.
+bool COMMENTS_ON = true;   // set to false if you don't want the generated assembly to generate comments.
 
 std::string getIndent(int num_tabs) {
     std::string result = "";

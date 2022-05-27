@@ -100,7 +100,7 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     if (this->currentMethodName != "main") {
         std::cout << getIndent(TAB_COUNTER) << "pop %edi" << "                         # callee responsible for preserving contents of this register." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "pop %esi" << "                         # callee responsible for preserving contents of this register." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                         # callee responsible for preserving contents of this register." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                         # callee responsible for preserving contents of this register." << std::endl << std::endl;
     }
 
     std::cout << getIndent(TAB_COUNTER) << "mov %ebp, %esp" << "                   # deallocate space for local variables of the method." << std::endl;

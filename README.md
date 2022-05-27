@@ -5,7 +5,13 @@
   - Program written in a small object-oriented programming language.
 
 **Output**:
-  - Results of the print statements within the main method of the Main class of the input program.
+  - Translation of program to x86 assembly.
+  - The assembly can be run with the following commands:
+    ~~~
+    ./lang < input_language > code.s
+    gcc -m32 -o executable tester.c code.s
+    ./executable
+    ~~~
 
 **Project aspects**:
   - Uses Flex scanner generator to consume input one token at a time and pass it on to the parser.

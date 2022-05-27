@@ -230,7 +230,7 @@ void CodeGenerator::visitDivideNode(DivideNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "cdq" << "                                # sign extend %eax into %edx." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                           # divisor." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "idiv %ecx" << "                          # quotient is in %eax, remained is in %edx." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                          # save result on top of the stack." std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                          # save result on top of the stack." << std::endl;
     TAB_COUNTER--;
 }
 

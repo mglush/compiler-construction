@@ -1,7 +1,13 @@
 Main {
 	main() -> none {
 		integer x;
+		integer y;
+		boolean z;
 		x = 10 + 10;
+		y = 20 + 20;
+		z = true and false;
 		print x;						/* should output 20 */
+		print y;
+		print z;
 	}
 }

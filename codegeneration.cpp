@@ -364,13 +364,13 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting Integer." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                          # push integer operand onto the stack." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                          # push integer onto the stack." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "mov (%esp), %eax" << "                  # record integer literal in %eax." << std::endl;
 }
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visited Boolean." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push boolean operand onto the stack." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push boolean onto the stack." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "mov (%esp), %eax" << "                  # record boolean literal in %eax." << std::endl;
 }
 

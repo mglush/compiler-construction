@@ -131,9 +131,9 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (node->identifier_2) {
         
     } else {
-        std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # get value of the expression from the top of the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                          # get value of the expression from the top of the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
-        std::cout << getIndent(TAB_COUNTER) << "           # store value of right-hand side expression at the right place in memory." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "            # store value of right-hand side expression at the right place in memory." << std::endl;
     }
     TAB_COUNTER--;
 }
@@ -143,7 +143,7 @@ void CodeGenerator::visitCallNode(CallNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting CallNode." << std::endl;
 
     node->visit_children(this);
-    
+
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing CallNode." << std::endl;
     TAB_COUNTER--;
 }
@@ -232,9 +232,9 @@ void CodeGenerator::visitDivideNode(DivideNode* node) {
     node->visit_children(this);
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing DivideNode." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                           # pop the divisor first." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # pop the dividend, low." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "cdq" << "                                # sign extend %eax into %edx." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                           # pop the divisor." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # pop the dividend." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "cdq" << "                                # sign extend %eax (the dividend) into %edx." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "idiv %ebx" << "                          # quotient is now in %eax, remainder is in %edx." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                          # save result on top of the stack." << std::endl;
     TAB_COUNTER--;
@@ -376,7 +376,7 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting Integer." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push integer onto the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                          # push integer onto the stack." << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "mov (%esp), %eax" << "                  # record integer literal in %eax." << std::endl;
 }
 

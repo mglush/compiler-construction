@@ -59,3 +59,4 @@ endif
 clean:
 	rm -f *.o *~ lexer.cpp parser.cpp parser.hpp ast.cpp ast.hpp parser.output $(TARGET) test code.s
 	rm -f tests/*.s tests/*.c
+	rm -f lang executable

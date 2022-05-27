@@ -80,14 +80,15 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     // callee function prologue.
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Starting callee function prologue." << std::endl;
-    
-    std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %esi" << "                        # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %edi" << "                        # callee responsible for preserving contents of this register." << std::endl << std::endl;
-
     std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push old base frame pointer onto the stack." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "mov %esp, %ebp" << "                   # set current base frame pointer to stack pointer position." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "                     # allocate space for local variables of the method." << std::endl;
+    
+    if (this->currentMethodName != "main") {
+        std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # callee responsible for preserving contents of this register." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push %esi" << "                        # callee responsible for preserving contents of this register." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push %edi" << "                        # callee responsible for preserving contents of this register." << std::endl << std::endl;
+    }
 
     node->visit_children(this);
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing MethodBodyNode" << std::endl;
@@ -96,13 +97,15 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Starting callee function epilogue." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # save the return value in %eax as per __cdecl convention." << std::endl;
 
+    if (this->currentMethodName != "main") {
+        std::cout << getIndent(TAB_COUNTER) << "pop %edi" << "                         # callee responsible for preserving contents of this register." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %esi" << "                         # callee responsible for preserving contents of this register." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                         # callee responsible for preserving contents of this register." << std::endl;
+    }
+
     std::cout << getIndent(TAB_COUNTER) << "mov %ebp, %esp" << "                   # deallocate space for local variables of the method." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %ebp" << "                         # restore previous base frame pointer." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "ret" << "                              # jump back to return address of the caller." << std::endl << std::endl;
-
-    std::cout << getIndent(TAB_COUNTER) << "pop %edi" << "                         # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %esi" << "                         # callee responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                         # callee responsible for preserving contents of this register." << std::endl;
     TAB_COUNTER--;
 }
 

@@ -226,10 +226,10 @@ void CodeGenerator::visitDivideNode(DivideNode* node) {
     node->visit_children(this);
 
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing DivideNode." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "pop %ecx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "idiv %ecx, %eax" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "idiv %edx, %ecx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %ecx" << std::endl;
     TAB_COUNTER--;
 }
 

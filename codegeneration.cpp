@@ -161,9 +161,11 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting PrintNode." << std::endl;
     node->visit_children(this);
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing PrintNode." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # load format to be used for printing." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push $printstr" << "                   # load format to be used for printing." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "call printf" << "                      # print value in the return expression." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop format used for printing off the stack into an unused." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop format used for printing off the stack into an unused." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # pop printed value back into %eax." << std::endl << std::endl;
     // TAB_COUNTER--;
 }
 
@@ -364,7 +366,7 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting Integer." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                                                # push old %eax contents onto the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # push old %eax contents onto the stack." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "movl $" << node->integer->value << ", %eax                     # load integer operand into %eax." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                          # push integer operand onto the stack." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "mov (%esp), %eax" << "                  # record integer literal in %eax." << std::endl;
@@ -372,7 +374,7 @@ void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visited Boolean." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                                                # push old %eax contents onto the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # push old %eax contents onto the stack." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "movl $" << node->integer->value << ", %eax                     # load boolean operand into %eax." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push boolean operand onto the stack." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "mov (%esp), %eax" << "                  # record boolean literal in %eax." << std::endl;

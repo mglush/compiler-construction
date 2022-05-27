@@ -6,7 +6,7 @@ bool COMMENTS_ON = false;   // set to false if you don't want the generated asse
 
 std::string getIndent(int num_tabs) {
     std::string result = "";
-    while (num_tabs-- > 0)
+    while (--num_tabs > 1)
         result += "    ";
     return result;
 }

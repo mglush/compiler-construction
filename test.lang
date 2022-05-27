@@ -3,7 +3,7 @@ Main {
 		integer x;
 		integer y;
 		boolean z;
-		x = 10 / 10;
+		x = 10 / 10 + 5;
 		y = 20 + 20;
 		z = true and false;
 		print x;						/* should output 1 */

@@ -93,7 +93,7 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     // function callee epilogue.
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Starting callee function epilogue." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # save the return value in %eax as per __cdecl convention." << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # save the return value in %eax as per __cdecl convention." << std::endl;
 
     std::cout << getIndent(TAB_COUNTER) << "pop %edi" << "                         # callee responsible for preserving contents of this register." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %esi" << "                         # callee responsible for preserving contents of this register." << std::endl;
@@ -128,7 +128,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (node->identifier_2) {
         
     } else {
-        std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                          # get value of the expression from the top of the stack." << std::endl;
+        // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                          # get value of the expression from the top of the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
         std::cout << getIndent(TAB_COUNTER) << "            # store value of right-hand side expression at the right place in memory." << std::endl << std::endl;
     }
@@ -182,9 +182,9 @@ void CodeGenerator::visitPlusNode(PlusNode* node) {
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing PlusNode." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "add %edx, %eax" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
     // TAB_COUNTER--;
 }
 
@@ -195,9 +195,9 @@ void CodeGenerator::visitMinusNode(MinusNode* node) {
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing MinusNode." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "sub %edx, %eax" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
     // TAB_COUNTER--;
 }
 
@@ -208,9 +208,9 @@ void CodeGenerator::visitTimesNode(TimesNode* node) {
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing TimesNode." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "imul %edx, %eax" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
     // TAB_COUNTER--;
 }
 
@@ -221,10 +221,10 @@ void CodeGenerator::visitDivideNode(DivideNode* node) {
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing DivideNode." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                           # pop the divisor." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # pop the dividend." << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # pop the dividend." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "cdq" << "                                # sign extend %eax (the dividend) into %edx." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "idiv %ebx" << "                          # quotient is now in %eax, remainder is in %edx." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                          # save result on top of the stack." << std::endl << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                          # save result on top of the stack." << std::endl << std::endl;
     // TAB_COUNTER--;
 }
 
@@ -234,9 +234,9 @@ void CodeGenerator::visitNegationNode(NegationNode* node) {
     node->visit_children(this);
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing NegationNode." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "neg %eax" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
     // TAB_COUNTER--;
 }
 
@@ -249,7 +249,7 @@ void CodeGenerator::visitGreaterNode(GreaterNode* node) {
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing GreaterNode." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "cmp %edx, %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "jg label_" << temp << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pushl $0" << std::endl;
@@ -267,7 +267,7 @@ void CodeGenerator::visitGreaterEqualNode(GreaterEqualNode* node) {
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing GreaterEqualNode." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "cmp %edx, %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "jge label_" << temp << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pushl $0" << std::endl;
@@ -285,7 +285,7 @@ void CodeGenerator::visitEqualNode(EqualNode* node) {
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing EqualNode." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "cmp %edx, %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "je label_" << temp << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pushl $0" << std::endl;
@@ -301,9 +301,9 @@ void CodeGenerator::visitAndNode(AndNode* node) {
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing AndNode." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "andl %edx, %eax" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
     // TAB_COUNTER--;
 }
 
@@ -314,9 +314,9 @@ void CodeGenerator::visitOrNode(OrNode* node) {
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing OrNode." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "orl %edx, %eax" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
     // TAB_COUNTER--;
 }
 
@@ -326,9 +326,9 @@ void CodeGenerator::visitNotNode(NotNode* node) {
     node->visit_children(this);
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing NotNode." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "notl %eax" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl << std::endl;
     // TAB_COUNTER--;
 }
 
@@ -364,13 +364,17 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting Integer." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                          # push integer onto the stack." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << node->integer->value << "                       # push old %eax contents onto the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "movl $" << node->integer->value << " %eax                     # load integer operand into %eax." << std::endl << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                          # push integer operand onto the stack." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "mov (%esp), %eax" << "                  # record integer literal in %eax." << std::endl;
 }
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visited Boolean." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push boolean onto the stack." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << node->integer->value << "                       # push old %eax contents onto the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "movl $" << node->integer->value << " %eax                     # load boolean operand into %eax." << std::endl << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push boolean operand onto the stack." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "mov (%esp), %eax" << "                  # record boolean literal in %eax." << std::endl;
 }
 

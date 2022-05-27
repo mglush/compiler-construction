@@ -226,10 +226,11 @@ void CodeGenerator::visitDivideNode(DivideNode* node) {
     node->visit_children(this);
 
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing DivideNode." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %ecx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "idivl %edx, %ecx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %ecx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                        # dividend, low." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "cdq" << "                             # sign extend %eax into %edx." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %ecx" << "                        # divisor." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "idiv %ecx" << "                       # quotient is in %eax, remained is in %edx." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
     TAB_COUNTER--;
 }
 

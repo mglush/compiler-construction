@@ -131,8 +131,8 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (node->identifier_2) {
         
     } else {
-        std::cout << getOffset(TAB_COUNTER) << "pop %edx" << "                         # get value of the expression from the top of the stack." << std::endl;
-        std::cout << getOffset(TAB_COUNTER) << "mov %edx, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
+        // std::cout << getOffset(TAB_COUNTER) << "pop %edx" << "                         # get value of the expression from the top of the stack." << std::endl;
+        std::cout << getOffset(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
         std::cout << getOffset(TAB_COUNTER) << "           # store value of right-hand side expression at the right place in memory." << std::endl;
     }
     TAB_COUNTER--;
@@ -169,7 +169,7 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing PrintNode." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "push $printstr" << "                   # load format to be used for printing." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "call printf" << "                      # print value in the return expression." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                         # pop format used for printing off the stack." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %ecx" << "                         # pop format used for printing off the stack into an unused." << std::endl;
     TAB_COUNTER--;
 }
 
@@ -239,9 +239,9 @@ void CodeGenerator::visitNegationNode(NegationNode* node) {
     node->visit_children(this);
 
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing NegationNode." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "neg %edx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "neg %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
     TAB_COUNTER--;
 }
 
@@ -331,9 +331,9 @@ void CodeGenerator::visitNotNode(NotNode* node) {
     node->visit_children(this);
 
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing NotNode." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "notl %edx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "notl %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
     TAB_COUNTER--;
 }
 

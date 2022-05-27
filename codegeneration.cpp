@@ -213,10 +213,10 @@ void CodeGenerator::visitTimesNode(TimesNode* node) {
     node->visit_children(this);
 
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing TimesNode." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "popl %edx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "popl %eax" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "imull %edx, %eax" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pushl %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "imul %edx, %eax" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << std::endl;
     TAB_COUNTER--;
 }
 
@@ -226,10 +226,10 @@ void CodeGenerator::visitDivideNode(DivideNode* node) {
     node->visit_children(this);
 
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing DivideNode." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %edx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %ecx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "idiv %edx, %ecx" << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %ecx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "popl %edx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "popl %ecx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "idivl %edx, %ecx" << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pushl %ecx" << std::endl;
     TAB_COUNTER--;
 }
 

@@ -202,7 +202,7 @@ void CodeGenerator::visitMinusNode(MinusNode* node) {
 }
 
 void CodeGenerator::visitTimesNode(TimesNode* node) {
-    TAB_COUNTER++;
+    // TAB_COUNTER++;
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting TimesNode." << std::endl;
     node->visit_children(this);
 

@@ -141,7 +141,9 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
 void CodeGenerator::visitCallNode(CallNode* node) {
     TAB_COUNTER++;
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting CallNode." << std::endl;
+
     node->visit_children(this);
+    
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing CallNode." << std::endl;
     TAB_COUNTER--;
 }
@@ -149,7 +151,9 @@ void CodeGenerator::visitCallNode(CallNode* node) {
 void CodeGenerator::visitIfElseNode(IfElseNode* node) {
     TAB_COUNTER++;
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting IfElseNode." << std::endl;
+
     node->visit_children(this);
+
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing IfElseNode." << std::endl;
     TAB_COUNTER--;
 }
@@ -157,7 +161,9 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
 void CodeGenerator::visitWhileNode(WhileNode* node) {
     TAB_COUNTER++;
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting WhileNode." << std::endl;
+
     node->visit_children(this);
+
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing WhileNode." << std::endl;
     TAB_COUNTER--;
 }

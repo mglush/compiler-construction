@@ -168,6 +168,7 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
     std::cout << getOffset(TAB_COUNTER) << "push $printstr" << "                   # load format to be used for printing." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "call printf" << "                      # print value in the return expression." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "pop %ecx" << "                         # pop format used for printing off the stack into an unused." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                         # restore the printed value back to %eax if necessary for future use." << std::endl;
     TAB_COUNTER--;
 }
 

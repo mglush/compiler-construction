@@ -335,17 +335,17 @@ void CodeGenerator::visitNotNode(NotNode* node) {
 void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     // TAB_COUNTER++;
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting MethodCallNode." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "   # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %ecx" << "   # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %edx" << "   # caller responsible for preserving contents of this register." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %ecx" << "                        # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %edx" << "                        # caller responsible for preserving contents of this register." << std::endl << std::endl;
     
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# making a method call here." << std::endl;
     node->visit_children(this);
     
 
-    std::cout << getIndent(TAB_COUNTER) << "pop %edx" << "    # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "    # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "    # caller responsible for preserving contents of this register." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %edx" << "                         # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # caller responsible for preserving contents of this register." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # caller responsible for preserving contents of this register." << std::endl << std::endl;
     // TAB_COUNTER--;
 }
 

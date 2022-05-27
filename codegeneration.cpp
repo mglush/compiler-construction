@@ -225,7 +225,7 @@ void CodeGenerator::visitDivideNode(DivideNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "cdq" << "                                # sign extend %eax (the dividend) into %edx." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                           # pop the divisor." << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # pop the dividend." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "idivl %ebx" << "                          # quotient is now in %eax, remainder is in %edx." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "idivl %ebx" << "                          # quotient is now in %eax, remainder is in %edx." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                          # save result on top of the stack." << std::endl << std::endl;
     // TAB_COUNTER--;
 }

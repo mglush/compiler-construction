@@ -164,11 +164,11 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Visiting PrintNode." << std::endl;
     node->visit_children(this);
     if (COMMENTS_ON) std::cout << getOffset(TAB_COUNTER) << "# Processing PrintNode." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "push %eax" << "                        # we want to print the value inside of register %eax." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "push %eax" << "                        # push expression result onto the stack." << std::endl;
     std::cout << getOffset(TAB_COUNTER) << "push $printstr" << "                   # load format to be used for printing." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "call printf" << "                      # print value in the return expression." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %ecx" << "                         # pop format used for printing off the stack into an unused." << std::endl;
-    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                         # restore the printed value back to %eax if necessary for future use." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "call printf" << "                      # print value returned to %eax by the expression." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %ecx" << "                         # pop format used for printing off the stack into an unused register." << std::endl;
+    std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                         # restore the printed value back to %eax." << std::endl;
     TAB_COUNTER--;
 }
 

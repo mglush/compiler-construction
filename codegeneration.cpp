@@ -131,7 +131,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (node->identifier_2) {
         
     } else {
-        // std::cout << getOffset(TAB_COUNTER) << "pop %edx" << "                         # get value of the expression from the top of the stack." << std::endl;
+        std::cout << getOffset(TAB_COUNTER) << "pop %eax" << "                         # get value of the expression from the top of the stack." << std::endl;
         std::cout << getOffset(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
         std::cout << getOffset(TAB_COUNTER) << "           # store value of right-hand side expression at the right place in memory." << std::endl;
     }

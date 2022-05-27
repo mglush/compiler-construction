@@ -365,7 +365,7 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting Integer." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << node->integer->value << "                       # push old %eax contents onto the stack." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "movl $" << node->integer->value << " %eax                     # load integer operand into %eax." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "movl $" << node->integer->value << ", %eax                     # load integer operand into %eax." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                          # push integer operand onto the stack." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "mov (%esp), %eax" << "                  # record integer literal in %eax." << std::endl;
 }
@@ -373,7 +373,7 @@ void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visited Boolean." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << node->integer->value << "                       # push old %eax contents onto the stack." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "movl $" << node->integer->value << " %eax                     # load boolean operand into %eax." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "movl $" << node->integer->value << ", %eax                     # load boolean operand into %eax." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push boolean operand onto the stack." << std::endl << std::endl;
     // std::cout << getIndent(TAB_COUNTER) << "mov (%esp), %eax" << "                  # record boolean literal in %eax." << std::endl;
 }

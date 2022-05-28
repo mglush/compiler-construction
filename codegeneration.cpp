@@ -368,18 +368,41 @@ void CodeGenerator::visitNotNode(NotNode* node) {
 
 void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting MethodCallNode." << std::endl;
+
+    // THIS IS A PRE-CALL HERE (ASSEMBLE THE ACTIVATION RECORD OF THE METHOD WE ARE CALLING).
+
+    // push the caller-saved registers onto the stack.
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # caller responsible for preserving contents of this register." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %ecx" << "                        # caller responsible for preserving contents of this register." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %edx" << "                        # caller responsible for preserving contents of this register." << std::endl << std::endl;
+
+    // push parameters onto the stack (in reverse order as per __cedcl convention).
+    for (std::list<ExpressionNode*>::iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
+        (*(it))->accept(this);
+
+    // create a label for where we left off in this code, then push the label's address to the stack.
+    int temp = this->nextLabel();
     
-    if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# making a method call here." << std::endl;
-
-    // NEED TO DO PRE-CALL HERE
-
-    node->visit_children(this);
+    std::cout << getIndent(TAB_COUNTER) << "post_method_label_" << temp << "                # create label to come back to after method finished executing."
+    std::cout << getIndent(TAB_COUNTER) << "push $push_method_label_" << temp << "          # push the return address onto the stack"
+    
+    // call the appropriate method baby.
+    if (node->identifier_2) {
+        std::cout << std::endl;
+    } else {
+        std::cout << getIndent(TAB_COUNTER) << "push %esp" << "                           # get value of the expression from the top of the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
+        std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right place in memory." << std::endl << std::endl;
+    }
     
     // NEED TO DO POST-RETURN HERE
 
+    // pop the arguments off the stack.
+    for (int i = 0; i < node-) {
+        (*(it))->accept(this);
+    }
+
+    // pop the caller-saved registers off the stack.
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << "                         # caller responsible for preserving contents of this register." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # caller responsible for preserving contents of this register." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # caller responsible for preserving contents of this register." << std::endl << std::endl;

@@ -156,19 +156,21 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "mov $0, %ebx" << "                       # put 0 into %ebx." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "cmp %eax, %ebx" << "                     # check if result of expression was false." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "je else_statement_" << temp << "         # jump if expression evaluated to false" << std::endl;
-        
-        if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting first list of statements inside if." << std::endl;
-        
+                
+        std::cout << getIndent(TAB_COUNTER + 1) << "# if statement body" << std::endl;
+        TAB_COUNTER++;
         for (std::list<StatementNode*>::iterator it = node->statement_list_1->begin(); it != node->statement_list_1->end(); it++)
             (*(it))->accept(this);
+        TAB_COUNTER--;
         
         std::cout << getIndent(TAB_COUNTER) << "jmp after_if_" << temp << "                     # jump past the else statement" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "else_statement_" << temp << ":" << std::endl;
         
-        if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting second list of statements inside if." << std::endl;
-
+        std::cout << getIndent(TAB_COUNTER + 1) << "# else statement body" << std::endl;
+        TAB_COUNTER++;
         for (std::list<StatementNode*>::iterator it = node->statement_list_2->begin(); it != node->statement_list_2->end(); it++)
             (*(it))->accept(this);
+        TAB_COUNTER--;
 
         std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl;
     } else {
@@ -177,9 +179,11 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "cmp %eax, %ebx" << "                     # check if result of expression was false." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "je after_if_" << temp << "               # jump if expression evaluated to false" << std::endl;
         
-        if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting list of statements inside if." << std::endl;
+        std::cout << getIndent(TAB_COUNTER + 1) << "# if statement body" << std::endl;
+        TAB_COUNTER++;
         for (std::list<StatementNode*>::iterator it = node->statement_list_1->begin(); it != node->statement_list_1->end(); it++)
             (*(it))->accept(this);
+        TAB_COUNTER--;
 
         std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl;
     }

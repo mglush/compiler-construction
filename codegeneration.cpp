@@ -135,9 +135,6 @@ void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
     // std::cout << "# Processing DeclarationNode." << std::endl;
 }
 
-// # ------------------------------------------------------------------------------------------------ //
-// # DEFINITELY STILL GOTTA HANDLE THIS MOTHERFUCKER CORRECTLY CUZ ION KNOW IF IM DOIN IT RIGHT.
-// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
     if (COMMENTS_ON) std::cout << "# Visiting ReturnStatementNode." << std::endl;
     node->visit_children(this);
@@ -166,9 +163,6 @@ void CodeGenerator::visitCallNode(CallNode* node) {
     if (COMMENTS_ON) std::cout  << "# Processing CallNode." << std::endl;
 }
 
-// # ------------------------------------------------------------------------------------------------ //
-// # THIS SHOULD TOTALLY WORK I TESTED IT FOR ALL CASES PLEASE DONT FUCK ME.
-// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitIfElseNode(IfElseNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting IfElseNode." << std::endl;
 

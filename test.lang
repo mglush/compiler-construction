@@ -1,19 +1,13 @@
 Main {
-	integer member1;
-	integer member2;
-	integer member3;
-	integer member4;
-	integer member5;
-
 	f5() -> integer {
-		integer member3;
-		member3 = 5;
-		while (member3 > 0) {
-			print member3;
-			member3 = member3 - 1;
+		integer x;
+		x = 5;
+		while (x > 0) {
+			print x;
+			x = x - 1;
 		}
-		member1 = 9;
-		return member1;
+		print x;
+		return x;
 	}
 	f4() -> integer {
 		return f5();

@@ -7,18 +7,10 @@ Main {
 		x = 10;
 		y = 20;
 
-		print 8 >= 10;
-		print 8 >= 10;
-		print 8 >= 10;
-
-		print 0 > 10;
-		print 0 > 10;
-		print 0 > 10;
-
-		print 0 equals 10;
-		print 0 equals 20;
-		print 0 equals 50;
-
-
+		if (x equals y) {
+			print 6666;
+		} else {
+			print 9999;
+		}
 	}
 }

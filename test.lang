@@ -1,5 +1,3 @@
-/* this thang should print 10 then 20 then 30 then 40 then 0.
-
 Main {
 	main() -> none {
 		integer x;
@@ -11,13 +9,13 @@ Main {
 		if (x equals 10) {
 			print x;						/* should output 10 */
 			print x * 4 / 2;				/* should print 20 */
-			if (true and true) {
+			if (x equals 10) {
 				print 10 + 10 + 10;				/* should output 30 */
 				print y;						/* should output 40 */
-				if (not true) {
+				if (y equals 20) {
 					print y;						/* should not evaluate. if it does, should output 40 */
 				} else {
-					print z;						/* should evaluate and output output 0, i.e. "false" */
+					print z;						/* should evaluate and output output 0, i.e. false */
 				}
 			}
 		}

@@ -167,10 +167,8 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
         
         if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting second list of statements inside if." << std::endl;
 
-        TAB_COUNTER++;
         for (std::list<StatementNode*>::iterator it = node->statement_list_2->begin(); it != node->statement_list_2->end(); it++)
             (*(it))->accept(this);
-        TAB_COUNTER--;
 
         std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl;
     } else {

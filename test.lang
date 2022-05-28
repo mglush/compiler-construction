@@ -1,9 +1,9 @@
 Main {
-	f0() -> integer {
-		return f1();
-	}
 	f1() -> integer {
 		return 20;
+	}
+	f0() -> integer {
+		return f1();
 	}
 	main() -> none {
 		print f0();

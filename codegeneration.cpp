@@ -361,7 +361,7 @@ void CodeGenerator::visitNotNode(NotNode* node) {
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing NotNode." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "notl %eax" << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "not %eax" << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl;
 }
 

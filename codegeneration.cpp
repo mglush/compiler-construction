@@ -21,17 +21,16 @@ std::string getIndent(int num_tabs) {
 // # CHANGE THE FUCNTION BELOW TO TAKE A CLASS IN AS A PARAMETER IN DA MORNING GLUSH. GUD NIGHT BRODI.
 // # ------------------------------------------------------------------------------------------------ //
 // helper function to find the proper offset of a current class's variable/member.
-int findVariableOffset(CodeGenerator* visitor, std::string name) {
+int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
     int result = 0;
     if (visitor->currentMethodInfo.variables->count(name)) {
-        result = visitor->currentMethodInfo.variables->at(name).offset;
+       return visitor->currentMethodInfo.variables->at(name).offset;
     }
     else {
-        std::string class_name = visitor->currentClassName;
-        // look at current class and its members.
-
-        // add up the sizes of the members in the class hierarchy.
-
+        if (visitor->classTable->at(class_name).members->count(name))
+            return visitor->classTable->at(class_name).members->at(name).offset;
+        
+        class_name = visitor->classTable->at(class_name).superClassName;
         while (visitor->classTable->at(class_name).members->count(name) == 0) {
             result += visitor->classTable->at(class_name).membersSize;
             class_name = visitor->classTable->at(class_name).superClassName;

@@ -376,7 +376,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "push %edx" << "                        # put caller-saved register onto the stack." << std::endl << std::endl;
 
     // push parameters onto the stack (in reverse order as per __cedcl convention).
-    for (std::list<ExpressionNode*>::iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
+    for (std::list<ExpressionNode*>::reverse_iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
         (*(it))->accept(this);
     
     if (node->identifier_2) {

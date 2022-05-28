@@ -169,13 +169,15 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting AssignmentNode." << std::endl;
     node->visit_children(this);
     if (COMMENTS_ON) std::cout  << "# Processing AssignmentNode." << std::endl;
-    if (node->identifier_2) {
-        // REMEMBER TO FILL THIS IN.
-    } else {
-        std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                            # get value of the expression from the top of the stack." << std::endl;
+    
+    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                            # get value of the expression from the top of the stack." << std::endl;
+    
+    if (node->identifier_2)
+        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_2->name) << "(%ebp)";
+    else
         std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
-        std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right place in memory." << std::endl << std::endl;
-    }
+    
+    std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right place in memory." << std::endl << std::endl;
 }
 
 void CodeGenerator::visitCallNode(CallNode* node) {

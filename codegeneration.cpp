@@ -1,9 +1,10 @@
 #include "codegeneration.hpp"
 
-int TAB_COUNTER = 5;        // keeps track of tabs to use when printing assembly code.
+int TAB_COUNTER = 0;        // keeps track of tabs to use when printing assembly code.
 bool INDENT_ON = true;      // set to false if no indentation is wanted.
 bool COMMENTS_ON = false;   // set to false if you don't want the generated assembly to generate comments.
 
+// returns the appropriate space to indent the assembly.
 std::string getIndent(int num_tabs) {
     std::string result = "";
     if (INDENT_ON) {
@@ -15,7 +16,10 @@ std::string getIndent(int num_tabs) {
     }
 }
 
-// helper function to find the proper offset of a variable/member.
+// # ------------------------------------------------------------------------------------------------ //
+// # CHANGE THE FUCNTION BELOW TO TAKE A CLASS IN AS A PARAMETER IN DA MORNING GLUSH. GUD NIGHT BRODI.
+// # ------------------------------------------------------------------------------------------------ //
+// helper function to find the proper offset of a current class's variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string name) {
     int result = 8;
     if (visitor->currentMethodInfo.variables->count(name)) {
@@ -98,6 +102,7 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     // function callee epilogue.
     if (COMMENTS_ON) std::cout  << "# Starting callee function epilogue." << std::endl;
+
     if (this->currentMethodName != "main") {
         std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # save the return value in %eax as per __cdecl convention." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "pop %edi" << "                         # get callee-saved register from the stack." << std::endl;
@@ -110,6 +115,11 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "ret" << "                              # jump back to return address of the caller." << std::endl << std::endl;
     TAB_COUNTER--;
 }
+
+// # ------------------------------------------------------------------------------------------------ //
+// # DO THIS THANG IN DA MORNING; IF THE PARAMETER IS INTEGER OR BOOLEAN, POP ITS VALUE ONTO THE STACK.
+// # IF THE PARAMETER IS AN OBJECT, FIND PASS ITS SELF 
+// # ------------------------------------------------------------------------------------------------ //
 
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
     // node->visit_children(this);
@@ -212,7 +222,6 @@ void CodeGenerator::visitDoWhileNode(DoWhileNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting DoWhileNode." << std::endl;
 
     int temp = this->nextLabel();
-
     std::cout << getIndent(TAB_COUNTER) << "do_while_" << temp << ":" << std::endl;
 
     for (std::list<StatementNode*>::iterator it = node->statement_list->begin(); it != node->statement_list->end(); it++)
@@ -386,14 +395,14 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     if (node->identifier_2) {
         /* FILL THIS BABY IN WITH CODE WHEN IMPLEMENTING OBJECTS */
     } else {
-        std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
+        //std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name << "        # perform the appropriate method call." << std::endl;
     }
     
     // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).
 
     // pop the object self pointer from stack.
-    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop return address off the stack." << std::endl;
+    //std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop return address off the stack." << std::endl;
     
     // pop all parameters from stack.
     for (int i = 0; i < node->expression_list->size(); i++)

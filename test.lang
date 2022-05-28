@@ -11,13 +11,9 @@ ClassB {
 	}
 }
 
-ClassA {
-	ClassB testingObject;
-
+ClassA extends ClassB {
 	ClassA(integer param1, integer param2, integer param3) -> none {
-		print param1 + param2 + param3;
-		testingObject = new ClassB();
-		print param1 + param2 + param3;
+		print member6;
 	}
 }
 
@@ -33,6 +29,5 @@ Main {
 		arg3 = 30;
 		
 		testing = new ClassA(arg1, arg2, arg3);
-		testing2 = new ClassB;
 	}
 }

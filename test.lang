@@ -6,6 +6,7 @@ Main {
 			print x;
 			x = x - 1;
 		}
+		return x;
 	}
 	f4() -> integer {
 		return f5();

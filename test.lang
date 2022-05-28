@@ -1,6 +1,6 @@
 Main {
 	f0() -> integer {
-		return 10;
+		return f1();
 	}
 	f1() -> integer {
 		return 20;

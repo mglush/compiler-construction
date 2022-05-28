@@ -7,24 +7,18 @@ Main {
 		x = 10;
 		y = 20;
 
-		if (true) {
-			print 9999;
-		} else {
-			print 6666;
-		}
+		print 20 >= 10;
+		print 20 >= 10;
+		print 20 >= 10;
 
-		if (false) {
-			print 6666;
-		} else {
-			print 9999;
-		}
+		print 20 > 10;
+		print 20 > 10;
+		print 20 > 10;
 
-		if (false) {
-			print 6666;
-		}
+		print 10 equals 10;
+		print 20 equals 20;
+		print 50 equals 50;
 
-		if (true) {
-			print 9999;
-		}
+		
 	}
 }

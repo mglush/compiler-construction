@@ -149,16 +149,6 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
     node->expression->accept(this);
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing Expression inside If." << std::endl;
 
-    // # Assume expression result on stack
-    // pop %eax
-    // mov $0, %ebx
-    // cmp %eax, %ebx
-    // je  skip_if_1
-    // # Visit and generate code for
-    // #   statements in true branch...
-    // skip_if_1:
-    // # Instructions after if
-
     int temp = this->nextLabel();
 
     if (node->statement_list_2) {
@@ -286,8 +276,10 @@ void CodeGenerator::visitGreaterNode(GreaterNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "cmp %edx, %eax" << "                     # compare the operands." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "jg is_greater_" << temp << "             # jump if %edx > %eax." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pushl $0"  << "                          # if not, push 0, or \"false\"." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "jmp after_comparison_" << temp << "      # jump to the code that follows." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "is_greater_" << temp << ":" << std::endl;
-    std::cout << getIndent(TAB_COUNTER + 1) << "pushl $1" << "                   # if yes, push 1, or \"true\"" << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER + 1) << "pushl $1" << "                   # if yes, push 1, or \"true\"" << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "after_comparison_" << temp << ":" << std::endl << std::endl;
 }
 
 void CodeGenerator::visitGreaterEqualNode(GreaterEqualNode* node) {
@@ -300,10 +292,12 @@ void CodeGenerator::visitGreaterEqualNode(GreaterEqualNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << "                           # get the first operand." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # get the second operand." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "cmp %edx, %eax" << "                     # compare the operands." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "jge is_greater_or_equal_" << temp << "   # jump if %edx > %eax." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "jge is_greater_or_equal_" << temp << "   # jump if %edx >= %eax." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pushl $0"  << "                          # if not, push 0, or \"false\"." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "jmp after_comparison_" << temp << "      # jump to the code that follows." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "is_greater_or_equal_" << temp << ":" << std::endl;
-    std::cout << getIndent(TAB_COUNTER + 1) << "pushl $1" << "                   # if yes, push 1, or \"true\"" << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER + 1) << "pushl $1" << "                   # if yes, push 1, or \"true\"" << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "after_comparison_" << temp << ":" << std::endl << std::endl;
 }
 
 void CodeGenerator::visitEqualNode(EqualNode* node) {
@@ -316,10 +310,12 @@ void CodeGenerator::visitEqualNode(EqualNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << "                           # get the first operand." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # get the second operand." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "cmp %edx, %eax" << "                     # compare the operands." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "je is_equal_" << temp << "               # jump if %edx > %eax." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "je is_equal_" << temp << "               # jump if %edx == %eax." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pushl $0"  << "                          # if not, push 0, or \"false\"." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "jmp after_comparison_" << temp << "      # jump to the code that follows." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "is_equal_" << temp << ":" << std::endl;
-    std::cout << getIndent(TAB_COUNTER + 1) << "pushl $1" << "                   # if yes, push 1, or \"true\"" << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER + 1) << "pushl $1" << "                   # if yes, push 1, or \"true\"" << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "after_comparison_" << temp << ":" << std::endl << std::endl;
 }
 
 void CodeGenerator::visitAndNode(AndNode* node) {

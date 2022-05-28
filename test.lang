@@ -7,7 +7,7 @@ Main {
 		x = 10;
 		y = 20;
 
-		if (10 equals 10) {
+		if (10 equals 20) {
 			print 6666;
 		}
 	}

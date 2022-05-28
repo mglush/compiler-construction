@@ -411,25 +411,25 @@ void CodeGenerator::visitNewNode(NewNode* node) {
 }
 
 void CodeGenerator::visitIntegerTypeNode(IntegerTypeNode* node) {
-    // node->visit_children(this);
+    /* information from this node has already been obtained. */
 }
 
 void CodeGenerator::visitBooleanTypeNode(BooleanTypeNode* node) {
-    // node->visit_children(this);
+    /* information from this node has already been obtained. */
 }
 
 void CodeGenerator::visitObjectTypeNode(ObjectTypeNode* node) {
-    // node->visit_children(this);
+    /* information from this node has already been obtained. */
 }
 
 void CodeGenerator::visitNoneNode(NoneNode* node) {
-    // node->visit_children(this);
+    /* information from this node has already been obtained. */
 }
 
 void CodeGenerator::visitIdentifierNode(IdentifierNode* node) {
-    /* do nothing */
+    /* information from this node has already been obtained. */
 }
 
 void CodeGenerator::visitIntegerNode(IntegerNode* node) {
-    /* do nothing */
+    /* information from this node has already been obtained. */
 }

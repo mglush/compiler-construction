@@ -12,12 +12,16 @@ ClassB {
 }
 
 ClassA {
+	integer mem1, mem2, mem3;
 	calculator(integer param1, integer param2, integer param3) -> integer {
 		return param1 + param2 + param3;
 	}
 
 	ClassA(integer param1, integer param2, integer param3) -> none {
-		print calculator(param1, param2, param3);
+		mem1 = param1;
+		mem2 = param2;
+		mem3 = param3;
+		print calculator(mem1, mem2, mem3);
 	}
 }
 
@@ -33,7 +37,5 @@ Main {
 		arg3 = 30;
 		
 		testing = new ClassA(arg1, arg2, arg3);
-
-		print testing.calculator(0, 0, 0) + testing.calculator(arg2, arg2, arg2) + testing.calculator(arg3, arg3, arg3);
 	}
 }

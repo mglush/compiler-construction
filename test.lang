@@ -1,16 +1,16 @@
 Main {
-	f5() -> integer {
+	f5(integer k0, integer k1, integer k2, integer k3, integer k4, integer k5) -> integer {
 		integer x;
 		x = 5;
 		while (x > 0) {
 			print x;
 			x = x - 1;
 		}
-		print x;
-		return x;
+		return x * k0 + k1 * x + x * k2;
 	}
+
 	f1(integer j0, integer j1, integer j2, integer j3, integer j4, integer j5) -> integer {
-		return j0 + j1 + j2 + j3 + j4 + j5;
+		return f5(j0, j1, j2, j3, j4, j5);
 	}
 	f0(integer i0, integer i1, integer i2) -> integer {
 		integer a, b, c;

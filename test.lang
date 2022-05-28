@@ -7,18 +7,18 @@ Main {
 		x = 10;
 		y = 20;
 
-		print 20 >= 10;
-		print 20 >= 10;
-		print 20 >= 10;
+		print 8 >= 10;
+		print 8 >= 10;
+		print 8 >= 10;
 
-		print 20 > 10;
-		print 20 > 10;
-		print 20 > 10;
+		print 0 > 10;
+		print 0 > 10;
+		print 0 > 10;
 
-		print 10 equals 10;
-		print 20 equals 20;
-		print 50 equals 50;
+		print 0 equals 10;
+		print 0 equals 20;
+		print 0 equals 50;
 
-		
+
 	}
 }

@@ -183,7 +183,7 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
             (*(it))->accept(this);
         TAB_COUNTER--;
 
-        std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl;
     } else {
         std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # get the result of the if expression from the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov $0, %ebx" << "                       # put 0 into %ebx." << std::endl;

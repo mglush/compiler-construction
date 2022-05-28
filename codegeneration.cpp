@@ -130,14 +130,11 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     TAB_COUNTER--;
 }
 
-// # ------------------------------------------------------------------------------------------------ //
-// # DO THIS THANG IN DA MORNING; IF THE PARAMETER IS INTEGER OR BOOLEAN, POP ITS VALUE ONTO THE STACK.
-// # IF THE PARAMETER IS AN OBJECT, GET ITS CLASSOBJECTTYPE, MAKE A COPY OF THAT OBJECT
-// # AND PASS IT IN SO WE CAN ACCESS THAT OBJECTS MOTHERFUCKING MEMBERS.
-// # ------------------------------------------------------------------------------------------------ //
-
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
-    // node->visit_children(this);
+    // find the variables offset in memory, pass that in.
+    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, node->identifier->name) << "(%ebp), %eax";
+    std::cout << getIndent(TAB_COUNTER) << "             # load the parameter from memory." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # slap it on top of the stack." << std::endl;
 }
 
 // # ------------------------------------------------------------------------------------------------ //
@@ -416,12 +413,16 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     
     if (node->identifier_2) {
         // after finding the variable, gets its class object name, and call the appropriate method baby.
+        // THIS ONE IS WRONG YOU SHOULD PUSH THE OBJECT SELF POINTER INSTEAD OF THE CURRENT BASE FRAME POINTER. v v v
+        // that means we have to go to the correct offset from the current base pointer to get the pointer to the object needed.
         std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the receiver object self pointer." << std::endl;
+        // THIS ONE IS WRONG YOU SHOULD PUSH THE OBJECT SELF POINTER INSTEAD OF THE CURRENT BASE FRAME POINTER. ^ ^ ^
         std::cout << getIndent(TAB_COUNTER) << "call " << findVariableObjectName(this, node->identifier_1->name) << "_" << node->identifier_2->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;
     } else {
-        std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name << "                     # perform the appropriate method call." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the receiver object (current object) self pointer onto the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name <<;
+        std::cout << "                     # perform the appropriate method call." << std::endl;
     }
     
     // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).

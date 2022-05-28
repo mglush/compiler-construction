@@ -12,12 +12,12 @@ ClassB {
 }
 
 ClassA {
-	ClassA(integer param1, integer param2, integer param3) -> none {
-		print calculator(param1, param2, param3);
-	}
-
 	calculator(integer param1, integer param2, integer param3) -> integer {
 		return param1 + param2 + param3;
+	}
+	
+	ClassA(integer param1, integer param2, integer param3) -> none {
+		print calculator(param1, param2, param3);
 	}
 }
 

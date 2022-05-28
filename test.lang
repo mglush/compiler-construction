@@ -9,22 +9,22 @@ Main {
 		print x;
 		return x;
 	}
-	f4() -> integer {
-		return f5();
+	f1(integer j0, integer j1, integer j2, integer j3, integer j4, integer j5) -> integer {
+		return j0 + j1 + j2 + j3 + j4 + j5;
 	}
-	f3() -> integer {
-		return f4();
-	}
-	f2() -> integer {
-		return f3();
-	}
-	f1() -> integer {
-		return f2();
-	}
-	f0() -> integer {
-		return f1();
+	f0(integer i0, integer i1, integer i2) -> integer {
+		integer a, b, c;
+		a = 10;
+		b = 20;
+		c = 30;
+
+		return f1(a, b, c, i0, i1, i2);
 	}
 	main() -> none {
-		print f0();
+		integer x, y, z;
+		x = 1;
+		y = 2;
+		z = 3;
+		print f0(x, y, z);
 	}
 }

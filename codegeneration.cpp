@@ -400,7 +400,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                            # pop argument off the stack after method has been called." << std::endl;
 
     // save results of the method.
-    std::cout << getIndent(TAB_COUNTER) << "mov %eax, %ebx" << "                   # save the value returned by the method." << std::endl();
+    std::cout << getIndent(TAB_COUNTER) << "mov %eax, %ebx" << "                   # save the value returned by the method." << std::endl;
     
     // pop the caller-saved registers from stack.
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << "                         # get value of caller-saved register from the stack." << std::endl;

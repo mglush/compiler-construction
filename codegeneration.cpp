@@ -384,9 +384,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     } else {
         // push object self pointer to the stack if caller is any function other than main.
         std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
-        
-        // push return address onto the stack.
-        // std::cout << getIndent(TAB_COUNTER) << "push -8(%esp)" << "             `          # push the return address onto the stack" << std::endl;
+        // perform the method call.
         std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name << std::endl;
     }
     

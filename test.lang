@@ -26,5 +26,23 @@ Main {
 		} else {
 			print 9999;
 		}
+
+		if (y equals 20) {
+			print 6666;
+		} else {
+			print 9999;
+		}
+
+		if (y equals 20) {
+			print 6666;
+		} else {
+			print 9999;
+		}
+
+		if (y equals 20) {
+			print 6666;
+		} else {
+			print 9999;
+		}
 	}
 }

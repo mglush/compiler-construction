@@ -199,7 +199,6 @@ void CodeGenerator::visitWhileNode(WhileNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "mov $0, %ebx" << "                       # put 0 into %ebx." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "cmp %eax, %ebx" << "                     # check if result of expression was false." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "je after_while_" << temp << "               # jump if expression evaluated to false" << std::endl;
-    std::cout << getIndent(TAB_COUNTER + 1) << "# while statement body" << std::endl;
 
     for (std::list<StatementNode*>::iterator it = node->statement_list->begin(); it != node->statement_list->end(); it++)
         (*(it))->accept(this);

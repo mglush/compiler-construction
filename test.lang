@@ -1,12 +1,22 @@
 ClassB {
+	integer member6, member7, member8;
 	ClassB() -> none {
-		print 9999;
+		member6 = 6;
+		member7 = 7;
+		member8 = 8;
+
+		print member6;
+		print member7;
+		print member8;
 	}
 }
 
 ClassA {
-	integer member1, member2, member3, member4, member5;
+	ClassB testingObject;
+
 	ClassA(integer param1, integer param2, integer param3) -> none {
+		print param1 + param2 + param3;
+		testingObject = new ClassB();
 		print param1 + param2 + param3;
 	}
 }
@@ -15,10 +25,13 @@ Main {
 	main() -> none {
 		ClassA testing;
 		ClassB testing2;
+		
 		integer arg1, arg2, arg3;
+
 		arg1 = 10;
 		arg2 = 20;
 		arg3 = 30;
+		
 		testing = new ClassA(arg1, arg2, arg3);
 		testing2 = new ClassB;
 	}

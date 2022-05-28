@@ -131,10 +131,12 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 }
 
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
+    TAB_COUNTER++;
     // find the variables offset in memory, pass that in.
     std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, node->identifier->name) << "(%ebp), %eax";
     std::cout << getIndent(TAB_COUNTER) << "             # load the parameter from memory." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # slap it on top of the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # slap it on top of the stack." << std::endl << std::endl;
+    TAB_COUNTER--;
 }
 
 // # ------------------------------------------------------------------------------------------------ //

@@ -2,6 +2,9 @@ Main {
 	f0() -> integer {
 		return 10;
 	}
+	f1() -> integer {
+		return 20;
+	}
 	main() -> none {
 		print f0();
 	}

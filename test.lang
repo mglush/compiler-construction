@@ -1,17 +1,8 @@
 Main {
 	main() -> none {
-		integer x;
-		integer y;
-		boolean z;
-		x = 10 / 10 + 5 + 20 / 5;
-		y = 20 + 20;
-		z = true and false;
-
-		x = 0;
-
-		do {
-			print x;
-			x = x + 1;
-        } while(20 > x);
+		print true;
+		print false;
+		print not false;
+		print not true;
 	}
 }

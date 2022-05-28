@@ -392,11 +392,11 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     
     // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).
 
-    // pop the return address from stack
-    // std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop return address off the stack" << std::endl;
+    // pop the object self pointer from stack.
+    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop return address off the stack" << std::endl;
     
-    // pop the object self pointer and all parameters from stack.
-    for (int i = 0; i <= node->expression_list->size(); i++)
+    // pop all parameters from stack.
+    for (int i = 0; i < node->expression_list->size(); i++)
         std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                            # pop argument off the stack after method has been called." << std::endl;
 
     // save results of the method.

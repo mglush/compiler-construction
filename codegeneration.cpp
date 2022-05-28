@@ -170,11 +170,9 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
         
         if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting first list of statements inside if." << std::endl;
         
-        TAB_COUNTER++;
         for (std::list<StatementNode*>::iterator it = node->statement_list_1->begin(); it != node->statement_list_1->end(); it++)
             (*(it))->accept(this);
-        TAB_COUNTER--;
-
+        
         std::cout << getIndent(TAB_COUNTER) << "jmp after_if_" << temp << "                     # jump past the else statement" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "else_statement_" << temp << ":" << std::endl;
         
@@ -193,10 +191,9 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "je after_if_" << temp << "               # jump if expression evaluated to false" << std::endl;
         
         if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting list of statements inside if." << std::endl;
-        TAB_COUNTER++;
         for (std::list<StatementNode*>::iterator it = node->statement_list_1->begin(); it != node->statement_list_1->end(); it++)
             (*(it))->accept(this);
-        TAB_COUNTER--;
+
         std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl;
     }
 }

@@ -1,12 +1,35 @@
 Main {
 	main() -> none {
-		print not false;
-		print true and true;
-		print true or true;
-		print true or false;
-		print not true;
-		print true and false;
-		print false and false;
-		print false or false;
+		integer x;
+		integer y;
+		boolean z;
+		integer counter;
+		x = 10 / 10 + 5 + 20 / 5;
+		y = 20 + 20;
+		z = true and false;
+		if (true and true) {
+			print x;						/* should output 10 */
+			print x * 4 / 2;				/* should print 20 */
+			if (false or true) {
+				print 10 + 10 + 10;				/* should output 30 */
+				print y;						/* should output 40 */
+				if (z) {
+					print y;						/* should not evaluate. if it does, should output 40 */
+				} else {
+					print z;						/* should evaluate and output output 0, i.e. false */
+				}
+			}
+		}
+
+		counter = 1;
+		do {
+			print counter;
+			counter = counter + 1;
+		} while (10 >= counter);
+
+		while (counter >= 0) {
+			print counter;
+			counter = counter - 1;
+		}
 	}
 }

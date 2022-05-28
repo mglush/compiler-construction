@@ -360,9 +360,9 @@ void CodeGenerator::visitNotNode(NotNode* node) {
     node->visit_children(this);
 
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing NotNode." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "not %eax" << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "popl %eax" << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "notl %eax" << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pushl %eax" << std::endl;
 }
 
 void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {

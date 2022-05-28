@@ -386,14 +386,14 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
         
         // push return address onto the stack.
-        std::cout << getIndent(TAB_COUNTER) << "push -8(%esp)" << "             `          # push the return address onto the stack" << std::endl;
+        // std::cout << getIndent(TAB_COUNTER) << "push -8(%esp)" << "             `          # push the return address onto the stack" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name << std::endl;
     }
     
     // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).
 
     // pop the return address from stack
-    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop return address off the stack" << std::endl;
+    // std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop return address off the stack" << std::endl;
     
     // pop the object self pointer and all parameters from stack.
     for (int i = 0; i <= node->expression_list->size(); i++)

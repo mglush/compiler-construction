@@ -7,8 +7,24 @@ Main {
 		x = 10;
 		y = 20;
 
-		if (10 equals 20) {
+		if (true) {
+			print 9999;
+		} else {
 			print 6666;
+		}
+
+		if (false) {
+			print 6666;
+		} else {
+			print 9999;
+		}
+
+		if (false) {
+			print 6666;
+		}
+
+		if (true) {
+			print 9999;
 		}
 	}
 }

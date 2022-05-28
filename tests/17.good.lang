@@ -3,6 +3,11 @@ classA {
      integer y;
 }
 
+classB {
+	integer bruh;
+	integer getGot;
+}
+
 Main {
 
      main() -> none {

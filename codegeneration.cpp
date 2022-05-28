@@ -399,10 +399,16 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     for (int i = 0; i <= node->expression_list->size(); i++)
         std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                            # pop argument off the stack after method has been called." << std::endl;
 
+    // save results of the method.
+    std::cout << getIndent(TAB_COUNTER) << "mov %eax, %ebx" << "                   # save the value returned by the method." << std::endl();
+    
     // pop the caller-saved registers from stack.
     std::cout << getIndent(TAB_COUNTER) << "pop %edx" << "                         # get value of caller-saved register from the stack." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # get value of caller-saved register from the stack." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # get value of caller-saved register from the stack." << std::endl << std::endl;
+
+    // put method call result on top of the stack.
+    std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the result returned by method call on top of the stack.." << std::endl()
 }
 
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {

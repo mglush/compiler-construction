@@ -41,6 +41,20 @@ int findVariableOffset(CodeGenerator* visitor, std::string name) {
     return result;
 }
 
+std::string findVariableObjectName(CodeGenerator* visitor, std::string name) {
+    if (visitor->currentMethodInfo.variables->count(name))
+        return visitor->currentMethodInfo.variables->at(name).type.objectClassName;
+    if ((*(visitor->classTable))[visitor->currentClassName].members->count(name))
+        return visitor->classTable->at(visitor->currentClassName).members->at(name).type.objectClassName;
+    
+    std::string superclass = (*(visitor->classTable))[visitor->currentClassName].superClassName;
+    while (superclass.length()) {
+        if ((*(visitor->classTable))[superclass].members->count(name))
+            return visitor->classTable->at(superclass).members->at(name).type.objectClassName;
+        superclass = (*(visitor->classTable))[superclass].superClassName;
+    }
+}
+
 void CodeGenerator::visitProgramNode(ProgramNode* node) {
     std::cout << ".data" << "                                   # start data segment." << std::endl;
     std::cout << "printstr: .asciz \"%d\\n\"" << "                 # define printing format for ints." << std::endl << std::endl;
@@ -65,18 +79,14 @@ void CodeGenerator::visitClassNode(ClassNode* node) {
 void CodeGenerator::visitMethodNode(MethodNode* node) {
     TAB_COUNTER++;
     if (COMMENTS_ON) std::cout  << "# Visiting MethodNode" << std::endl;
-    // find which class the method is defined in.
-    // if it's not the current class, it must be
-    // one of the superclasses of the current class.
+
     std::string class_name = this->currentClassName;
     while (this->classTable->at(class_name).methods->count(node->identifier->name) == 0)
         class_name = this->classTable->at(class_name).superClassName;
     
-    // set current method info and current method name variables.
     this->currentMethodInfo = this->classTable->at(class_name).methods->at(node->identifier->name);
     this->currentMethodName = node->identifier->name;
 
-    // give the method a label so it can be referred to later.
     std::cout << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
     node->visit_children(this);
     TAB_COUNTER--;
@@ -119,8 +129,8 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
 // # ------------------------------------------------------------------------------------------------ //
 // # DO THIS THANG IN DA MORNING; IF THE PARAMETER IS INTEGER OR BOOLEAN, POP ITS VALUE ONTO THE STACK.
-// # IF THE PARAMETER IS AN OBJECT, GET ITS CLASSOBJECTTYPE, FIND THE REFERENCE TO THAT CLASS 
-// # WHATEVER THE FUCK THAT MEANS, AND PASS IT IN SO WE CAN ACCESS THAT OBJECTS MOTHERFUCKING MEMBERS.
+// # IF THE PARAMETER IS AN OBJECT, GET ITS CLASSOBJECTTYPE, MAKE A COPY OF THAT OBJECT
+// # AND PASS IT IN SO WE CAN ACCESS THAT OBJECTS MOTHERFUCKING MEMBERS.
 // # ------------------------------------------------------------------------------------------------ //
 
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
@@ -402,7 +412,10 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         (*(it))->accept(this);
     
     if (node->identifier_2) {
-        /* FILL THIS BABY IN WITH CODE WHEN IMPLEMENTING OBJECTS */
+        // after finding the variable, gets its class object name, and call the appropriate method baby.
+        std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "call " << findVariableObjectName(this, node->identifier_1->name) << "_" << node->identifier_1->name;
+        std::cout << "                     # perform the appropriate method call." << std::endl;
     } else {
         std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name << "                     # perform the appropriate method call." << std::endl;
@@ -411,11 +424,11 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).
 
     // pop the object self pointer from stack.
-    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop return address off the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop the receiver object self pointer off the stack." << std::endl;
     
     // pop all parameters from stack.
     for (int i = 0; i < node->expression_list->size(); i++)
-        std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                            # pop argument off the stack after method has been called." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop argument off the stack after method has been called." << std::endl;
 
     // save results of the method.
     std::cout << getIndent(TAB_COUNTER) << "mov %eax, %ebx" << "                   # save the value returned by the method." << std::endl;

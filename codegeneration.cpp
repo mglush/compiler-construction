@@ -41,6 +41,7 @@ int findVariableOffset(CodeGenerator* visitor, std::string name) {
     return result;
 }
 
+// helper function to find the classObjectName of a variable with the given name.
 std::string findVariableObjectName(CodeGenerator* visitor, std::string name) {
     if (visitor->currentMethodInfo.variables->count(name))
         return visitor->currentMethodInfo.variables->at(name).type.objectClassName;
@@ -415,7 +416,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     
     if (node->identifier_2) {
         // after finding the variable, gets its class object name, and call the appropriate method baby.
-        std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the receiver object self pointer." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << findVariableObjectName(this, node->identifier_1->name) << "_" << node->identifier_2->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;
     } else {

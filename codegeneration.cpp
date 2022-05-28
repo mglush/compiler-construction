@@ -386,7 +386,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
         
         // push return address onto the stack.
-        std::cout << getIndent(TAB_COUNTER) << "push -4(%esp)" << "             `          # push the return address onto the stack" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push -8(%esp)" << "             `          # push the return address onto the stack" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name << std::endl;
     }
     

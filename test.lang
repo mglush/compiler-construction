@@ -1,6 +1,23 @@
 Main {
+	f5() -> integer {
+		integer x;
+		x = 5;
+		while (x > 0) {
+			print x;
+			x = x - 1;
+		}
+	}
+	f4() -> integer {
+		return f5();
+	}
+	f3() -> integer {
+		return f4();
+	}
+	f2() -> integer {
+		return f3();
+	}
 	f1() -> integer {
-		return 20;
+		return f2();
 	}
 	f0() -> integer {
 		return f1();

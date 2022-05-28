@@ -6,6 +6,26 @@ Main {
 		x = 10 / 10 + 5 + 20 / 5;
 		y = 20 + 20;
 		z = true and false;
+
+		if (x equals 10) {
+			print 9999;
+		} else {
+			print 6666;
+		}
+
+		if (y equals 20) {
+			print 6666;
+		} else {
+			print 9999;
+		}
+
+		if (z and z) {
+			print 9999;
+		} else {
+			print 6666;
+		}
+
+		/*
 		if (x equals 10) {
 			print x;						/* should output 10 */
 			print x * 4 / 2;				/* should print 20 */
@@ -19,5 +39,6 @@ Main {
 				}
 			}
 		}
+		*/
 	}
 }

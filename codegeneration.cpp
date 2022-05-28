@@ -91,7 +91,8 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     this->currentMethodName = node->identifier->name;
 
     std::cout << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
-    node->visit_children(this);
+    
+    node->methodbody->accept(this);
     TAB_COUNTER--;
 }
 
@@ -110,7 +111,6 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "push %esi" << "                        # put callee-saved register onto the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push %edi" << "                        # put callee-saved register onto the stack." << std::endl << std::endl;
     }
-
     node->visit_children(this);
     if (COMMENTS_ON) std::cout  << "# Processing MethodBodyNode" << std::endl;
 

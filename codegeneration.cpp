@@ -1,7 +1,7 @@
 #include "codegeneration.hpp"
 
 int TAB_COUNTER = 0;        // keeps track of tabs to use when printing assembly code.
-bool INDENT_ON = true;      // set to false if no indentation is wanted.
+bool INDENT_ON = false;      // set to false if no indentation is wanted.
 bool COMMENTS_ON = false;   // set to false if you don't want the generated assembly to generate comments.
 
 std::string getIndent(int num_tabs) {
@@ -23,6 +23,10 @@ int findVariableOffset(CodeGenerator* visitor, std::string name) {
     }
     else {
         std::string class_name = visitor->currentClassName;
+        // look at current class and its members.
+
+        // add up the sizes of the members in the class hierarchy.
+
         while (visitor->classTable->at(class_name).members->count(name) == 0) {
             result += visitor->classTable->at(class_name).membersSize;
             class_name = visitor->classTable->at(class_name).superClassName;
@@ -382,16 +386,14 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     if (node->identifier_2) {
         /* FILL THIS BABY IN WITH CODE WHEN IMPLEMENTING OBJECTS */
     } else {
-        // push object self pointer to the stack if caller is any function other than main.
         std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
-        // perform the method call.
-        std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name << "        # perform the appropriate method call." << std::endl;
     }
     
     // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).
 
     // pop the object self pointer from stack.
-    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop return address off the stack" << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop return address off the stack." << std::endl;
     
     // pop all parameters from stack.
     for (int i = 0; i < node->expression_list->size(); i++)

@@ -145,12 +145,8 @@ void CodeGenerator::visitCallNode(CallNode* node) {
 
 void CodeGenerator::visitIfElseNode(IfElseNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting IfElseNode." << std::endl;
-    if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting Expression inside If." << std::endl;
 
-    node->expression->accept(this);
-    
-    if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing Expression inside If." << std::endl;
-
+    node->expression->accept(this); // visit the expression.
     int temp = this->nextLabel();
 
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # get the result of the if expression from the stack." << std::endl;
@@ -191,7 +187,28 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
 
 void CodeGenerator::visitWhileNode(WhileNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting WhileNode." << std::endl;
-    node->visit_children(this);
+
+    int temp = this->nextLabel();
+    std::cout << getIndent(TAB_COUNTER) << "while_condition_" << temp << ":" << std::endl;
+    
+    TAB_COUNTER++;
+
+    node->expression->accept(this);
+    
+    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # get the result of the if expression from the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "mov $0, %ebx" << "                       # put 0 into %ebx." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "cmp %eax, %ebx" << "                     # check if result of expression was false." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "je after_while_" << temp << "               # jump if expression evaluated to false" << std::endl;
+    std::cout << getIndent(TAB_COUNTER + 1) << "# while statement body" << std::endl;
+
+    for (std::list<StatementNode*>::iterator it = node->statement_list->begin(); it != node->statement_list->end(); it++)
+        (*(it))->accept(this);
+    std::cout << getIndent(TAB_COUNTER) << "jmp while_condition" << temp << "               # jump if expression evaluated to false" << std::endl;
+    
+    TAB_COUNTER--;
+
+    std::cout << getIndent(TAB_COUNTER) << "after_while_" << temp << ":" << std::endl;
+    
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing WhileNode." << std::endl;
 }
 

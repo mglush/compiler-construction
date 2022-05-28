@@ -4,42 +4,10 @@ Main {
 	main() -> none {
 		integer x;
 		integer y;
-		boolean z;
-		x = 10 / 10 + 5 + 20 / 5;
-		y = 20 + 20;
-		z = true and false;
+		x = 10;
+		y = 20;
 
-		if (x equals 10) {
-			print 9999;
-		} else {
-			print 6666;
-		}
-
-		if (y equals 40) {
-			print 6666;
-		} else {
-			print 9999;
-		}
-
-		if (z and z) {
-			print 6666;
-		} else {
-			print 9999;
-		}
-
-		if (y equals 40) {
-			print 6666;
-		} else {
-			print 9999;
-		}
-
-		if (y equals 40) {
-			print 6666;
-		} else {
-			print 9999;
-		}
-
-		if (y equals 40) {
+		if (x equals y) {
 			print 6666;
 		} else {
 			print 9999;

@@ -163,8 +163,7 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
 
     if (node->statement_list_2) {
         std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # get the result of the if expression from the stack." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "mov $0, %ebx" << "                       # put 0 into %ebx." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "cmp %eax, %ebx" << "                     # check if result of expression was false." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "cmp $0, %eax" << "                       # check if result of expression was false." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "je else_statement_" << temp << "         # jump if expression evaluated to false" << std::endl;
         
         if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting first list of statements inside if." << std::endl;

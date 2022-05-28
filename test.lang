@@ -1,30 +1,27 @@
+ClassB {
+	ClassB() {
+		print 9999;
+	}
+}
+
+ClassA {
+	ClassA(integer param1, integer param2, integer param3) {
+		print param1 + param2 + param3;
+	}
+}
+
 Main {
-	f5(integer k0, integer k1, integer k2, integer k3, integer k4, integer k5) -> integer {
-		integer x;
-		x = 5;
-		while (x > 0) {
-			print x;
-			x = x - 1;
-		}
-		return x * k0 + k1 * x + x * k2;
-	}
-
-	f1(integer j0, integer j1, integer j2, integer j3, integer j4, integer j5) -> integer {
-		return f5(j0, j1, j2, j3, j4, j5);
-	}
-	f0(integer i0, integer i1, integer i2) -> integer {
-		integer a, b, c;
-		a = 10;
-		b = 20;
-		c = 30;
-
-		return f1(a, b, c, i0, i1, i2);
-	}
 	main() -> none {
-		integer x, y, z;
-		x = 1;
-		y = 2;
-		z = 3;
-		print f0(x, y, z);
+		ClassA testing;
+		ClassB testing2;
+		integer arg1, arg2, arg3;
+		arg1 = 10;
+		arg2 = 20;
+		aeg3 = 30;
+		testing = new ClassA(arg1, arg2, arg3);
+		testing2 = new ClassB;
+
+		print testing;
+		print testing2;
 	}
 }

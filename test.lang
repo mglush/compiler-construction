@@ -1,8 +1,12 @@
 Main {
 	main() -> none {
-		print true;
-		print false;
 		print not false;
+		print true and true;
+		print true and false;
+		print true or true;
+		print true or false;
 		print not true;
+		print false and false;
+		print false or false;
 	}
 }

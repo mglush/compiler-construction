@@ -140,7 +140,7 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
     TAB_COUNTER++;
     // find the variables offset in memory, pass that in.
-    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, node->identifier->name) << "(%ebp), %eax";
+    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
     std::cout << getIndent(TAB_COUNTER) << "             # load the parameter from memory." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # slap it on top of the stack." << std::endl << std::endl;
     TAB_COUNTER--;
@@ -172,9 +172,9 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                            # get value of the expression from the top of the stack." << std::endl;
     
     if (node->identifier_2)
-        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_2->name) << "(%ebp)";
+        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_2->name, node->identifier_2->name) << "(%ebp)";
     else
-        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
+        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp)";
     
     std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right place in memory." << std::endl << std::endl;
 }
@@ -463,7 +463,7 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
 
 void CodeGenerator::visitVariableNode(VariableNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting Variable." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, node->identifier->name) << "(%ebp), %eax";
+    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
     std::cout << getIndent(TAB_COUNTER) << "             # load the variable value from the right place in memory." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl;
 }

@@ -17,7 +17,7 @@ Main {
 		integer arg1, arg2, arg3;
 		arg1 = 10;
 		arg2 = 20;
-		aeg3 = 30;
+		arg3 = 30;
 		testing = new ClassA(arg1, arg2, arg3);
 		testing2 = new ClassB;
 

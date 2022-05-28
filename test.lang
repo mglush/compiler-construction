@@ -12,6 +12,7 @@ Main {
 		do {
 			print x;
 			x = x + 1;
+			print x;
         } while(not (x equals 20));
 	}
 }

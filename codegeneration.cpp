@@ -80,8 +80,8 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     // callee function prologue.
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Starting callee function prologue." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push old base frame pointer onto the stack." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "mov %esp, %ebp" << "                   # set current base frame pointer to stack pointer position." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                         # push old base frame pointer onto the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "mov %esp, %ebp" << "                    # set current base frame pointer to stack pointer position." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "                     # allocate space for local variables of the method." << std::endl << std::endl;
     
     if (this->currentMethodName != "main") {
@@ -131,9 +131,9 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (node->identifier_2) {
         
     } else {
-        std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                          # get value of the expression from the top of the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                            # get value of the expression from the top of the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
-        std::cout << getIndent(TAB_COUNTER) << "            # store value of right-hand side expression at the right place in memory." << std::endl << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right place in memory." << std::endl << std::endl;
     }
 }
 
@@ -146,15 +146,18 @@ void CodeGenerator::visitCallNode(CallNode* node) {
 void CodeGenerator::visitIfElseNode(IfElseNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting IfElseNode." << std::endl;
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting Expression inside If." << std::endl;
+
     node->expression->accept(this);
+    
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing Expression inside If." << std::endl;
 
     int temp = this->nextLabel();
 
+    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # get the result of the if expression from the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "mov $0, %ebx" << "                       # put 0 into %ebx." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "cmp %eax, %ebx" << "                     # check if result of expression was false." << std::endl;
+
     if (node->statement_list_2) {
-        std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # get the result of the if expression from the stack." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "mov $0, %ebx" << "                       # put 0 into %ebx." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "cmp %eax, %ebx" << "                     # check if result of expression was false." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "je else_statement_" << temp << "         # jump if expression evaluated to false" << std::endl;
                 
         std::cout << getIndent(TAB_COUNTER + 1) << "# if statement body" << std::endl;
@@ -174,9 +177,6 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
 
         std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl;
     } else {
-        std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # get the result of the if expression from the stack." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "mov $0, %ebx" << "                       # put 0 into %ebx." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "cmp %eax, %ebx" << "                     # check if result of expression was false." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "je after_if_" << temp << "               # jump if expression evaluated to false" << std::endl;
         
         std::cout << getIndent(TAB_COUNTER + 1) << "# if statement body" << std::endl;
@@ -378,18 +378,18 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
 void CodeGenerator::visitVariableNode(VariableNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting Variable." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, node->identifier->name) << "(%ebp), %eax";
-    std::cout << getIndent(TAB_COUNTER) << "           # load the variable value from the right place in memory." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "             # load the variable value from the right place in memory." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl << std::endl;
 }
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting Integer." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push integer onto the stack." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                           # push integer onto the stack." << std::endl << std::endl;
 }
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visited Boolean." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push boolean onto the stack." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                           # push boolean onto the stack." << std::endl << std::endl;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {

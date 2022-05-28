@@ -95,9 +95,8 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     // function callee epilogue.
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Starting callee function epilogue." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # save the return value in %eax as per __cdecl convention." << std::endl;
-
     if (this->currentMethodName != "main") {
+        std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # save the return value in %eax as per __cdecl convention." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "pop %edi" << "                         # callee responsible for preserving contents of this register." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "pop %esi" << "                         # callee responsible for preserving contents of this register." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                         # callee responsible for preserving contents of this register." << std::endl << std::endl;

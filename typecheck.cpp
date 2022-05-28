@@ -613,7 +613,8 @@ void TypeCheck::visitNewNode(NewNode* node) {
     if (node->expression_list)
       methodArgumentTypeMismatch(this, node->expression_list, methodArgumentNumberMismatch(this, node->identifier->name, node->identifier->name, node->expression_list->size()));
     else
-      methodArgumentNumberMismatch(this, node->identifier->name, node->identifier->name, 0);
+      if (this->classTable->at(node->identifier->name).methods->count(node->identifier->name))
+        methodArgumentNumberMismatch(this, node->identifier->name, node->identifier->name, 0);
   }
 }
 

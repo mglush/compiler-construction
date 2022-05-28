@@ -92,7 +92,7 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
 
     std::cout << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
     
-    node->methodbody->accept(this);
+    node->methodbody->accept(this); // we don't want to visit the parameterNodes unless we need them in the body.
     TAB_COUNTER--;
 }
 

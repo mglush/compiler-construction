@@ -33,11 +33,11 @@ int findVariableOffset(CodeGenerator* visitor, std::string name) {
 }
 
 void CodeGenerator::visitProgramNode(ProgramNode* node) {
-    std::cout << ".data" << "                                # start data segment." << std::endl;
-    std::cout << "printstr: .asciz \"%d\\n\"" << "              # define printing format for ints." << std::endl << std::endl;
+    std::cout << ".data" << "                                   # start data segment." << std::endl;
+    std::cout << "printstr: .asciz \"%d\\n\"" << "                 # define printing format for ints." << std::endl << std::endl;
 
-    std::cout << ".text" << "                                # start code segment." << std::endl;
-    std::cout << ".globl Main_main" << "                     # tell the linker Main_main is a callable function." << std::endl << std::endl;
+    std::cout << ".text" << "                                   # start code segment." << std::endl;
+    std::cout << ".globl Main_main" << "                        # tell the linker Main_main is a callable function." << std::endl << std::endl;
     node->visit_children(this);
 }
 
@@ -80,8 +80,8 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
     // callee function prologue.
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Starting callee function prologue." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                         # push old base frame pointer onto the stack." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "mov %esp, %ebp" << "                    # set current base frame pointer to stack pointer position." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                          # push old base frame pointer onto the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "mov %esp, %ebp" << "                     # set current base frame pointer to stack pointer position." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "                     # allocate space for local variables of the method." << std::endl << std::endl;
     
     if (this->currentMethodName != "main") {
@@ -384,12 +384,12 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
 
 void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting Integer." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                           # push integer onto the stack." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push integer onto the stack." << std::endl << std::endl;
 }
 
 void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visited Boolean." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                           # push boolean onto the stack." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push boolean onto the stack." << std::endl << std::endl;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {

@@ -15,7 +15,7 @@ Main {
 			print 6666;
 		}
 
-		if (y equals 20) {
+		if (y equals 40) {
 			print 6666;
 		} else {
 			print 9999;
@@ -27,19 +27,19 @@ Main {
 			print 9999;
 		}
 
-		if (y equals 20) {
+		if (y equals 40) {
 			print 6666;
 		} else {
 			print 9999;
 		}
 
-		if (y equals 20) {
+		if (y equals 40) {
 			print 6666;
 		} else {
 			print 9999;
 		}
 
-		if (y equals 20) {
+		if (y equals 40) {
 			print 6666;
 		} else {
 			print 9999;

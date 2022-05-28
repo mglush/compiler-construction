@@ -70,7 +70,6 @@ void CodeGenerator::visitMethodNode(MethodNode* node) {
     // give the method a label so it can be referred to later.
     std::cout << this->currentClassName << "_" << this->currentMethodName << ":" << std::endl;
     node->visit_children(this);
-    if (COMMENTS_ON) std::cout << "# Processing MethodBodyNode" << std::endl;
     TAB_COUNTER--;
 }
 
@@ -85,9 +84,9 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "sub $" << this->currentMethodInfo.localsSize << ", %esp" << "                     # allocate space for local variables of the method." << std::endl << std::endl;
     
     if (this->currentMethodName != "main") {
-        std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # callee responsible for preserving contents of this register." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "push %esi" << "                        # callee responsible for preserving contents of this register." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "push %edi" << "                        # callee responsible for preserving contents of this register." << std::endl << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # put callee-saved register onto the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push %esi" << "                        # put callee-saved register onto the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push %edi" << "                        # put callee-saved register onto the stack." << std::endl << std::endl;
     }
 
     node->visit_children(this);
@@ -97,9 +96,9 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Starting callee function epilogue." << std::endl;
     if (this->currentMethodName != "main") {
         std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # save the return value in %eax as per __cdecl convention." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "pop %edi" << "                         # callee responsible for preserving contents of this register." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "pop %esi" << "                         # callee responsible for preserving contents of this register." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                         # callee responsible for preserving contents of this register." << std::endl << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %edi" << "                         # get callee-saved register from the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %esi" << "                         # get callee-saved register from the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                         # get callee-saved register from the stack." << std::endl << std::endl;
     }
 
     std::cout << getIndent(TAB_COUNTER) << "mov %ebp, %esp" << "                   # deallocate space for local variables of the method." << std::endl;
@@ -372,40 +371,38 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     // THIS IS A PRE-CALL HERE (ASSEMBLE THE ACTIVATION RECORD OF THE METHOD WE ARE CALLING).
 
     // push the caller-saved registers onto the stack.
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %ecx" << "                        # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %edx" << "                        # caller responsible for preserving contents of this register." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put caller-saved register onto the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %ecx" << "                        # put caller-saved register onto the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %edx" << "                        # put caller-saved register onto the stack." << std::endl << std::endl;
 
     // push parameters onto the stack (in reverse order as per __cedcl convention).
     for (std::list<ExpressionNode*>::iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
         (*(it))->accept(this);
-
-    // create a label for where we left off in this code, then push the label's address to the stack.
-    int temp = this->nextLabel();
     
-    std::cout << getIndent(TAB_COUNTER) << "post_method_label_" << temp << "                # create label to come back to after method finished executing."
-    std::cout << getIndent(TAB_COUNTER) << "push $push_method_label_" << temp << "          # push the return address onto the stack"
-    
-    // call the appropriate method baby.
     if (node->identifier_2) {
-        std::cout << std::endl;
+        /* FILL THIS BABY IN WITH CODE WHEN IMPLEMENTING OBJECTS */
     } else {
-        std::cout << getIndent(TAB_COUNTER) << "push %esp" << "                           # get value of the expression from the top of the stack." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
-        std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right place in memory." << std::endl << std::endl;
+        // push object self pointer to the stack if caller is any function other than main.
+        std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the current object self pointer onto the stack." << std::endl;
+        
+        // push return address onto the stack.
+        std::cout << getIndent(TAB_COUNTER) << "push %esp" << "             `          # push the return address onto the stack" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << this->currentMethodName << std::endl;
     }
     
-    // NEED TO DO POST-RETURN HERE
+    // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).
 
-    // pop the arguments off the stack.
-    for (int i = 0; i < node-) {
-        (*(it))->accept(this);
-    }
+    // pop the return address from stack
+    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop return address off the stack" << std::endl;
+    
+    // pop the object self pointer and all parameters from stack.
+    for (int i = 0; i <= node->expression_list->size(); i++)
+        std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                            # pop argument off the stack after method has been called." << std::endl;
 
-    // pop the caller-saved registers off the stack.
-    std::cout << getIndent(TAB_COUNTER) << "pop %edx" << "                         # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # caller responsible for preserving contents of this register." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # caller responsible for preserving contents of this register." << std::endl << std::endl;
+    // pop the caller-saved registers from stack.
+    std::cout << getIndent(TAB_COUNTER) << "pop %edx" << "                         # get value of caller-saved register from the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # get value of caller-saved register from the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # get value of caller-saved register from the stack." << std::endl << std::endl;
 }
 
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {

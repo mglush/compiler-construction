@@ -387,7 +387,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         
         // push return address onto the stack.
         std::cout << getIndent(TAB_COUNTER) << "push %esp" << "             `          # push the return address onto the stack" << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1 << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name << std::endl;
     }
     
     // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).

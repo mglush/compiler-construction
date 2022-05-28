@@ -118,31 +118,41 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
 // # ------------------------------------------------------------------------------------------------ //
 // # DO THIS THANG IN DA MORNING; IF THE PARAMETER IS INTEGER OR BOOLEAN, POP ITS VALUE ONTO THE STACK.
-// # IF THE PARAMETER IS AN OBJECT, FIND PASS ITS SELF 
+// # IF THE PARAMETER IS AN OBJECT, GET ITS CLASSOBJECTTYPE, FIND THE REFERENCE TO THAT CLASS 
+// # WHATEVER THE FUCK THAT MEANS, AND PASS IT IN SO WE CAN ACCESS THAT OBJECTS MOTHERFUCKING MEMBERS.
 // # ------------------------------------------------------------------------------------------------ //
 
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
     // node->visit_children(this);
 }
 
+// # ------------------------------------------------------------------------------------------------ //
+// # ION THINK I GOTTA DO ANYTHING FOR THIS NODE BUT WE WILL SEE
+// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
     // std::cout << "# Visiting DeclarationNode." << std::endl;
     // node->visit_children(this);
     // std::cout << "# Processing DeclarationNode." << std::endl;
 }
 
+// # ------------------------------------------------------------------------------------------------ //
+// # DEFINITELY STILL GOTTA HANDLE THIS MOTHERFUCKER CORRECTLY CUZ ION KNOW IF IM DOIN IT RIGHT.
+// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
     if (COMMENTS_ON) std::cout << "# Visiting ReturnStatementNode." << std::endl;
     node->visit_children(this);
     if (COMMENTS_ON) std::cout << "# Processing ReturnStatementNode." << std::endl;
 }
 
+// # ------------------------------------------------------------------------------------------------ //
+// # MAKE SURE TO FILL IN THE CODE FOR MEMBER ACCESS
+// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting AssignmentNode." << std::endl;
     node->visit_children(this);
     if (COMMENTS_ON) std::cout  << "# Processing AssignmentNode." << std::endl;
     if (node->identifier_2) {
-        
+        // REMEMBER TO FILL THIS IN.
     } else {
         std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                            # get value of the expression from the top of the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, node->identifier_1->name) << "(%ebp)";
@@ -156,6 +166,9 @@ void CodeGenerator::visitCallNode(CallNode* node) {
     if (COMMENTS_ON) std::cout  << "# Processing CallNode." << std::endl;
 }
 
+// # ------------------------------------------------------------------------------------------------ //
+// # THIS SHOULD TOTALLY WORK I TESTED IT FOR ALL CASES PLEASE DONT FUCK ME.
+// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitIfElseNode(IfElseNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting IfElseNode." << std::endl;
 
@@ -188,6 +201,7 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl << std::endl;
     }
 }
+
 
 void CodeGenerator::visitWhileNode(WhileNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting WhileNode." << std::endl;

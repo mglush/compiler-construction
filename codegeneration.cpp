@@ -156,30 +156,21 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
     if (node->statement_list_2) {
         std::cout << getIndent(TAB_COUNTER) << "je else_statement_" << temp << "         # jump if expression evaluated to false" << std::endl;
                 
-        std::cout << getIndent(TAB_COUNTER + 1) << "# if statement body" << std::endl;
-        TAB_COUNTER++;
         for (std::list<StatementNode*>::iterator it = node->statement_list_1->begin(); it != node->statement_list_1->end(); it++)
             (*(it))->accept(this);
-        TAB_COUNTER--;
         
         std::cout << getIndent(TAB_COUNTER) << "jmp after_if_" << temp << "                     # jump past the else statement" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "else_statement_" << temp << ":" << std::endl;
         
-        std::cout << getIndent(TAB_COUNTER + 1) << "# else statement body" << std::endl;
-        TAB_COUNTER++;
         for (std::list<StatementNode*>::iterator it = node->statement_list_2->begin(); it != node->statement_list_2->end(); it++)
             (*(it))->accept(this);
-        TAB_COUNTER--;
 
         std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl;
     } else {
         std::cout << getIndent(TAB_COUNTER) << "je after_if_" << temp << "               # jump if expression evaluated to false" << std::endl;
         
-        std::cout << getIndent(TAB_COUNTER + 1) << "# if statement body" << std::endl;
-        TAB_COUNTER++;
         for (std::list<StatementNode*>::iterator it = node->statement_list_1->begin(); it != node->statement_list_1->end(); it++)
             (*(it))->accept(this);
-        TAB_COUNTER--;
 
         std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl << std::endl;
     }
@@ -190,8 +181,6 @@ void CodeGenerator::visitWhileNode(WhileNode* node) {
 
     int temp = this->nextLabel();
     std::cout << getIndent(TAB_COUNTER) << "while_condition_" << temp << ":" << std::endl;
-    
-    TAB_COUNTER++;
 
     node->expression->accept(this);
     
@@ -203,12 +192,8 @@ void CodeGenerator::visitWhileNode(WhileNode* node) {
     for (std::list<StatementNode*>::iterator it = node->statement_list->begin(); it != node->statement_list->end(); it++)
         (*(it))->accept(this);
     std::cout << getIndent(TAB_COUNTER) << "jmp while_condition_" << temp << "               # jump if expression evaluated to false" << std::endl;
-    
-    TAB_COUNTER--;
 
     std::cout << getIndent(TAB_COUNTER) << "after_while_" << temp << ":" << std::endl << std::endl;
-    
-    if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing WhileNode." << std::endl;
 }
 
 void CodeGenerator::visitPrintNode(PrintNode* node) {
@@ -222,8 +207,20 @@ void CodeGenerator::visitPrintNode(PrintNode* node) {
 
 void CodeGenerator::visitDoWhileNode(DoWhileNode* node) {
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Visiting DoWhileNode." << std::endl;
-    node->visit_children(this);
-    if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing DoWhileNode." << std::endl;
+
+    int temp = this->nextLabel();
+
+    std::cout << getIndent(TAB_COUNTER) << "do_while_" << temp << ":" << std::endl;
+
+    for (std::list<StatementNode*>::iterator it = node->statement_list->begin(); it != node->statement_list->end(); it++)
+        (*(it))->accept(this);
+
+    node->expression->accept(this);
+
+    std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                           # get the result of the if expression from the stack." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "mov $1, %ebx" << "                       # put 0 into %ebx." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "cmp %eax, %ebx" << "                     # check if result of expression was false." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "je do_while_" << temp << "               # jump if expression evaluated to false" << std::endl;
 }
 
 void CodeGenerator::visitPlusNode(PlusNode* node) {

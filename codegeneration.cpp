@@ -22,7 +22,7 @@ std::string getIndent(int num_tabs) {
 // # ------------------------------------------------------------------------------------------------ //
 // helper function to find the proper offset of a current class's variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string name) {
-    int result = 8;
+    int result = 0;
     if (visitor->currentMethodInfo.variables->count(name)) {
         result = visitor->currentMethodInfo.variables->at(name).offset;
     }

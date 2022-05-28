@@ -181,7 +181,7 @@ void CodeGenerator::visitIfElseNode(IfElseNode* node) {
             (*(it))->accept(this);
         TAB_COUNTER--;
 
-        std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "after_if_" << temp << ":" << std::endl << std::endl;
     }
 }
 
@@ -207,7 +207,7 @@ void CodeGenerator::visitWhileNode(WhileNode* node) {
     
     TAB_COUNTER--;
 
-    std::cout << getIndent(TAB_COUNTER) << "after_while_" << temp << ":" << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "after_while_" << temp << ":" << std::endl << std::endl;
     
     if (COMMENTS_ON) std::cout << getIndent(TAB_COUNTER) << "# Processing WhileNode." << std::endl;
 }

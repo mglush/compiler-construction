@@ -203,7 +203,7 @@ void CodeGenerator::visitWhileNode(WhileNode* node) {
 
     for (std::list<StatementNode*>::iterator it = node->statement_list->begin(); it != node->statement_list->end(); it++)
         (*(it))->accept(this);
-    std::cout << getIndent(TAB_COUNTER) << "jmp while_condition" << temp << "               # jump if expression evaluated to false" << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "jmp while_condition_" << temp << "               # jump if expression evaluated to false" << std::endl;
     
     TAB_COUNTER--;
 

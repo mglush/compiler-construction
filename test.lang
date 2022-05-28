@@ -6,6 +6,7 @@ Main {
 			print x;
 			x = x - 1;
 		}
+		print x;
 		return x * k0 + k1 * x + x * k2;
 	}
 

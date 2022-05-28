@@ -1,11 +1,11 @@
 ClassB {
-	ClassB() {
+	ClassB() -> none {
 		print 9999;
 	}
 }
 
 ClassA {
-	ClassA(integer param1, integer param2, integer param3) {
+	ClassA(integer param1, integer param2, integer param3) -> none {
 		print param1 + param2 + param3;
 	}
 }

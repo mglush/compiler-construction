@@ -470,7 +470,54 @@ void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {
-    node->visit_children(this);
+    if (this->classTable->at(node->identifier->name).methods->count(node->identifier->name) == 0) {
+        // no constructor exists, allocate space and das it.
+        std::cout << getIndent(TAB_COUNTER) << "pushl $" << this->classTable->at(node->identifier->name).membersSize;
+        std::cout <<  "                                         # push the size of the new object onto the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                                             # allocate space for object on the heap." << std::endl;
+        std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                                            # move stack pointer past the malloc argument." << std::endl;
+        std::cout << genIndent(TAB_COUNTER) << "push %eax" << "                                               # push pointer to the allocated space onto the stack." << std::endl << std::endl;
+    } else {
+        // constructor exists. do the pre-call, then allocate the space and slap the allocated object pointer in with da parameters then do a mf post return.
+        
+        // THIS IS A PRE-CALL HERE (ASSEMBLE THE ACTIVATION RECORD OF THE METHOD WE ARE CALLING).
+        // push the caller-saved registers onto the stack.
+        std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put caller-saved register onto the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push %ecx" << "                        # put caller-saved register onto the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push %edx" << "                        # put caller-saved register onto the stack." << std::endl << std::endl;
+        
+        // push parameters onto the stack (in reverse order as per __cedcl convention).
+        if (node->expression_list)
+            for (std::list<ExpressionNode*>::reverse_iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
+                (*(it))->accept(this);
+
+        std::cout << getIndent(TAB_COUNTER) << "pushl $" << this->classTable->at(node->identifier->name).membersSize;
+        std::cout <<  "                                         # push the size of the new object onto the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                                             # allocate space for object on the heap." << std::endl;
+        std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                                            # move stack pointer past the malloc argument." << std::endl;
+
+        std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # push the receiver (fresh-created) object self pointer onto the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "call " << node->identifier->name << "_" << node->identifier->name;
+        std::cout << "                     # call the constructor of the newly created object." << std::endl << std::endl;
+        
+        // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).
+        // pop the object self pointer from stack.
+        std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                         # pop the receiver object self pointer off the stack." << std::endl;
+        
+        // pop all parameters from stack.
+        if (node->expression_list)
+            for (int i = 0; i < node->expression_list->size(); i++)
+                std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop argument off the stack after method has been called." << std::endl;
+        
+        // pop the caller-saved registers from stack.
+        std::cout << getIndent(TAB_COUNTER) << "pop %edx" << "                         # get value of caller-saved register from the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # get value of caller-saved register from the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                         # get value of caller-saved register from the stack." << std::endl << std::endl;
+
+        // put method call result on top of the stack.
+        std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer onto the stack as a returned value." << std::endl;            
+    }
+
 }
 
 void CodeGenerator::visitIntegerTypeNode(IntegerTypeNode* node) {

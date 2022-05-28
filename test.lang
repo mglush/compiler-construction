@@ -6,10 +6,18 @@ Main {
 		x = 10 / 10 + 5 + 20 / 5;
 		y = 20 + 20;
 		z = true and false;
-		print x;						/* should output 10 */
-		print x * 4 / 2;				/* should print 20 */
-		print 10 + 10 + 10;				/* should output 30 */
-		print y;						/* should output 40 */
-		print z;						/* should output 0, i.e. false*/
+		if (x equals 10) {
+			print x;						/* should output 10 */
+			print x * 4 / 2;				/* should print 20 */
+			if (x equals 10) {
+				print 10 + 10 + 10;				/* should output 30 */
+				print y;						/* should output 40 */
+				if (y equals 20) {
+					print y;						/* should not evaluate. if it does, should output 40 */
+				} else {
+					print z;						/* should evaluate and output output 0, i.e. "false" */
+				}
+			}
+		}
 	}
 }

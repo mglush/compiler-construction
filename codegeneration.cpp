@@ -17,6 +17,22 @@ std::string getIndent(int num_tabs) {
     }
 }
 
+// // helper function to find the proper offset of a class's member.
+// int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
+//     if (visitor->classTable->at(class_name).members->count(name))
+//         return visitor->classTable->at(class_name).members->at(name).offset;
+
+//     int result = 0;
+    
+//     class_name = visitor->classTable->at(class_name).superClassName;
+//     while (visitor->classTable->at(class_name).members->count(name) == 0) {
+//         result += visitor->classTable->at(class_name).membersSize;
+//         class_name = visitor->classTable->at(class_name).superClassName;
+//     }
+    
+//     return result + visitor->classTable->at(class_name).members->at(name).offset;
+// }
+
 // helper function to find the proper offset of a current class's variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
     int result = 0;
@@ -54,11 +70,11 @@ std::string findVariableObjectName(CodeGenerator* visitor, std::string class_nam
 }
 
 int findObjectMemberSize(CodeGenerator* visitor, std::string name) {
-    int result = visitor->classTable->at(name).membersSize;
-    std::string superclass = visitor->classTable->at(name).superClassName;
-    while (superclass.length())
-        result += visitor->classTable->at(superclass).membersSize;
-    return result;
+    return visitor->classTable->at(name).membersSize;
+    // std::string superclass = visitor->classTable->at(name).superClassName;
+    // while (superclass.length())
+    //     result += visitor->classTable->at(superclass).membersSize;
+    // return result;
 }
 
 void CodeGenerator::visitProgramNode(ProgramNode* node) {

@@ -3,6 +3,9 @@ classA {
 
      classA(integer val) -> none {
          x = val;
+         print 9999;
+         print x;
+         print val;
      }
 
      f0() -> none {

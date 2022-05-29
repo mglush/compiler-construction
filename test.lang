@@ -17,7 +17,11 @@ Main {
 	    classA a;
 		a = new classA(10);
 	    print 9999;
-		print a.getX();
+		b = a.getX();
+		print 1000;
+		print b;
+		print b + 1000;
+		print a.x;
      }
 
 }

@@ -53,6 +53,7 @@ std::string findVariableObjectName(CodeGenerator* visitor, std::string class_nam
     return ""; // SHOULD NEVER BE REACHED DUE TO THE TYPECHECKER.
 }
 
+// helper function to get the size needed to allocate.
 int findObjectMemberSize(CodeGenerator* visitor, std::string name) {
     int result = visitor->classTable->at(name).membersSize;
     std::string superclass = visitor->classTable->at(name).superClassName;
@@ -61,7 +62,21 @@ int findObjectMemberSize(CodeGenerator* visitor, std::string name) {
     return result;
 }
 
+// helper function to insert to superclass member variables
+// into the child class variable tables.
+void modifySymbolTable(CodeGenerator* visitor) {
+    std::string superclass;
+    for (std::map<std::string, ClassInfo>::iterator it = visitor->classTable->begin(); it != visitor->classTable->end(); it++) {
+        superclass = it->second.superClassName;
+        while (superclass.length()) {
+            it->second.members->insert(visitor->classTable->at(superclass).members);
+            superclass = visitor->classTable->at(superclass).superClassName;
+        }
+    }
+}
+
 void CodeGenerator::visitProgramNode(ProgramNode* node) {
+    modifySymbolTable(this);
     std::cout << ".data" << "                                   # start data segment." << std::endl;
     std::cout << "printstr: .asciz \"%d\\n\"" << "                 # define printing format for ints." << std::endl << std::endl;
 
@@ -136,7 +151,7 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
 // NOW I THINK THIS IS GOOD BUT I AINT ALL THAT SURE
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
-    if (COMMENTS_ON) std::cout  << "# Visiting Parameter." << std::endl;
+    if (COMMENTS_ON) std::cout  << "# Visiting Variable." << std::endl;
     if (this->currentMethodInfo.variables->count(node->identifier->name)) {
         std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
     } else {

@@ -12,6 +12,7 @@ classB {
     dofib() -> none {
       print x;
       fib();
+      print x;
     }
 
 }

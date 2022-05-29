@@ -1,8 +1,9 @@
 classA {
      integer x;
+	 integer y;
 
 	 printer() -> none {
-		 print 10 + 10;
+		 print x;
 	 }
 }
 
@@ -28,6 +29,10 @@ Main {
 		a.x = 20;
 
 		print a.x;
+
+		a.y = a.x;
+
+		print a.y;
 
 	    a.printer();
      }

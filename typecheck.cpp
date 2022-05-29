@@ -431,9 +431,8 @@ void TypeCheck::visitDoWhileNode(DoWhileNode* node) {
 }
 
 void TypeCheck::visitPrintNode(PrintNode* node) {
-  if (node) {
+  if (node)
     node->visit_children(this);
-  }
 }
 
 void TypeCheck::visitCallNode(CallNode* node) {

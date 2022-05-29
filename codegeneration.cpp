@@ -134,13 +134,18 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
     TAB_COUNTER--;
 }
 
+// NOW I THINK THIS IS GOOD BUT I AINT ALL THAT SURE
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
-    TAB_COUNTER++;
-    // find the variables offset in memory, pass that in.
-    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
-    std::cout << getIndent(TAB_COUNTER) << "             # load the parameter from memory." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # slap it on top of the stack." << std::endl << std::endl;
-    TAB_COUNTER--;
+    if (COMMENTS_ON) std::cout  << "# Visiting Parameter." << std::endl;
+    if (this->currentMethodInfo.variables->count(node->identifier->name)) {
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
+    } else {
+        std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
+    }
+
+    std::cout << getIndent(TAB_COUNTER) << "             # load the variable value from the right place in memory." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl;
 }
 
 // # ------------------------------------------------------------------------------------------------ //
@@ -158,9 +163,6 @@ void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
     if (COMMENTS_ON) std::cout << "# Processing ReturnStatementNode." << std::endl;
 }
 
-// # ------------------------------------------------------------------------------------------------ //
-// # MAKE SURE TO FILL IN THE CODE FOR MEMBER ACCESS
-// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting AssignmentNode." << std::endl;
     node->visit_children(this);

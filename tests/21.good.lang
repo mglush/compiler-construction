@@ -1,8 +1,8 @@
 classA {
-     integer x;
+     integer y;
 
      classA(integer val) -> none {
-         x = val;
+         y = val;
      }
 }
 
@@ -18,7 +18,7 @@ classB {
 
 	    tmp = x;
 
-	    x = x + a.x;
+	    x = x + a.y;
 	    print x;
 
 	    return new classA(tmp);

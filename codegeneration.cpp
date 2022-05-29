@@ -472,7 +472,7 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
     } else {
         std::cout << getIndent(TAB_COUNTER) << "mov %ebp, %ebx" << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "addl $8, %ebx" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "addl $4, %ebx" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
     }
 

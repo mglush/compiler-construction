@@ -443,7 +443,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;
         // check which class the method is in mate.
         std::string class_name = findVariableObjectName(this, this->currentClassName, node->identifier_1->name);
-        while (!(this->classTable->at(class_name)).methods->count(node->identifier_2))
+        while (!(this->classTable->at(class_name)).methods->count(node->identifier_2->name))
             class_name = this->classTable->at(class_name).superClassName;
         std::cout << getIndent(TAB_COUNTER) << "call " << class_name << "_" << node->identifier_2->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;

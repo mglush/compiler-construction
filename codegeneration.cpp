@@ -543,7 +543,7 @@ void CodeGenerator::visitNewNode(NewNode* node) {
                 (*(it))->accept(this);
 
         std::cout << getIndent(TAB_COUNTER) << "pushl $" << this->classTable->at(node->identifier->name).membersSize;
-        std::cout <<  "                                         # push the size of the new object onto the stack." << std::endl;
+        std::cout <<  "                                         # THIS THE ONE WE PUSHING." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                                             # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                                            # move stack pointer past the malloc argument." << std::endl;
 

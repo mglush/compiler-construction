@@ -19,7 +19,11 @@ Main {
 
 	    a = new classA;
 	    a.x = 5;
-	    a.printer();
+	    integer i0 = 10;
+		while (i0 > 0) {
+			a.printer();
+			i0 = i0 - 1;
+		}
      }
 
 }

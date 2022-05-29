@@ -274,7 +274,7 @@ void modifySymbolTable(TypeCheck* visitor) {
         while (superclass.length()) {
           // go throough every member variable, and increase its offset.
           for (std::map<std::string, VariableInfo>::iterator iter = visitor->classTable->at(superclass).members->begin(); iter != visitor->classTable->at(superclass).members->end(); iter++)
-            iter->second.offset += offset_add_on;
+            *(iter->second.offset) += offset_add_on;
           it->second.members->insert(visitor->classTable->at(superclass).members->begin(), visitor->classTable->at(superclass).members->end());
           superclass = visitor->classTable->at(superclass).superClassName;
           offset_add_on += visitor->classTable->at(superclass).membersSize;

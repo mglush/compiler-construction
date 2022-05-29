@@ -18,8 +18,7 @@ Main {
 
 	    a = new classA;
 	    a.x = 5;
-	    a.y = 6;
-
+		
 	    a.printer();
      }
 

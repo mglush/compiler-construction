@@ -430,14 +430,28 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     for (std::list<ExpressionNode*>::reverse_iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
         (*(it))->accept(this);
     
+
+    // -------------------------------------------------------------------------
+    // FIX THIS BLOCK IN THE MORNING AND YOU SHOULD BE A WHOLE LOT CLOSER. v v v
+    // this code block should not look for the location of the variable on the left.
+    // it should look for the location of the method.
+    // -------------------------------------------------------------------------
     if (node->identifier_2) {
         std::cout << getIndent(TAB_COUNTER) << "mov ";
         std::cout << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_1->name) << "(%ebp), %ebx";
         std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "call " << findVariableObjectName(this, this->currentClassName, node->identifier_1->name) << "_" << node->identifier_2->name;
+        // check which class the method is in mate.
+        std::string class_name = findVariableObjectName(this, this->currentClassName, node->identifier_1->name);
+        while (!(this->classTable->at(class_name)).methods->count(node->identifier_2))
+            class_name = this->classTable->at(class_name).superClassName;
+        std::cout << getIndent(TAB_COUNTER) << "call " << class_name << "_" << node->identifier_2->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;
-    } else {
+    } 
+    // -------------------------------------------------------------------------
+    // FIX THIS BLOCK IN THE MORNING AND YOU SHOULD BE A WHOLE LOT CLOSER. ^ ^ ^
+    // -------------------------------------------------------------------------
+    else {
         if (this->currentClassName == "Main") {
             std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the base frame for the Main class onto the stack." << std::endl;
         } else {
@@ -447,14 +461,14 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
 
         if (this->classTable->at(this->currentClassName).methods->count(node->identifier_1->name)) {
             std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name;
-            std::cout << "                     # perform the appropriate method call YOMP YOMP." << std::endl;
+            std::cout << "                     # perform the appropriate method call." << std::endl;
         } else {
             std::string superclass = this->classTable->at(this->currentClassName).superClassName;
             while (!(this->classTable->at(superclass).methods->count(node->identifier_1->name)))
                 superclass = this->classTable->at(superclass).superClassName;
             
             std::cout << getIndent(TAB_COUNTER) << "call " << superclass << "_" << node->identifier_1->name;
-            std::cout << "                     # perform the appropriate method call THIS ONE IS IT." << std::endl;
+            std::cout << "                     # perform the appropriate method call." << std::endl;
         }
     }
 

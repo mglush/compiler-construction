@@ -14,9 +14,14 @@ classB extends classA {
     boolean y;
 
     classB(integer val1, boolean val2) -> none {
-        x = 10;
-        y = true;
-        x = 20;
+        print 9999;
+        print 9999;
+        print 9999;
+        classA(val1);
+        print 9999;
+        print 9999;
+        print 9999;
+	      y = val2;
     }
 
 }
@@ -27,7 +32,7 @@ Main {
      main() -> none {
 	    classB b;
 
-	    b = new classB(1, true);
+	    b = new classB(12, true);
 	    print b.x;
 	    print b.y;
 	    /* b.f0(); */

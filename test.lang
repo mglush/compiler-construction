@@ -1,33 +1,25 @@
 classA {
      integer x;
-	 integer y;
 
-	 printer() -> none {
-		 print x;
-		 print y;
+     classA(integer val) -> none {
+         x = val;
+     }
+
+	 getX() -> integer {
+		 return x;
 	 }
 }
 
-classB {
-	integer bruh;
-	integer getGot;
 }
+
 
 Main {
 
      main() -> none {
-     	classA a;
-		integer i0;
-	    a = new classA;
-	    a.x = 5;
-		a.y = 10;
-		i0 = 10;
-		while (i0 > 0) {
-			a.printer();
-			i0 = i0 - 1;
-		}
-		a.x = a.y;
-		a.printer();
+	    classA a;
+		a = new classA(10);
+	    print 9999;
+		print a.getX();
      }
 
 }

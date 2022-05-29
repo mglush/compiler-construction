@@ -435,7 +435,6 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "call " << findVariableObjectName(this, this->currentClassName, node->identifier_1->name) << "_" << node->identifier_2->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;
     } else {
-        // CHECK IF THIS IS THE MAIN CLASS. IF ITS NOT, YOU NEED TO PUSH THE OBJECT SELF POINTER INSTEAD OF THE EBP BRODIE.
         if (this->currentClassName == "Main") {
             std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the base frame for the Main class onto the stack." << std::endl;
         } else {
@@ -443,8 +442,17 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
             std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the object self pointer onto the stack as argument 1." << std::endl;
         }
 
-        std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name;
-        std::cout << "                     # perform the appropriate method call." << std::endl;
+        if (this->classTable->at(this->currentClassName).methods->count(node->identifier_1->name)) {
+            std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name;
+            std::cout << "                     # perform the appropriate method call." << std::endl;
+        } else {
+            std::string superclass = this->classTable->at(this->currentClassName).superClassName;
+            while (!(this->classTable->at(superclass).methods->count(node->identifier_1->name)))
+                superclass = this->classTable->at(superclass).superClassName;
+            
+            std::cout << getIndent(TAB_COUNTER) << "call " << superclass << "_" << node->identifier_1->name;
+            std::cout << "                     # perform the appropriate method call." << std::endl;
+        }
     }
 
     // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).

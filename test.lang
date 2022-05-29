@@ -21,6 +21,14 @@ Main {
 		
 		print a.x;
 
+		a.x = 10;
+
+		print a.x;
+
+		a.x = 20;
+
+		print a.x;
+
 	    a.printer();
      }
 

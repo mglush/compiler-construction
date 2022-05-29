@@ -178,7 +178,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "mov (%ecx), %ecx";
         std::cout << getIndent(TAB_COUNTER) << "              # put the address of the self poitner into the register." << std::endl << std::endl;
         
-        std::cout << getIndent(TAB_COUNTER) << "push %ecx" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push (%ecx)" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push $printstr" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call printf" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << std::endl;

@@ -278,7 +278,8 @@ void modifySymbolTable(TypeCheck* visitor) {
             it->second.members->insert(std::make_pair(iter->first, newVariableInfo));
             counter++;
           }
-          it->second.membersSize += 4 * counter;
+          ClassInfo newClassInfo = {superclass, it->second.methods, it->second.members, it->second.membersSize + 4 * counter};
+          (*(visitor->classTable))[it->first] = newClassInfo;
           superclass = visitor->classTable->at(superclass).superClassName;
         }
     }

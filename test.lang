@@ -15,7 +15,7 @@ classB extends classA {
 
     classB(integer val1, boolean val2) -> none {
         x = 10;
-        y = 20;
+        y = false;
     }
 
 }

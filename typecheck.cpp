@@ -284,7 +284,6 @@ void modifySymbolTable(TypeCheck* visitor) {
             offset_add_on += visitor->classTable->at(superclass).membersSize;
           counter++;
         }
-        offset_add_on = 0;
     }
 }
 

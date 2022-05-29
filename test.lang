@@ -15,7 +15,7 @@ classB extends classA {
 
     classB(integer val1, integer val2) -> none {
         classA(val1);
-	x = val2;
+	    x = val2;
     }
 
     double() -> none {

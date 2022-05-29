@@ -27,7 +27,7 @@ int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::stri
        return visitor->currentMethodInfo.variables->at(name).offset;
     }
     else {
-        std::cout << class_name << std::endl;
+        std::cout << "\n\n\n" << class_name << "\n\n\n" << std::endl;
         if (visitor->classTable->at(class_name).members->count(name))
             return visitor->classTable->at(class_name).members->at(name).offset;
         class_name = visitor->classTable->at(class_name).superClassName;

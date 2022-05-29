@@ -21,7 +21,7 @@ classB {
 	    x = x + a.x;
 	    print x;
 
-	return new classA(tmp);
+	    return new classA(tmp);
     }
 
     dofib() -> none {

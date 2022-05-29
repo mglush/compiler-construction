@@ -11,11 +11,10 @@ classB {
 
     classB() -> none {
         x = 1;
-		print x;
     }
 
     fib(classA a) -> classA {
-        
+        print x;
 		integer tmp;
 		tmp = x;
 		x = x + a.x;

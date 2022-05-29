@@ -1,4 +1,14 @@
-classA {
+classC {
+  integer yomp;
+  integer yomp;
+  integer yomp;
+  integer yomp;
+  classC() -> none {
+    print 7777;
+  }
+}
+
+classA extends classC {
   integer goomba;
   integer goomba1;
   integer goomba2;

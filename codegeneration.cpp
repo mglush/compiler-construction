@@ -52,7 +52,7 @@ std::string findVariableObjectName(CodeGenerator* visitor, std::string name) {
             return visitor->classTable->at(superclass).members->at(name).type.objectClassName;
         superclass = (*(visitor->classTable))[superclass].superClassName;
     }
-
+    std::cout << "DID THIS POINT REALLY GET FUCKING REACHED" << std::endl;
     return ""; // SHOULD NEVER BE REACHED DUE TO THE TYPECHECKER.
 }
 

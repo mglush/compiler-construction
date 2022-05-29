@@ -440,8 +440,6 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
             std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the base frame for the Main class onto the stack." << std::endl;
         } else {
             std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
-            std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
-
             std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the object self pointer onto the stack as argument 1." << std::endl;
         }
 

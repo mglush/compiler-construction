@@ -178,7 +178,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "push %ecx" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push $printstr" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call printf" << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "pop $printstr" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << std::endl;
 
         std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ecx)";

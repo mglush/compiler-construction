@@ -22,7 +22,7 @@ classB extends classA {
     integer x;
 
     classB() -> none {
-        x = 1;
+        x = 12345;
         yomp = x;
         yomp1 = yomp;
     }

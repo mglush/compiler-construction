@@ -265,26 +265,26 @@ void methodArgumentTypeMismatch(TypeCheck* visitor, std::list<ExpressionNode*>* 
 
 // helper function to insert to superclass member variables
 // into the child class variable tables.
-void modifySymbolTable(TypeCheck* visitor) {
-    std::string superclass;
-    int counter;
-    for (std::map<std::string, ClassInfo>::iterator it = visitor->classTable->begin(); it != visitor->classTable->end(); it++) {
-        superclass = it->second.superClassName;
-        while (superclass.length()) {
-          // go throough every member variable, and increase its offset.
-          counter = 0;
-          for (std::map<std::string, VariableInfo>::reverse_iterator iter = visitor->classTable->at(superclass).members->rbegin(); iter != visitor->classTable->at(superclass).members->rend(); iter++) {  
-            VariableInfo newVariableInfo = {{iter->second.type.baseType, iter->second.type.objectClassName}, iter->second.offset + it->second.membersSize, iter->second.size};
-            it->second.members->insert(std::make_pair(iter->first, newVariableInfo));
-            counter++;
-          }
-          ClassInfo newClassInfo = {superclass, it->second.methods, it->second.members, it->second.membersSize + 4 * counter};
-          visitor->classTable->erase(it);
-          visitor->classTable->insert(std::make_pair(it->first, newClassInfo));
-          superclass = visitor->classTable->at(superclass).superClassName;
-        }
-    }
-}
+// void modifySymbolTable(TypeCheck* visitor) {
+//     std::string superclass;
+//     int counter;
+//     for (std::map<std::string, ClassInfo>::iterator it = visitor->classTable->begin(); it != visitor->classTable->end(); it++) {
+//         superclass = it->second.superClassName;
+//         while (superclass.length()) {
+//           // go throough every member variable, and increase its offset.
+//           counter = 0;
+//           for (std::map<std::string, VariableInfo>::reverse_iterator iter = visitor->classTable->at(superclass).members->rbegin(); iter != visitor->classTable->at(superclass).members->rend(); iter++) {  
+//             VariableInfo newVariableInfo = {{iter->second.type.baseType, iter->second.type.objectClassName}, iter->second.offset + it->second.membersSize, iter->second.size};
+//             (*(it->second.members))[iter->first] = newVariableInfo;
+//             counter++;
+//           }
+//           ClassInfo newClassInfo = {superclass, it->second.methods, it->second.members, it->second.membersSize + 4 * counter};
+//           visitor->classTable->erase(it);
+//           visitor->classTable->insert(std::make_pair(it->first, newClassInfo));
+//           superclass = visitor->classTable->at(superclass).superClassName;
+//         }
+//     }
+// }
 
 /* These node visitor functions will be used 
  * to build the symbol table for the program,
@@ -315,7 +315,7 @@ void TypeCheck::visitClassNode(ClassNode* node) {
 
     // add superclass variables to this bad boy.
     for (std::map<std::string, VariableInfo>::iterator it = this->classTable->at(superclass_name).members->begin(); it != this->classTable->at(superclass_name).members->end(); it++)
-      members->insert(std::make_pair(it->first, it->second));
+      (*(members))[it->first] = it->second;
   }
 
   // set current-info trackers.

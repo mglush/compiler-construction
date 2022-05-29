@@ -19,6 +19,7 @@ classB {
 	    tmp = x;
 
 	    x = x + a.y;
+        
 	    print x;
 
 	    return new classA(tmp);

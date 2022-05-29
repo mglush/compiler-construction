@@ -4,6 +4,7 @@ classA {
      classA(integer val) -> none {
          x = val;
 		 print 606060;
+		 print x;
      }
 }
 

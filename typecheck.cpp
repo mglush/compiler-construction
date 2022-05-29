@@ -276,7 +276,7 @@ void modifySymbolTable(TypeCheck* visitor) {
           for (std::map<std::string, VariableInfo>::reverse_iterator iter = visitor->classTable->at(superclass).members->rbegin(); iter != visitor->classTable->at(superclass).members->rend(); iter++) {  
             VariableInfo newVariableInfo = {{iter->second.type.baseType, iter->second.type.objectClassName}, iter->second.offset + it->second.membersSize, iter->second.size};
             it->second.members->insert(std::make_pair(iter->first, newVariableInfo));
-            counter++
+            counter++;
           }
           it->second.membersSize += 4 * counter;
           superclass = visitor->classTable->at(superclass).superClassName;

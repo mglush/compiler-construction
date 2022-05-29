@@ -1,4 +1,11 @@
-classB {
+classA {
+  integer goomba;
+  classA() {
+    print 7777;
+  }
+}
+
+classB extends classA {
     integer x;
 
     classB() -> none {

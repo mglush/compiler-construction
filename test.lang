@@ -23,6 +23,8 @@ classB extends classA {
 
     classB() -> none {
         x = 1;
+        yomp = x;
+        yomp1 = yomp;
     }
 
     fib() -> none {
@@ -30,9 +32,9 @@ classB extends classA {
     }
 
     dofib() -> none {
-      print x;
+      print yomp;
       fib();
-      print x;
+      print yomp1;
     }
 
 }

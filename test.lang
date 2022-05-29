@@ -13,7 +13,7 @@ classB {
         x = 1;
     }
 
-    fib(classA a) -> classA {
+    fib() -> classA {
       integer tmp;
 
       print x;
@@ -23,7 +23,7 @@ classB {
 
     dofib() -> none {
       print x;
-      fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
+      fib();
     }
 
 }

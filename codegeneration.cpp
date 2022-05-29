@@ -143,13 +143,8 @@ void CodeGenerator::visitParameterNode(ParameterNode* node) {
     TAB_COUNTER--;
 }
 
-// # ------------------------------------------------------------------------------------------------ //
-// # ION THINK I GOTTA DO ANYTHING FOR THIS NODE BUT WE WILL SEE
-// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
-    // std::cout << "# Visiting DeclarationNode." << std::endl;
-    // node->visit_children(this);
-    // std::cout << "# Processing DeclarationNode." << std::endl;
+    /* nothing needs to be done for declarations, symbol table has this information */
 }
 
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {

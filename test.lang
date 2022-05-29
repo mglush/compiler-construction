@@ -20,11 +20,17 @@ classB {
 
 Main {
 
+    tester() -> none {
+      print 9999;
+    }
+
      main() -> none {
 	    classB b;
 
 	    b = new classB();
-	    b.fib();
+	    b.dofib();
+
+      tester();
 	    
      }
 

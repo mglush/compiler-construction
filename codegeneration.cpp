@@ -54,7 +54,7 @@ std::string findVariableObjectName(CodeGenerator* visitor, std::string class_nam
         class_name = (*(visitor->classTable))[class_name].superClassName;
     }
     std::cout << "DID THIS POINT REALLY GET FUCKING REACHED" << std::endl;
-    return "BRUH"; // SHOULD NEVER BE REACHED DUE TO THE TYPECHECKER.
+    return ""; // SHOULD NEVER BE REACHED DUE TO THE TYPECHECKER.
 }
 
 int findObjectMemberSize(CodeGenerator* visitor, std::string name) {

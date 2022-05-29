@@ -33,8 +33,10 @@ int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string
 
 // helper function to find the classObjectName of a variable with the given name.
 std::string findVariableObjectName(CodeGenerator* visitor, std::string class_name, std::string name) {    
-    if (visitor->currentMethodInfo.variables->count(name))
+    if (visitor->currentMethodInfo.variables->count(name)) {
+        std::cout << "DID THIS POINT REALLY GET FUCKING REACHED" << std::endl;
         return visitor->currentMethodInfo.variables->at(name).type.objectClassName;
+    }
     
     if ((*(visitor->classTable))[class_name].members->count(name))
         return visitor->classTable->at(class_name).members->at(name).type.objectClassName;
@@ -45,7 +47,6 @@ std::string findVariableObjectName(CodeGenerator* visitor, std::string class_nam
             return visitor->classTable->at(class_name).members->at(name).type.objectClassName;
         class_name = (*(visitor->classTable))[class_name].superClassName;
     }
-    std::cout << "DID THIS POINT REALLY GET FUCKING REACHED" << std::endl;
     return ""; // SHOULD NEVER BE REACHED DUE TO THE TYPECHECKER.
 }
 

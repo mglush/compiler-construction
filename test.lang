@@ -2,8 +2,8 @@ classA {
      integer x;
      integer y;
 
-	 printer() {
-		 print x + y;
+	 printer() -> integer {
+		 return x + y;
 	 }
 }
 

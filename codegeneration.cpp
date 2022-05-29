@@ -119,6 +119,7 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "push %edi" << "                        # put callee-saved register onto the stack." << std::endl << std::endl;
     }
     node->visit_children(this);
+    
     if (COMMENTS_ON) std::cout  << "# Processing MethodBodyNode" << std::endl;
 
     // function callee epilogue.

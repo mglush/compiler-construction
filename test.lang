@@ -1,40 +1,21 @@
-classC {
-  integer yomp;
-  integer yomp1;
-  integer yomp2;
-  integer yomp3;
-  classC() -> none {
-    print 7777;
-  }
-}
+classA {
+     integer x;
 
-classA extends classC {
-  integer goomba;
-  integer goomba1;
-  integer goomba2;
-  integer goomba3;
-  classA() -> none {
-    print 7777;
-  }
+     classA(integer val) -> none {
+         x = val;
+     }
+
+     f0() -> none {
+         x = x * 2;
+     }
 }
 
 classB extends classA {
-    integer x;
+    boolean y;
 
-    classB() -> none {
-        x = 12345;
-        yomp = x;
-        yomp1 = yomp;
-    }
-
-    fib() -> none {
-      print x;
-    }
-
-    dofib() -> none {
-      print yomp;
-      fib();
-      print yomp1;
+    classB(integer val1, boolean val2) -> none {
+        classA(val1);
+	    y = val2;
     }
 
 }
@@ -42,18 +23,15 @@ classB extends classA {
 
 Main {
 
-    tester() -> none {
-      print 9999;
-    }
-
      main() -> none {
 	    classB b;
 
-	    b = new classB();
-	    b.dofib();
-
-      tester();
-	    
+	    b = new classB(12, true);
+	    print b.x;
+	    print b.y;
+	    /* b.f0(); */
+	    print b.x;
+	    print b.y;
      }
 
 }

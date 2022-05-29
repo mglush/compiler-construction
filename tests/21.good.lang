@@ -1,8 +1,8 @@
 classA {
-     integer y;
+     integer x;
 
      classA(integer val) -> none {
-         y = val;
+         x = val;
      }
 }
 
@@ -18,8 +18,7 @@ classB {
 
 	    tmp = x;
 
-	    x = x + a.y;
-
+	    x = x + a.x;
 	    print x;
 
 	    return new classA(tmp);
@@ -28,7 +27,7 @@ classB {
     dofib() -> none {
 
         print 1;
-	    print 1;
+	print 1;
 	fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
 
     }

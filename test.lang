@@ -22,7 +22,7 @@ classB {
     }
 
     dofib() -> none {
-		fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
+		fib(new classA(1));
     }
 
 }

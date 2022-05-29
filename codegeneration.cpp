@@ -182,11 +182,11 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
         std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
 
-        std::cout << getIndent(TAB_COUNTER) << "push (%ebx)" << "                        # load format to be used for printing." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push 0(%ebx)" << "                        # load format to be used for printing." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push $printstr" << "                   # load format to be used for printing." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call printf" << "                      # print value in the return expression." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "pop %ecx" << "                         # pop format used for printing off the stack into an unused register." << std::endl << std::endl;   
-        std::cout << getIndent(TAB_COUNTER) << "pop (%ebx)" << "                         # pop format used for printing off the stack into an unused register." << std::endl << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop 0(%ebx)" << "                         # pop format used for printing off the stack into an unused register." << std::endl << std::endl;
 
         std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # load format to be used for printing." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push $printstr" << "                   # load format to be used for printing." << std::endl;

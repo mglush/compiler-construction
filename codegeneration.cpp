@@ -48,7 +48,7 @@ std::string findVariableObjectName(CodeGenerator* visitor, std::string class_nam
         return visitor->classTable->at(class_name).members->at(name).type.objectClassName;
     
     class_name = (*(visitor->classTable))[class_name].superClassName;
-    while (superclass.length()) {
+    while (class_name.length()) {
         if ((*(visitor->classTable))[class_name].members->count(name))
             return visitor->classTable->at(class_name).members->at(name).type.objectClassName;
         class_name = (*(visitor->classTable))[class_name].superClassName;

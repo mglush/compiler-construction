@@ -19,10 +19,7 @@ Main {
 	    a = new classA;
 	    a.x = 5;
 		
-	    print a.x;
-
-		a.x = 200;
-		print a.x;
+	    a.printer();
      }
 
 }

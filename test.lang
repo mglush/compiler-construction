@@ -21,7 +21,8 @@ classB {
       return new classA(1);
     }
 
-    dofib() -> none {      
+    dofib() -> none {
+      print x;
       fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
     }
 

@@ -2,7 +2,7 @@
 
 int TAB_COUNTER = 0;                // keeps track of tabs to use when printing assembly code.
 bool INDENT_ON = true;              // set to false if no indentation is wanted.
-bool COMMENTS_ON = true;           // set to false if you don't want the generated assembly to generate comments.
+bool COMMENTS_ON = false;           // set to false if you don't want the generated assembly to generate comments.
 int COMMENT_OFFSET_TABS = 20;       // change up or down to move assembly coes closer or further from the code.
 
 // returns the appropriate space to indent the assembly.
@@ -170,6 +170,9 @@ void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
     if (COMMENTS_ON) std::cout << "# Processing ReturnStatementNode." << std::endl;
 }
 
+// # ------------------------------------------------------------------------------------------------ //
+// # MAKE SURE TO FILL IN THE CODE FOR MEMBER ACCESS
+// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting AssignmentNode." << std::endl;
     node->visit_children(this);
@@ -178,17 +181,9 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                            # get value of the expression from the top of the stack." << std::endl;
     
     if (node->identifier_2) {
-        if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
-            std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
-            std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
-        } else {
-            std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx";
-            std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
-            std::cout << getIndent(TAB_COUNTER) << "mov " << findMemberOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebx), %ebx";
-            std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
-        }
-        
-        std::cout << getIndent(TAB_COUNTER) << "move %eax, " << findMemberOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
+        std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findMemberOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
         std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
     } else {
         if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
@@ -512,10 +507,10 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
     if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
         std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
-        std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from variable table." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
     } else {
         std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx";
-        std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer since it's the first parameter passed in." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov " << findMemberOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebx), %ebx";
         std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
     }

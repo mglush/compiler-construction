@@ -1,8 +1,8 @@
 classA {
-     integer x;
+     integer y;
 
      classA(integer val) -> none {
-         x = val;
+         y = val;
      }
 }
 
@@ -14,15 +14,25 @@ classB {
     }
 
     fib(classA a) -> classA {
-		integer tmp;
-		print x;
-		tmp = x;
-		x = x;
-		return new classA(tmp);
+        integer tmp;
+
+	    tmp = x;
+
+	    x = x + a.y;
+
+	    print x;
+
+	    return new classA(tmp);
     }
 
     dofib() -> none {
-		fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
+      print x;
+      print x;
+      print x;
+      print x;
+      print x;
+      
+      fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
     }
 
 }

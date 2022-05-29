@@ -19,7 +19,7 @@ classB {
 	    tmp = x;
 
 	    x = x + a.y;
-        
+
 	    print x;
 
 	    return new classA(tmp);
@@ -28,7 +28,7 @@ classB {
     dofib() -> none {
 
         print 1;
-	print 1;
+	    print 1;
 	fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
 
     }

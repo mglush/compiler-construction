@@ -14,7 +14,13 @@ classB {
     }
 
     fib(classA a) -> classA {
-        integer tmp;
+      integer tmp;
+
+      print x;
+      print x;
+      print x;
+      print x;
+      print x;
 
 	    tmp = x;
 
@@ -25,13 +31,7 @@ classB {
 	    return new classA(tmp);
     }
 
-    dofib() -> none {
-      print x;
-      print x;
-      print x;
-      print x;
-      print x;
-      
+    dofib() -> none {      
       fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
     }
 

@@ -138,7 +138,7 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 // NOW I THINK THIS IS GOOD BUT I AINT ALL THAT SURE
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting Parameter." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
+    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, node->type->objectClassName, node->identifier->name) << "(%ebp), %eax";
     std::cout << getIndent(TAB_COUNTER) << "             # load the variable value from the right place in memory." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl;
 }

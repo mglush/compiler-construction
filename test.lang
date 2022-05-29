@@ -32,6 +32,8 @@ Main {
 
 		a.y = a.x;
 
+		print 1;
+
 		print a.y;
 
 	    a.printer();

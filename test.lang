@@ -14,20 +14,17 @@ classB {
     }
 
     fib(classA a) -> classA {
-
       print x;
       print x;
       print x;
       print x;
       print x;
-
-	    tmp = x;
 
 	    x = x + a.y;
 
 	    print x;
 
-	    return new classA(tmp);
+	    return new classA(x);
     }
 
     dofib() -> none {      

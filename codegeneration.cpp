@@ -175,9 +175,16 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                            # get value of the expression from the top of the stack." << std::endl;
     
     if (node->identifier_2) {
-        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
-        std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
+        if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
+            std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
+            std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer to access the mmeber of the current object." << std::endl;
+        } else {
+            std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << "get the object self pointer to access the member of that object." << std::endl;
+            // access the member to use as object self pointer.
+            std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebx), %ebx";
+            std::cout << getIndent(TAB_COUNTER) << "             # load the variable value from the right place in memory." << std::endl;
+        }
+        std::cout << getIndent(TAB_COUNTER) << "push " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
         std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
     } else {
         if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {

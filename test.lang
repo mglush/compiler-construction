@@ -18,7 +18,7 @@ classB {
 
       print x;
 
-      return new classA(1)
+      return new classA(1);
     }
 
     dofib() -> none {      

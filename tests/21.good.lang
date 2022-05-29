@@ -15,10 +15,10 @@ classB {
 
     fib(classA a) -> classA {
         integer tmp;
-	tmp = x;
+	    tmp = x;
 
-	x = x + a.x;
-	print x;
+	    x = x + a.x;
+	    print x;
 
 	return new classA(tmp);
     }

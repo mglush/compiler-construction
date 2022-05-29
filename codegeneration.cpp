@@ -19,18 +19,7 @@ std::string getIndent(int num_tabs) {
 
 // // helper function to find the proper offset of a class's member.
 // int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
-//     if (visitor->classTable->at(class_name).members->count(name))
-//         return visitor->classTable->at(class_name).members->at(name).offset;
-
-//     int result = 0;
-    
-//     class_name = visitor->classTable->at(class_name).superClassName;
-//     while (visitor->classTable->at(class_name).members->count(name) == 0) {
-//         result += visitor->classTable->at(class_name).membersSize;
-//         class_name = visitor->classTable->at(class_name).superClassName;
-//     }
-    
-//     return result + visitor->classTable->at(class_name).members->at(name).offset;
+//     return visitor->classTable->at(class_name).members->at(name).offset;
 // }
 
 // helper function to find the proper offset of a current class's variable/member.

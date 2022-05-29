@@ -17,7 +17,7 @@ classB {
 		integer tmp;
 		print x;
 		tmp = x;
-		x = x + a.x;
+		x = x;
 		return new classA(tmp);
     }
 

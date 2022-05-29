@@ -6,7 +6,6 @@ classB {
     }
 
     fib() -> none {
-      integer tmp;
       print x;
     }
 

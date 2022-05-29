@@ -5,16 +5,16 @@ classB {
         x = 1;
     }
 
-    fib(classA a) -> classA {
+    fib(integer a) -> integer {
 		integer tmp;
 		print x;
 		tmp = x;
 		x = x + a.x;
-		return new classA(tmp);
+		return tmp;
     }
 
     dofib() -> none {
-		fib(new classA(1));
+		fib(100);
     }
 
 }

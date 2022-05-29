@@ -14,13 +14,7 @@ classB extends classA {
     boolean y;
 
     classB(integer val1, boolean val2) -> none {
-        print 9999;
-        print 9999;
-        print 9999;
         classA(val1);
-        print 9999;
-        print 9999;
-        print 9999;
 	      y = val2;
     }
 

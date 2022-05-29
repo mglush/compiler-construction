@@ -137,21 +137,12 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
 
 // NOW I THINK THIS IS GOOD BUT I AINT ALL THAT SURE
 void CodeGenerator::visitParameterNode(ParameterNode* node) {
-    if (COMMENTS_ON) std::cout  << "# Visiting Variable." << std::endl;
-    if (this->currentMethodInfo.variables->count(node->identifier->name)) {
-        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
-    } else {
-        std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
-    }
-
+    if (COMMENTS_ON) std::cout  << "# Visiting Parameter." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
     std::cout << getIndent(TAB_COUNTER) << "             # load the variable value from the right place in memory." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl;
 }
 
-// # ------------------------------------------------------------------------------------------------ //
-// # ION THINK I GOTTA DO ANYTHING FOR THIS NODE BUT WE WILL SEE
-// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
     // std::cout << "# Visiting DeclarationNode." << std::endl;
     // node->visit_children(this);
@@ -160,7 +151,7 @@ void CodeGenerator::visitDeclarationNode(DeclarationNode* node) {
 
 void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
     if (COMMENTS_ON) std::cout << "# Visiting ReturnStatementNode." << std::endl;
-    node->visit_children(this);
+    node->expression->accept(this);
     if (COMMENTS_ON) std::cout << "# Processing ReturnStatementNode." << std::endl;
 }
 

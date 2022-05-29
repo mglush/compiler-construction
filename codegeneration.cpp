@@ -70,7 +70,7 @@ int findObjectMemberSize(CodeGenerator* visitor, std::string name) {
     while (superclass.length())
         result += visitor->classTable->at(superclass).membersSize;
 
-    std::cout << "\n\n\n\n\n\n\n\n\n\n" << std::string(result) << "\n\n\n\n\n\n\n\n\n";
+    std::cout << "\n\n\n\n\n\n\n\n\n\n" << std::to_string(result) << "\n\n\n\n\n\n\n\n\n";
     return result;
 }
 

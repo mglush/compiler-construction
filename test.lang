@@ -11,24 +11,21 @@ classB {
 
     classB() -> none {
         x = 1;
+		print 1;
     }
 
     fib(classA a) -> classA {
-        integer tmp;
-	tmp = x;
+        
+		integer tmp;
+		tmp = x;
+		x = x + a.x;
+		print x;
+		return new classA(tmp);
 
-	x = x + a.x;
-	print x;
-
-	return new classA(tmp);
     }
 
     dofib() -> none {
-
-        print 1;
-	print 1;
-	fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
-
+		fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
     }
 
 }

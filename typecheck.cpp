@@ -280,9 +280,7 @@ void modifySymbolTable(TypeCheck* visitor) {
           }
           ClassInfo newClassInfo = {superclass, it->second.methods, it->second.members, it->second.membersSize + 4 * counter};
           visitor->classTable->erase(it);
-          std::cout << "ERASED ERASED ERASED" << std::endl;
           visitor->classTable->insert(std::make_pair(it->first, newClassInfo));
-          std::cout << "YOMP YOMPICURICUS YOMP" << std::endl;
           superclass = visitor->classTable->at(superclass).superClassName;
         }
     }

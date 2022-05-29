@@ -15,6 +15,7 @@ Main {
 
      main() -> none {
 	    classA a;
+		integer b;
 		a = new classA(10);
 	    print 9999;
 		b = a.getX();

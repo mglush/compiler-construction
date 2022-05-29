@@ -542,8 +542,8 @@ void CodeGenerator::visitNewNode(NewNode* node) {
             for (std::list<ExpressionNode*>::reverse_iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
                 (*(it))->accept(this);
 
-        std::cout << getIndent(TAB_COUNTER) << "pushl $" << this->classTable->at(node->identifier->name).membersSize;
-        std::cout <<  "                                         # THIS THE ONE WE PUSHING." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pushl $" << findObjectMemberSize(this, node->identifier->name);
+        std::cout <<  "                                         # PUSHING HERE." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                                             # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                                            # move stack pointer past the malloc argument." << std::endl;
 

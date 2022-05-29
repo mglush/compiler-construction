@@ -267,7 +267,6 @@ void methodArgumentTypeMismatch(TypeCheck* visitor, std::list<ExpressionNode*>* 
 // into the child class variable tables.
 void modifySymbolTable(TypeCheck* visitor) {
     std::string superclass;
-    int counter = 0;
     for (std::map<std::string, ClassInfo>::iterator it = visitor->classTable->begin(); it != visitor->classTable->end(); it++) {
         superclass = it->second.superClassName;
         while (superclass.length()) {

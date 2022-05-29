@@ -1,11 +1,3 @@
-classA {
-     integer x;
-
-     classA(integer val) -> none {
-         x = val;
-     }
-}
-
 classB {
     integer x;
 

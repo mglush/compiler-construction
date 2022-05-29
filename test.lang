@@ -2,7 +2,7 @@ classA {
      integer x;
 
 	 printer() -> none {
-		 /* print x; */
+		 print x;
 	 }
 }
 

@@ -144,7 +144,7 @@ void CodeGenerator::visitParameterNode(ParameterNode* node) {
     // find the variables offset in memory, pass that in.
     
     if (this->currentMethodInfo.variables->count(node->identifier->name)) {
-        std::cout << getIndent(TAB_COUNTER) << "mov " << visitor->currentMethodInfo.variables->at(node->identifier->name).offset << "(%ebp), %eax";
+        std::cout << getIndent(TAB_COUNTER) << "mov " << this->currentMethodInfo.variables->at(node->identifier->name).offset << "(%ebp), %eax";
     } else {
         std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov " << findMemberOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
@@ -186,7 +186,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
     } else {
         if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
-            std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << visitor->currentMethodInfo.variables->at(node->identifier->name).offset << "(%ebp)";
+            std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << this->currentMethodInfo.variables->at(node->identifier->name).offset << "(%ebp)";
         } else {
             std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
             std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findMemberOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebx)";
@@ -481,7 +481,7 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
 void CodeGenerator::visitVariableNode(VariableNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting Variable." << std::endl;
     if (this->currentMethodInfo.variables->count(node->identifier->name)) {
-        std::cout << getIndent(TAB_COUNTER) << "mov " << visitor->currentMethodInfo.variables->at(node->identifier->name).offset << "(%ebp), %eax";
+        std::cout << getIndent(TAB_COUNTER) << "mov " << this->currentMethodInfo.variables->at(node->identifier->name).offset << "(%ebp), %eax";
     } else {
         std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov " << findMemberOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";

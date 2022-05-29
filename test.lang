@@ -1,8 +1,8 @@
 classC {
   integer yomp;
-  integer yomp;
-  integer yomp;
-  integer yomp;
+  integer yomp1;
+  integer yomp2;
+  integer yomp3;
   classC() -> none {
     print 7777;
   }

@@ -428,17 +428,27 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         (*(it))->accept(this);
     
     if (node->identifier_2) {
-        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_1->name) << "(%ebp), %ebx";
+        std::cout << getIndent(TAB_COUNTER) << "mov ";
+        std::cout << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_1->name) << "(%ebp), %ebx";
         std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << findVariableObjectName(this, this->currentClassName, node->identifier_1->name) << "_" << node->identifier_2->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;
     } else {
-        std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the receiver object (current object) self pointer onto the stack." << std::endl;
+        // CHECK IF THIS IS THE MAIN CLASS. IF ITS NOT, YOU NEED TO PUSH THE OBJECT SELF POINTER INSTEAD OF THE EBP BRODIE.
+        if (this->currentClassName == "Main") {
+            std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the base frame for the Main class onto the stack." << std::endl;
+        } else {
+            std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
+            std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
+
+            std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the object self pointer onto the stack as argument 1." << std::endl;
+        }
+
         std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;
     }
-    
+
     // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).
 
     // pop the object self pointer from stack.
@@ -465,29 +475,6 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
     std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
-}
-
-void CodeGenerator::visitVariableNode(VariableNode* node) {
-    if (COMMENTS_ON) std::cout  << "# Visiting Variable." << std::endl;
-    if (this->currentMethodInfo.variables->count(node->identifier->name)) {
-        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
-    } else {
-        std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
-    }
-
-    std::cout << getIndent(TAB_COUNTER) << "             # load the variable value from the right place in memory." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl;
-}
-
-void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
-    if (COMMENTS_ON) std::cout  << "# Visiting Integer." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push integer onto the stack." << std::endl;
-}
-
-void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
-    if (COMMENTS_ON) std::cout  << "# Visited Boolean." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push boolean onto the stack." << std::endl;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {
@@ -539,6 +526,30 @@ void CodeGenerator::visitNewNode(NewNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer onto the stack as a returned value." << std::endl;            
     }
 
+}
+
+void CodeGenerator::visitVariableNode(VariableNode* node) {
+    if (COMMENTS_ON) std::cout  << "# Visiting Variable." << std::endl;
+    if (this->currentMethodInfo.variables->count(node->identifier->name)) {
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
+    } else {
+        std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
+    }
+
+    std::cout << getIndent(TAB_COUNTER) << "             # load the variable value from the right place in memory." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl;
+}
+
+
+void CodeGenerator::visitIntegerLiteralNode(IntegerLiteralNode* node) {
+    if (COMMENTS_ON) std::cout  << "# Visiting Integer." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push integer onto the stack." << std::endl;
+}
+
+void CodeGenerator::visitBooleanLiteralNode(BooleanLiteralNode* node) {
+    if (COMMENTS_ON) std::cout  << "# Visited Boolean." << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "pushl $" << node->integer->value << "                         # push boolean onto the stack." << std::endl;
 }
 
 void CodeGenerator::visitIntegerTypeNode(IntegerTypeNode* node) {

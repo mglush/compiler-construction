@@ -17,9 +17,6 @@ std::string getIndent(int num_tabs) {
     }
 }
 
-// # ------------------------------------------------------------------------------------------------ //
-// # CHANGE THE FUCNTION BELOW TO TAKE A CLASS IN AS A PARAMETER IN DA MORNING GLUSH. GUD NIGHT BRODI.
-// # ------------------------------------------------------------------------------------------------ //
 // helper function to find the proper offset of a current class's variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
     int result = 0;
@@ -471,8 +468,7 @@ void CodeGenerator::visitVariableNode(VariableNode* node) {
     if (this->currentMethodInfo.variables->count(node->identifier->name)) {
         std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
     } else {
-        std::cout << getIndent(TAB_COUNTER) << "mov %ebp, %ebx" << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "addl $4, %ebx" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
     }
 

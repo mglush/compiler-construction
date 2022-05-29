@@ -32,7 +32,9 @@ int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string
 }
 
 // helper function to find the classObjectName of a variable with the given name.
-std::string findVariableObjectName(CodeGenerator* visitor, std::string class_name, std::string name) {    
+std::string findVariableObjectName(CodeGenerator* visitor, std::string class_name, std::string name) {
+    std::cout << "BRUHUHRUHURHUHRUHRIUHRUHURHU" << std::endl;
+
     if (visitor->currentMethodInfo.variables->count(name))
         return visitor->currentMethodInfo.variables->at(name).type.objectClassName;
     

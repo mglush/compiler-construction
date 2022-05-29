@@ -437,6 +437,10 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
 
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;
 
+        std::cout << "# offset of local variable that's an object: " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_1->name);
+        std::cout << "# name of class containing this member: " << findVariableObjectName(this, this->currentClassName, node->identifier_1->name) << std::endl;
+        std::cout << "# offset of member " << node->identifier_2->name << " within that object: " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << std::endl << std::endl;
+
         std::cout << getIndent(TAB_COUNTER) << "call " << findVariableObjectName(this, this->currentClassName, node->identifier_1->name) << "_" << node->identifier_2->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;
     } else {

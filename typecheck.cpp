@@ -263,6 +263,19 @@ void methodArgumentTypeMismatch(TypeCheck* visitor, std::list<ExpressionNode*>* 
   }
 }
 
+// helper function to insert to superclass member variables
+// into the child class variable tables.
+void modifySymbolTable(TypeCheck* visitor) {
+    std::string superclass;
+    for (std::map<std::string, ClassInfo>::iterator it = visitor->classTable->begin(); it != visitor->classTable->end(); it++) {
+        superclass = it->second.superClassName;
+        while (superclass.length()) {
+            it->second.members->insert(visitor->classTable->at(superclass).members->begin(), visitor->classTable->at(superclass).members->end());
+            superclass = visitor->classTable->at(superclass).superClassName;
+        }
+    }
+}
+
 /* These node visitor functions will be used 
  * to build the symbol table for the program,
  * using helper functions to type-check it along the way. */
@@ -276,6 +289,8 @@ void TypeCheck::visitProgramNode(ProgramNode* node) {
   noMainClass(this);
   mainClassMembersPresent(this);
   noMainMethod(this);
+
+  modifySymbolTable(this);
 }
 
 void TypeCheck::visitClassNode(ClassNode* node) {

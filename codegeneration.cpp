@@ -62,21 +62,7 @@ int findObjectMemberSize(CodeGenerator* visitor, std::string name) {
     return result;
 }
 
-// helper function to insert to superclass member variables
-// into the child class variable tables.
-void modifySymbolTable(CodeGenerator* visitor) {
-    std::string superclass;
-    for (std::map<std::string, ClassInfo>::iterator it = visitor->classTable->begin(); it != visitor->classTable->end(); it++) {
-        superclass = it->second.superClassName;
-        while (superclass.length()) {
-            it->second.members->insert(visitor->classTable->at(superclass).members->begin(), visitor->classTable->at(superclass).members->end());
-            superclass = visitor->classTable->at(superclass).superClassName;
-        }
-    }
-}
-
 void CodeGenerator::visitProgramNode(ProgramNode* node) {
-    modifySymbolTable(this);
     std::cout << ".data" << "                                   # start data segment." << std::endl;
     std::cout << "printstr: .asciz \"%d\\n\"" << "                 # define printing format for ints." << std::endl << std::endl;
 

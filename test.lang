@@ -18,12 +18,6 @@ classB extends classA {
 	y = val2;
     }
 
-    s0() -> none {
-        print x;
-        f0();
-        print x;
-    }
-
 }
 
 
@@ -35,7 +29,7 @@ Main {
 	    b = new classB(12, true);
 	    print b.x;
 	    print b.y;
-	    b.s0();
+	    b.f0();
 	    print b.x;
 	    print b.y;
      }

@@ -39,7 +39,7 @@ int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::stri
 int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
     int result = 0;
     if (visitor->classTable->at(class_name).members->count(name))
-        return visitor->classTable->at(class_name).members->at(name).offset;
+        return visitor->classTable->at(name).membersSize;
     class_name = visitor->classTable->at(class_name).superClassName;
     while (visitor->classTable->at(class_name).members->count(name) == 0)
         class_name = visitor->classTable->at(class_name).superClassName;
@@ -67,11 +67,8 @@ std::string findVariableObjectName(CodeGenerator* visitor, std::string class_nam
 int findObjectMemberSize(CodeGenerator* visitor, std::string name) {
     int result = 0;
     if (visitor->classTable->count(name))
-        result = visitor->classTable->at(name).membersSize;
-    std::string superclass = visitor->classTable->at(name).superClassName;
-    while (superclass.length())
-        result += visitor->classTable->at(superclass).membersSize;
-
+        return visitor->classTable->at(name).membersSize;
+        
     std::cout << "\n\n\n\n\n\n\n\n\n\n" << std::to_string(result) << "\n\n\n\n\n\n\n\n\n";
     return result;
 }

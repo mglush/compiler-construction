@@ -1,6 +1,6 @@
 classA {
   integer goomba;
-  classA() {
+  classA() -> none {
     print 7777;
   }
 }

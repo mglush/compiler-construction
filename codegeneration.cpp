@@ -500,6 +500,7 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
     while (!(this->classTable->at(class_name)).members->count(node->identifier_2->name))
         class_name = this->classTable->at(class_name).superClassName;
 
+    std::cout << class_name << "\n\n\n\n\n";
     std::cout << getIndent(TAB_COUNTER) << "push " << findVariableOffset(this, class_name, node->identifier_2->name) << "(%ebx)";
     std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
 }

@@ -180,7 +180,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
         std::cout << "# offset of member " << node->identifier_2->name << " within that object: " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << std::endl << std::endl;
 
         std::cout << getIndent(TAB_COUNTER) << "mov %ecx, (%ecx)";
-        // std::cout << getIndent(TAB_COUNTER) << "              # put the address of the self poitner into the register." << std::endl << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "              # put the address of the self poitner into the register." << std::endl << std::endl;
         
         // std::cout << getIndent(TAB_COUNTER) << "push %ecx" << std::endl;
         // std::cout << getIndent(TAB_COUNTER) << "push $printstr" << std::endl;

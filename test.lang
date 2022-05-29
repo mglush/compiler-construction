@@ -14,8 +14,8 @@ classB {
     }
 
     fib(classA a) -> classA {
-        print x;
 		integer tmp;
+		print x;
 		tmp = x;
 		x = x + a.x;
 		print x;

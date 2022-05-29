@@ -312,6 +312,10 @@ void TypeCheck::visitClassNode(ClassNode* node) {
   if (node->identifier_2) {
     superclass_name = node->identifier_2->name;
     undefinedClass(this, superclass_name);
+
+    // add superclass variables to this bad boy.
+    for (std::map<std::string, VariableInfo>::iterator it = this->classTable->at(superclass_name).members->begin(); it != this->classTable->at(superclass_name).members->end(); it++)
+      members->insert(std::make_pair(it->first, it->second));
   }
 
   // set current-info trackers.
@@ -319,7 +323,7 @@ void TypeCheck::visitClassNode(ClassNode* node) {
   this->currentMethodTable = methods;
   this->currentVariableTable = members;
   this->currentLocalOffset = -4;        // -4, -8, -12, ...
-  this->currentMemberOffset = 0;        // 0, 4, 8, ...
+  this->currentMemberOffset = 4 * members->size();        // 0, 4, 8, ...
   this->currentParameterOffset = 12;    // 12, 16, 20, ...
 
   // create and insert the entry of this class into the classTable.

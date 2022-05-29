@@ -20,7 +20,7 @@ int main(void) {
         astRoot->accept(typecheck);
         ClassTable* classTable = typecheck->classTable;
         if (classTable) {
-            print(*classTable);
+            // print(*classTable);
             CodeGenerator* codegen = new CodeGenerator();
             codegen->classTable = classTable;
             astRoot->accept(codegen);

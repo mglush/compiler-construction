@@ -68,7 +68,7 @@ void CodeGenerator::visitProgramNode(ProgramNode* node) {
 
     std::cout << ".text" << "                                   # start code segment." << std::endl;
     std::cout << ".globl Main_main" << "                        # tell the linker Main_main is a callable function." << std::endl << std::endl;
-    //node->visit_children(this);
+    node->visit_children(this);
 }
 
 void CodeGenerator::visitClassNode(ClassNode* node) {

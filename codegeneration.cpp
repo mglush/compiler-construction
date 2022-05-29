@@ -64,15 +64,6 @@ std::string findVariableObjectName(CodeGenerator* visitor, std::string class_nam
     return ""; // SHOULD NEVER BE REACHED DUE TO THE TYPECHECKER.
 }
 
-int findObjectMemberSize(CodeGenerator* visitor, std::string name) {
-    int result = 0;
-    if (visitor->classTable->count(name))
-        return visitor->classTable->at(name).membersSize;
-        
-    std::cout << "\n\n\n\n\n\n\n\n\n\n" << std::to_string(result) << "\n\n\n\n\n\n\n\n\n";
-    return result;
-}
-
 void CodeGenerator::visitProgramNode(ProgramNode* node) {
     std::cout << ".data" << "                                   # start data segment." << std::endl;
     std::cout << "printstr: .asciz \"%d\\n\"" << "                 # define printing format for ints." << std::endl << std::endl;
@@ -522,7 +513,7 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
 void CodeGenerator::visitNewNode(NewNode* node) {
     if (this->classTable->at(node->identifier->name).methods->count(node->identifier->name) == 0) {
         // no constructor exists, allocate space and das it.
-        std::cout << getIndent(TAB_COUNTER) << "pushl $" << findObjectMemberSize(this, node->identifier->name);
+        std::cout << getIndent(TAB_COUNTER) << "pushl $" << this->classTable->at(node->identifier->name).membersSize;
         std::cout <<  "                      # push the size of the new object onto the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                      # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                     # move stack pointer past the malloc argument." << std::endl;
@@ -541,7 +532,7 @@ void CodeGenerator::visitNewNode(NewNode* node) {
             for (std::list<ExpressionNode*>::reverse_iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
                 (*(it))->accept(this);
 
-        std::cout << getIndent(TAB_COUNTER) << "pushl $" << findObjectMemberSize(this, node->identifier->name);
+        std::cout << getIndent(TAB_COUNTER) << "pushl $" << 1000;
         std::cout <<  "                                         # PUSHING HERE." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                                             # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                                            # move stack pointer past the malloc argument." << std::endl;

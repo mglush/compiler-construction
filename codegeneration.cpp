@@ -142,13 +142,7 @@ void CodeGenerator::visitParameterNode(ParameterNode* node) {
     TAB_COUNTER++;
     if (COMMENTS_ON) std::cout  << "# Visiting Parameter." << std::endl;
     // find the variables offset in memory, pass that in.
-    
-    if (this->currentMethodInfo.variables->count(node->identifier->name)) {
-        std::cout << getIndent(TAB_COUNTER) << "mov " << this->currentMethodInfo.variables->at(node->identifier->name).offset << "(%ebp), %eax";
-    } else {
-        std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
-        std::cout << getIndent(TAB_COUNTER) << "mov " << findMemberOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
-    }
+    std::cout << getIndent(TAB_COUNTER) << "mov " << this->currentMethodInfo.variables->at(node->identifier->name).offset << "(%ebp), %eax";
     std::cout << getIndent(TAB_COUNTER) << "             # load the parameter from memory." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # slap it on top of the stack." << std::endl << std::endl;
     TAB_COUNTER--;

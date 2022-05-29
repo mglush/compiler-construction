@@ -268,6 +268,7 @@ void methodArgumentTypeMismatch(TypeCheck* visitor, std::list<ExpressionNode*>* 
 void modifySymbolTable(TypeCheck* visitor) {
     std::string superclass;
     int offset_add_on;
+    std::cout << "TESTING TESTING TESTING" << std::endl;
     for (std::map<std::string, ClassInfo>::iterator it = visitor->classTable->begin(); it != visitor->classTable->end(); it++) {
         std::cout << "TESTING TESTING TESTING" << std::endl;
         superclass = it->second.superClassName;

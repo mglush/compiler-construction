@@ -511,6 +511,7 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
     } else {
         std::cout << "\n\n\n\n\n" << "I FOUND THE BUG" << "\n\n\n\n\n";
     }
+    std::cout << "\n\n\n\n\n" << findVariableObjectName(this, this->currentClassName, node->identifier_1->name) << "\n\n\n\n\n";
     std::cout << getIndent(TAB_COUNTER) << "push " << findMemberOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
     std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
 }

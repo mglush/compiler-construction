@@ -41,11 +41,9 @@ int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string
     if (visitor->classTable->at(class_name).members->count(name))
         return visitor->classTable->at(class_name).members->at(name).offset;
     class_name = visitor->classTable->at(class_name).superClassName;
-    while (visitor->classTable->at(class_name).members->count(name) == 0) {
-        result += visitor->classTable->at(class_name).membersSize;
+    while (visitor->classTable->at(class_name).members->count(name) == 0)
         class_name = visitor->classTable->at(class_name).superClassName;
-    }
-    return result + visitor->classTable->at(class_name).members->at(name).offset;
+    return visitor->classTable->at(class_name).members->at(name).offset;
 }
 
 // helper function to find the classObjectName of a variable with the given name.

@@ -119,7 +119,7 @@ void CodeGenerator::visitMethodBodyNode(MethodBodyNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "push %edi" << "                        # put callee-saved register onto the stack." << std::endl << std::endl;
     }
     node->visit_children(this);
-    
+
     if (COMMENTS_ON) std::cout  << "# Processing MethodBodyNode" << std::endl;
 
     // function callee epilogue.
@@ -432,7 +432,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         (*(it))->accept(this);
     
     if (node->identifier_2) {
-        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_1->name) << "(%ebp), %ebx";
         std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;
 
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;

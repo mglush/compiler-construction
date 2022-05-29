@@ -4,25 +4,44 @@ classA {
      classA(integer val) -> none {
          x = val;
      }
+}
 
-	 getX() -> integer {
-		 return x;
-	 }
+classB {
+    integer x;
+
+    classB() -> none {
+        x = 1;
+    }
+
+    fib(classA a) -> classA {
+        integer tmp;
+	tmp = x;
+
+	x = x + a.x;
+	print x;
+
+	return new classA(tmp);
+    }
+
+    dofib() -> none {
+
+        print 1;
+	print 1;
+	fib(fib(fib(fib(fib(fib(fib(fib(new classA(1)))))))));
+
+    }
+
 }
 
 
 Main {
 
      main() -> none {
-	    classA a;
-		integer b;
-		a = new classA(10);
-	    print 9999;
-		b = a.getX();
-		print 1000;
-		print b;
-		print b + 1000;
-		print a.x;
+	    classB b;
+
+	    b = new classB();
+	    b.dofib();
+	    
      }
 
 }

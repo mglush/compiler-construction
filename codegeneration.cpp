@@ -40,17 +40,18 @@ int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::stri
 }
 
 // helper function to find the classObjectName of a variable with the given name.
-std::string findVariableObjectName(CodeGenerator* visitor, std::string name) {
+std::string findVariableObjectName(CodeGenerator* visitor, std::string class_name, std::string name) {
     if (visitor->currentMethodInfo.variables->count(name))
         return visitor->currentMethodInfo.variables->at(name).type.objectClassName;
-    if ((*(visitor->classTable))[visitor->currentClassName].members->count(name))
-        return visitor->classTable->at(visitor->currentClassName).members->at(name).type.objectClassName;
     
-    std::string superclass = (*(visitor->classTable))[visitor->currentClassName].superClassName;
+    if ((*(visitor->classTable))[class_name].members->count(name))
+        return visitor->classTable->at(class_name).members->at(name).type.objectClassName;
+    
+    class_name = (*(visitor->classTable))[class_name].superClassName;
     while (superclass.length()) {
-        if ((*(visitor->classTable))[superclass].members->count(name))
-            return visitor->classTable->at(superclass).members->at(name).type.objectClassName;
-        superclass = (*(visitor->classTable))[superclass].superClassName;
+        if ((*(visitor->classTable))[class_name].members->count(name))
+            return visitor->classTable->at(class_name).members->at(name).type.objectClassName;
+        class_name = (*(visitor->classTable))[class_name].superClassName;
     }
     std::cout << "DID THIS POINT REALLY GET FUCKING REACHED" << std::endl;
     return ""; // SHOULD NEVER BE REACHED DUE TO THE TYPECHECKER.
@@ -433,7 +434,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         // that means we have to go to the correct offset from the current base pointer to get the pointer to the object needed.
         std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the receiver object self pointer." << std::endl;
         // THIS ONE IS WRONG YOU SHOULD PUSH THE OBJECT SELF POINTER INSTEAD OF THE CURRENT BASE FRAME POINTER. ^ ^ ^
-        std::cout << getIndent(TAB_COUNTER) << "call " << findVariableObjectName(this, node->identifier_1->name) << "_" << node->identifier_2->name;
+        std::cout << getIndent(TAB_COUNTER) << "call " << findVariableObjectName(this, this->currentClassName, node->identifier_1->name) << "_" << node->identifier_2->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;
     } else {
         std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the receiver object (current object) self pointer onto the stack." << std::endl;

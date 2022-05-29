@@ -431,17 +431,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         (*(it))->accept(this);
     
     if (node->identifier_2) {
-        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
-        std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;
-
-        std::cout << "# offset of local variable that's an object: " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << std::endl;
-        std::cout << "# name of class containing this member: " << findVariableObjectName(this, this->currentClassName, node->identifier_1->name) << std::endl;
-        std::cout << "# offset of member " << node->identifier_2->name << " within that object: " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << std::endl << std::endl;
-
-        std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object (current object) self pointer onto the stack." << std::endl;
-
-        std::cout << getIndent(TAB_COUNTER) << "call " << findVariableObjectName(this, this->currentClassName, node->identifier_1->name) << "_" << node->identifier_2->name;
-        std::cout << "                     # perform the appropriate method call." << std::endl;
+        
     } else {
         std::cout << getIndent(TAB_COUNTER) << "push %ebp" << "                        # push the receiver object (current object) self pointer onto the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name;

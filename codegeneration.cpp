@@ -31,6 +31,7 @@ int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::stri
             return visitor->classTable->at(class_name).members->at(name).offset;
         
         class_name = visitor->classTable->at(class_name).superClassName;
+        std::cout << class_name << std::endl;
         while (visitor->classTable->at(class_name).members->count(name) == 0) {
             result += visitor->classTable->at(class_name).membersSize;
             class_name = visitor->classTable->at(class_name).superClassName;

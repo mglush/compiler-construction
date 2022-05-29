@@ -24,7 +24,7 @@ Main {
 	    classB b;
 
 	    b = new classB();
-	    b.dofib();
+	    b.fib();
 	    
      }
 

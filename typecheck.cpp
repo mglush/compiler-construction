@@ -278,10 +278,8 @@ void modifySymbolTable(TypeCheck* visitor) {
             it->second.members->insert(std::make_pair(iter->first, newVariableInfo));
           }
           superclass = visitor->classTable->at(superclass).superClassName;
-          std::cout << "TESTING TESTING TESTING" << std::endl;
-          std::cout << superclass << std::endl;
-          std::cout << "TESTING TESTING TESTING" << std::endl;
-          offset_add_on += visitor->classTable->at(superclass).membersSize;
+          if (superclass.length())
+            offset_add_on += visitor->classTable->at(superclass).membersSize;
         }
     }
 }

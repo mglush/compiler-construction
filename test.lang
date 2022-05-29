@@ -2,7 +2,7 @@ classA {
      integer x;
 
 	 printer() -> none {
-		 print x;
+		 /* print x; */
 	 }
 }
 
@@ -18,7 +18,7 @@ Main {
 
 	    a = new classA;
 	    a.x = 5;
-
+		
 	    a.printer();
      }
 

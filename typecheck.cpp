@@ -300,7 +300,7 @@ void TypeCheck::visitProgramNode(ProgramNode* node) {
   mainClassMembersPresent(this);
   noMainMethod(this);
 
-  modifySymbolTable(this);
+  // modifySymbolTable(this);
 }
 
 void TypeCheck::visitClassNode(ClassNode* node) {

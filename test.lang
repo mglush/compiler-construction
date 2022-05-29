@@ -11,7 +11,7 @@ classB {
 
     classB() -> none {
         x = 1;
-		print 1;
+		print x;
     }
 
     fib(classA a) -> classA {

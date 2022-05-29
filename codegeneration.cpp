@@ -498,7 +498,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
 // std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl;
 
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
-    if (this->currentMethodInfo.variables->count(node->identifier->name)) {
+    if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
         std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
         std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";

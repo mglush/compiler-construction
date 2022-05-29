@@ -172,7 +172,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "pop %eax" << "                            # get value of the expression from the top of the stack." << std::endl;
     
     if (node->identifier_2) {
-        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, findVariableObjectName(this, node->identifier_1->name), node->identifier_2->name) << "(%ebp)";
+        std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << 8 + findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp)";
     } else {
         std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp)";
     }

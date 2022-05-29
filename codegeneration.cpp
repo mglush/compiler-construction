@@ -478,7 +478,14 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
 
 void CodeGenerator::visitVariableNode(VariableNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting Variable." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
+    if (this->currentMethodInfo.variables->count(node->identifier->name)) {
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
+    } else {
+        std::cout << getIndent(TAB_COUNTER) << "mov %ebp, %ebx" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "addl $8, %ebx" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
+    }
+
     std::cout << getIndent(TAB_COUNTER) << "             # load the variable value from the right place in memory." << std::endl;
     std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl;
 }

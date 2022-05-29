@@ -3,7 +3,7 @@ classA {
 
      classA(integer val) -> none {
          x = val;
-		 print 69696969;
+		 print x;
      }
 }
 

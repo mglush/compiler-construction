@@ -70,7 +70,7 @@ void modifySymbolTable(CodeGenerator* visitor) {
         superclass = it->second.superClassName;
         while (superclass.length()) {
             std::map<std::string, VariableInfo>* yomp = visitor->classTable->at(superclass).members;
-            it->second.members->insert(*(yomp));
+            it->second.members->insert(*(*(yomp)));
             superclass = visitor->classTable->at(superclass).superClassName;
         }
     }

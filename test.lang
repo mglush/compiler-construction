@@ -1,11 +1,3 @@
-classA {
-     integer y;
-
-     classA(integer val) -> none {
-         y = val;
-     }
-}
-
 classB {
     integer x;
 
@@ -13,12 +5,9 @@ classB {
         x = 1;
     }
 
-    fib() -> classA {
+    fib() -> none {
       integer tmp;
-
       print x;
-
-      return new classA(1);
     }
 
     dofib() -> none {

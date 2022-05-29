@@ -498,7 +498,7 @@ void CodeGenerator::visitNewNode(NewNode* node) {
         std::cout <<  "                      # push the size of the new object onto the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                      # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                     # move stack pointer past the malloc argument." << std::endl;
-        std::cout << genIndent(TAB_COUNTER) << "push (%eax)" << "                        # push pointer to the allocated space onto the stack." << std::endl << std::endl;
+        std::cout << genIndent(TAB_COUNTER) << "push %eax" << "                        # push pointer to the allocated space onto the stack." << std::endl << std::endl;
     } else {
         // constructor exists. do the pre-call, then allocate the space and slap the allocated object pointer in with da parameters then do a mf post return.
         
@@ -524,7 +524,7 @@ void CodeGenerator::visitNewNode(NewNode* node) {
         
         // THIS IS A POST-RETURN HERE (DISASSEMBLE THE ACTIVATION RECORD AFTER METHOD IS DONE EXECUTING).
         // pop the object self pointer from stack.
-        std::cout << getIndent(TAB_COUNTER) << "pop %ebx" << "                         # pop the receiver object self pointer off the stack." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pop (%ebx)" << "                         # pop the receiver object self pointer off the stack." << std::endl;
         
         // pop all parameters from stack.
         if (node->expression_list)

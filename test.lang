@@ -1,3 +1,12 @@
+classA {
+     integer x;
+
+     classA(integer val) -> none {
+         x = val;
+		 print 69696969;
+     }
+}
+
 classB {
     integer x;
 
@@ -5,16 +14,16 @@ classB {
         x = 1;
     }
 
-    fib(integer a) -> integer {
+    fib(classA a) -> classA {
 		integer tmp;
 		print x;
 		tmp = x;
 		x = x + a.x;
-		return tmp;
+		return new classA(tmp);
     }
 
     dofib() -> none {
-		fib(100);
+		fib(new classA(1));
     }
 
 }

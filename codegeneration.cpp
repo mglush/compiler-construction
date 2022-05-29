@@ -447,14 +447,14 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
 
         if (this->classTable->at(this->currentClassName).methods->count(node->identifier_1->name)) {
             std::cout << getIndent(TAB_COUNTER) << "call " << this->currentClassName << "_" << node->identifier_1->name;
-            std::cout << "                     # perform the appropriate method call." << std::endl;
+            std::cout << "                     # perform the appropriate method call YOMP YOMP." << std::endl;
         } else {
             std::string superclass = this->classTable->at(this->currentClassName).superClassName;
             while (!(this->classTable->at(superclass).methods->count(node->identifier_1->name)))
                 superclass = this->classTable->at(superclass).superClassName;
             
             std::cout << getIndent(TAB_COUNTER) << "call " << superclass << "_" << node->identifier_1->name;
-            std::cout << "                     # perform the appropriate method call." << std::endl;
+            std::cout << "                     # perform the appropriate method call THIS ONE IS IT." << std::endl;
         }
     }
 

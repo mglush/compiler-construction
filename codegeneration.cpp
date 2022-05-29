@@ -487,11 +487,29 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the result returned by method call on top of the stack.." << std::endl;
 }
 
+// if (this->currentMethodInfo.variables->count(node->identifier->name)) {
+//     std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebp), %eax";
+// } else {
+//     std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
+//     std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier->name) << "(%ebx), %eax";
+// }
+
+// std::cout << getIndent(TAB_COUNTER) << "             # load the variable value from the right place in memory." << std::endl;
+// std::cout << getIndent(TAB_COUNTER) << "push %eax" << "                        # put it on top of the stack." << std::endl;
+
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
-    std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
-    std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
-    std::cout << getIndent(TAB_COUNTER) << "push " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
-    std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
+    if (this->currentMethodInfo.variables->count(node->identifier->name)) {
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
+        std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
+        std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
+    } else {
+        std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebx), %ebx";
+        std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "push " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
+        std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
+    }
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {

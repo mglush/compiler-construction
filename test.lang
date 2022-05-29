@@ -1,5 +1,8 @@
 classA {
   integer goomba;
+  integer goomba1;
+  integer goomba2;
+  integer goomba3;
   classA() -> none {
     print 7777;
   }

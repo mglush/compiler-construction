@@ -268,18 +268,21 @@ void methodArgumentTypeMismatch(TypeCheck* visitor, std::list<ExpressionNode*>* 
 void modifySymbolTable(TypeCheck* visitor) {
     std::string superclass;
     int offset_add_on;
+    int counter = 0;
     for (std::map<std::string, ClassInfo>::iterator it = visitor->classTable->begin(); it != visitor->classTable->end(); it++) {
         superclass = it->second.superClassName;
         offset_add_on = it->second.membersSize;
+        counter = offset_add_on / 4;
         while (superclass.length()) {
           // go throough every member variable, and increase its offset.
           for (std::map<std::string, VariableInfo>::reverse_iterator iter = visitor->classTable->at(superclass).members->rbegin(); iter != visitor->classTable->at(superclass).members->rend(); iter++) {
-            VariableInfo newVariableInfo = {{iter->second.type.baseType, iter->second.type.objectClassName}, iter->second.offset += offset_add_on, iter->second.size};
+            VariableInfo newVariableInfo = {{iter->second.type.baseType, iter->second.type.objectClassName}, iter->second.offset += offset_add_on - 4 * counter, iter->second.size};
             it->second.members->insert(std::make_pair(iter->first, newVariableInfo));
           }
           superclass = visitor->classTable->at(superclass).superClassName;
           if (superclass.length())
             offset_add_on += visitor->classTable->at(superclass).membersSize;
+          counter++;
         }
         offset_add_on = 0;
     }

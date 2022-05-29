@@ -177,7 +177,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
 
         std::cout << node->identifier_2->name << std::endl << std::endl << std::endl << std::endl;
 
-        std::cout << findVariableObjectName(this, this->currentClassName, node->identifier_2->name) << std::endl << std::endl;
+        // std::cout << findVariableObjectName(this, this->currentClassName, node->identifier_2->name) << std::endl << std::endl;
 
         // std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_2->name), node->identifier_2->name) << "(%ecx)";
         // std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;

@@ -282,6 +282,8 @@ void modifySymbolTable(TypeCheck* visitor) {
           superclass = visitor->classTable->at(superclass).superClassName;
           if (superclass.length())
             offset_add_on += visitor->classTable->at(superclass).membersSize;
+          else
+            offset_add_on = 0;
           counter++;
         }
     }

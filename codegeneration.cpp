@@ -21,10 +21,6 @@ std::string getIndent(int num_tabs) {
 int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
     if (visitor->currentMethodInfo.variables->count(name))
        return visitor->currentMethodInfo.variables->at(name).offset;
-
-    std::cout << "BUG BUG BUG BUG BUG" << std::endl;
-    std::cout << class_name << "   WELL WELL WELL " << name << std::endl;
-    std::cout << "BUG BUG BUG BUG BUG" << std::endl;
 }
 
 // helper function to find the proper offset of a given class's member.

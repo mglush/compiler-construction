@@ -435,6 +435,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
             std::cout << getIndent(TAB_COUNTER) << "mov " << findMemberOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebx), %ebx";
             std::cout << getIndent(TAB_COUNTER) << "           # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
         }
+        
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << object_name << "_" << node->identifier_2->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;

@@ -399,9 +399,7 @@ void TypeCheck::visitParameterNode(ParameterNode* node) {
   node->visit_children(this);
 
   VariableInfo cur_var_info = {{node->type->basetype, node->type->objectClassName}, this->currentParameterOffset, 4};
-  std::pair<std::string, VariableInfo> new_variable = std::make_pair(node->identifier->name, cur_var_info);
-  this->currentVariableTable->insert(new_variable);
-
+  (*(this->currentVariableTable))[node->identifier->name] = cur_var_info;
   this->currentParameterOffset += 4;
 }
 
@@ -419,8 +417,7 @@ void TypeCheck::visitDeclarationNode(DeclarationNode* node) {
       cur_var_info = {{node->type->basetype, node->type->objectClassName}, this->currentMemberOffset, 4};
       this->currentMemberOffset += 4;
     }
-    std::pair<std::string, VariableInfo> new_variable = std::make_pair((*temp)->name, cur_var_info);
-    this->currentVariableTable->insert(new_variable);
+    (*(this->currentVariableTable))[(*temp)->name] = cur_var_info;
     COUNTER++;
   }
 }

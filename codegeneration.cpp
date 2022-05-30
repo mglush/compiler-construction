@@ -427,6 +427,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         (*(it))->accept(this);
     
     if (node->identifier_2) {
+        std::cout << "BUG BUG BUG BUG BUG" << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "mov ";
         std::string object_name = findVariableObjectName(this, this->currentClassName, node->identifier_1->name);
 

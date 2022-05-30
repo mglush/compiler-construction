@@ -433,14 +433,8 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         while (!(this->classTable->at(object_name).methods->count(node->identifier_2->name)))
             object_name = this->classTable->at(object_name).superClassName;
         
-        if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
-            std::cout << findVariableOffset(this, object_name, node->identifier_1->name) << "(%ebp), %ebx";
-            std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;
-        } else {
-            std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
-            std::cout << findMemberOffset(this, object_name, node->identifier_1->name) << "(%ebx), %ebx";
-            std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;
-        }
+        std::cout << findVariableOffset(this, object_name, node->identifier_1->name) << "(%ebp), %ebx";
+        std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << object_name << "_" << node->identifier_2->name << "                     # perform the appropriate method call." << std::endl;
     } else {

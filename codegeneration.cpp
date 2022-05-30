@@ -25,8 +25,10 @@ int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::stri
 
 // helper function to find the proper offset of a given class's member.
 int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
+    std::cout << "BUG BUG BUG" << std::endl;
     if (visitor->classTable->at(class_name).members->count(name))
         return visitor->classTable->at(class_name).members->at(name).offset;
+    std::cout << "BUG BUG BUG" << std::endl;
 }
 
 // helper function to find the classObjectName of a variable with the given name.
@@ -149,9 +151,6 @@ void CodeGenerator::visitReturnStatementNode(ReturnStatementNode* node) {
     if (COMMENTS_ON) std::cout << "# Processing ReturnStatementNode." << std::endl;
 }
 
-// # ------------------------------------------------------------------------------------------------ //
-// # MAKE SURE TO FILL IN THE CODE FOR MEMBER ACCESS
-// # ------------------------------------------------------------------------------------------------ //
 void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
     if (COMMENTS_ON) std::cout  << "# Visiting AssignmentNode." << std::endl;
     node->visit_children(this);
@@ -482,30 +481,20 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the result returned by method call on top of the stack.." << std::endl;
 }
 
-// if (this->currentMethodInfo.variables->count(node->identifier_1->name))
-//     std::cout << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
-// else
-//     std::cout << findMemberOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
-// std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;
-// std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;
-// std::cout << getIndent(TAB_COUNTER) << "call " << object_name << "_" << node->identifier_2->name << "                     # perform the appropriate method call." << std::endl;
-
 void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
     if (this->currentMethodInfo.variables->count(node->identifier_1->name)) {
         std::cout << getIndent(TAB_COUNTER) << "mov " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
         std::cout << getIndent(TAB_COUNTER) << "           # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
     } else {
-        std::cout << getIndent(TAB_COUNTER) << "mov " << findMemberOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp), %ebx";
+        std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx";
+        std::cout << getIndent(TAB_COUNTER) << "           # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "mov " << findMemberOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebx), %ebx";
         std::cout << getIndent(TAB_COUNTER) << "           # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
     }
 
     std::cout << getIndent(TAB_COUNTER) << "push ";
-    if (this->currentMethodInfo.variables->count(node->identifier_2->name))
-        std::cout << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
-    else
-        std::cout << findMemberOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
+    std::cout << findMemberOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
     std::cout << getIndent(TAB_COUNTER) << "                # push member onto the stack from memory." << std::endl << std::endl;
-
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {

@@ -25,8 +25,14 @@ int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::stri
 
 // helper function to find the proper offset of a given class's member.
 int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
+    int result;
     if (visitor->classTable->at(class_name).members->count(name))
-        return visitor->classTable->at(class_name).members->at(name).offset;
+        result = visitor->classTable->at(class_name).members->at(name).offset;
+    class_name = visitor->classTable->at(class_name).superClassName;
+    while (class_name.length()) {
+        result += visitor->classTable->at(class_name).membersSize;
+        class_name = visitor->classTable->at(class_name).superClassName;
+    }
 }
 
 // helper function to find the classObjectName of a variable with the given name.
@@ -484,7 +490,7 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "           # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
     }
     std::cout << getIndent(TAB_COUNTER) << "push ";
-    std::cout << findVariableOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
+    std::cout << findMemberOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
     std::cout << getIndent(TAB_COUNTER) << "                # IS THIS THE LINE IN QUESTION?????" << std::endl << std::endl;
 }
 

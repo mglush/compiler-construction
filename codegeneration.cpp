@@ -2,7 +2,7 @@
 
 int TAB_COUNTER = 0;                // keeps track of tabs to use when printing assembly code.
 bool INDENT_ON = true;              // set to false if no indentation is wanted.
-bool COMMENTS_ON = true;           // set to false if you don't want the generated assembly to generate comments.
+bool COMMENTS_ON = false;           // set to false if you don't want the generated assembly to generate comments.
 int COMMENT_OFFSET_TABS = 20;       // change up or down to move assembly coes closer or further from the code.
 
 // returns the appropriate space to indent the assembly.
@@ -17,43 +17,16 @@ std::string getIndent(int num_tabs) {
     }
 }
 
-// helper function to find proper space to allocate for a new object.
-int findObjectMemberSize(CodeGenerator* visitor, std::string class_name) {
-    int result = 0;
-    while (visitor->classTable->count(class_name)) {
-        result += visitor->classTable->at(class_name).membersSize;
-        class_name = visitor->classTable->at(class_name).superClassName;
-    }
-    return result;
-}
-
 // helper function to find the proper offset of a current class's variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
-    int result = 0;
-    if (visitor->currentMethodInfo.variables->count(name)) {
+    if (visitor->currentMethodInfo.variables->count(name))
        return visitor->currentMethodInfo.variables->at(name).offset;
-    }
-    else {
-        if (visitor->classTable->at(class_name).members->count(name))
-            return visitor->classTable->at(class_name).members->at(name).offset;
-        class_name = visitor->classTable->at(class_name).superClassName;
-        while (visitor->classTable->at(class_name).members->count(name) == 0) {
-            result += visitor->classTable->at(class_name).membersSize;
-            class_name = visitor->classTable->at(class_name).superClassName;
-        }
-        return result + visitor->classTable->at(class_name).members->at(name).offset;
-    }
 }
 
 // helper function to find the proper offset of a given class's member.
 int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
-    int result = 0;
     if (visitor->classTable->at(class_name).members->count(name))
         return visitor->classTable->at(class_name).members->at(name).offset;
-    class_name = visitor->classTable->at(class_name).superClassName;
-    while (visitor->classTable->at(class_name).members->count(name) == 0)
-        class_name = visitor->classTable->at(class_name).superClassName;
-    return visitor->classTable->at(class_name).members->at(name).offset;
 }
 
 // helper function to find the classObjectName of a variable with the given name.
@@ -72,6 +45,14 @@ std::string findVariableObjectName(CodeGenerator* visitor, std::string class_nam
     }
     std::cout << "DID THIS POINT REALLY GET FUCKING REACHED" << std::endl;
     return ""; // SHOULD NEVER BE REACHED DUE TO THE TYPECHECKER.
+}
+
+int findObjectMemberSize(CodeGenerator* visitor, std::string name) {
+    return visitor->classTable->at(name).membersSize;
+    // std::string superclass = visitor->classTable->at(name).superClassName;
+    // while (superclass.length())
+    //     result += visitor->classTable->at(superclass).membersSize;
+    // return result;
 }
 
 void CodeGenerator::visitProgramNode(ProgramNode* node) {
@@ -517,14 +498,14 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
     }
     std::cout << getIndent(TAB_COUNTER) << "push " << findMemberOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
-    std::cout << getIndent(TAB_COUNTER) << "              # IMPORTANT TO CHECK!!!." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right offset from the object self pointer." << std::endl << std::endl;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {
     if (this->classTable->at(node->identifier->name).methods->count(node->identifier->name) == 0) {
         // no constructor exists, allocate space and das it.
         std::cout << getIndent(TAB_COUNTER) << "pushl $" << findObjectMemberSize(this, node->identifier->name);
-        std::cout <<  "                      # PUSHED MEMBERSIZE ONTO THE STACK." << std::endl;
+        std::cout <<  "                      # push the size of the new object onto the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                      # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                     # move stack pointer past the malloc argument." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "push %eax" << "                        # push pointer to the allocated space onto the stack." << std::endl << std::endl;
@@ -542,8 +523,8 @@ void CodeGenerator::visitNewNode(NewNode* node) {
             for (std::list<ExpressionNode*>::reverse_iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
                 (*(it))->accept(this);
 
-        std::cout << getIndent(TAB_COUNTER) << "pushl $" << findObjectMemberSize(this, node->identifier->name);
-        std::cout <<  "                                         # PUSHED MEMBERSIZE ONTO THE STACK BOUTTA CALL CONSTRUCTOR." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pushl $" << this->classTable->at(node->identifier->name).membersSize;
+        std::cout <<  "                                         # push the size of the new object onto the stack." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                                             # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                                            # move stack pointer past the malloc argument." << std::endl;
 

@@ -20,7 +20,7 @@ std::string getIndent(int num_tabs) {
 // helper function to find proper space to allocate for a new object.
 int findObjectMemberSize(CodeGenerator* visitor, std::string class_name) {
     int result = 0;
-    while (visitor->classTable->at(class_name)) {
+    while (visitor->classTable->count(class_name)) {
         result += visitor->classTable->at(class_name).membersSize;
         class_name = visitor->classTable->at(class_name).superClassName;
     }

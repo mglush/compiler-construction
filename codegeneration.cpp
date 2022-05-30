@@ -434,7 +434,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
             object_name = this->classTable->at(object_name).superClassName;
         
         std::cout << "BUG BUG BUG BUG BUG" << std::endl;
-        std::cout << findVariableOffset(this, object_name, node->identifier_1->name) << std::endl;
+        std::cout << node->identifier_1->name << std::endl;
         std::cout << "BUG BUG BUG BUG BUG" << std::endl;
 
         std::cout << findVariableOffset(this, object_name, node->identifier_1->name) << "(%ebp), %ebx";

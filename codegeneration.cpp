@@ -430,6 +430,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "mov ";
         std::string object_name = findVariableObjectName(this, this->currentClassName, node->identifier_1->name);
         std::cout << "BUG BUG BUG BUG BUG" << std::endl;
+        std::cout << object_name << std::endl;
         while (!(this->classTable->at(object_name).methods->count(node->identifier_2->name)))
             object_name = this->classTable->at(object_name).superClassName;
         

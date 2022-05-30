@@ -307,7 +307,6 @@ void TypeCheck::visitClassNode(ClassNode* node) {
   std::string superclass_name = "";
   VariableTable* members = new VariableTable();
   MethodTable* methods = new MethodTable();
-  int size = 0;
   
   // record superclass information if it's available.
   if (node->identifier_2) {
@@ -315,10 +314,8 @@ void TypeCheck::visitClassNode(ClassNode* node) {
     undefinedClass(this, superclass_name);
 
     // add superclass variables to this bad boy.
-    for (std::map<std::string, VariableInfo>::iterator it = this->classTable->at(superclass_name).members->begin(); it != this->classTable->at(superclass_name).members->end(); it++) {
+    for (std::map<std::string, VariableInfo>::iterator it = this->classTable->at(superclass_name).members->begin(); it != this->classTable->at(superclass_name).members->end(); it++)
       (*(members))[it->first] = it->second;
-      size += 4;
-    }
   }
 
   // set current-info trackers.
@@ -326,11 +323,11 @@ void TypeCheck::visitClassNode(ClassNode* node) {
   this->currentMethodTable = methods;
   this->currentVariableTable = members;
   this->currentLocalOffset = -4;        // -4, -8, -12, ...
-  this->currentMemberOffset = 4 * size;        // 0, 4, 8, ...
+  this->currentMemberOffset = 4 * members->size();        // 0, 4, 8, ...
   this->currentParameterOffset = 12;    // 12, 16, 20, ...
 
   // create and insert the entry of this class into the classTable.
-  ClassInfo cur_class_info = {superclass_name, methods, members, size};
+  ClassInfo cur_class_info = {superclass_name, methods, members, 0};
   std::pair<std::string, ClassInfo> cur_class = std::make_pair(this->currentClassName, cur_class_info);
   this->classTable->insert(cur_class);
   

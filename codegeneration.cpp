@@ -17,6 +17,16 @@ std::string getIndent(int num_tabs) {
     }
 }
 
+// helper function to find proper space to allocate for a new object.
+int findObjectMemberSize(CodeGenerator* visitor, std::string class_name) {
+    int result = 0;
+    while (visitor->classTable->at(class_name)) {
+        result += visitor->classTable->at(class_name).membersSize;
+        class_name = visitor->classTable->at(class_name).superClassName;
+    }
+    return result;
+}
+
 // helper function to find the proper offset of a current class's variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
     int result = 0;
@@ -513,7 +523,7 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
 void CodeGenerator::visitNewNode(NewNode* node) {
     if (this->classTable->at(node->identifier->name).methods->count(node->identifier->name) == 0) {
         // no constructor exists, allocate space and das it.
-        std::cout << getIndent(TAB_COUNTER) << "pushl $" << this->classTable->at(node->identifier->name).membersSize;
+        std::cout << getIndent(TAB_COUNTER) << "pushl $" << findObjectMemberSize(this, node->identifier->name);
         std::cout <<  "                      # PUSHED MEMBERSIZE ONTO THE STACK." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                      # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                     # move stack pointer past the malloc argument." << std::endl;
@@ -532,7 +542,7 @@ void CodeGenerator::visitNewNode(NewNode* node) {
             for (std::list<ExpressionNode*>::reverse_iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
                 (*(it))->accept(this);
 
-        std::cout << getIndent(TAB_COUNTER) << "pushl $" << this->classTable->at(node->identifier->name).membersSize;
+        std::cout << getIndent(TAB_COUNTER) << "pushl $" << findObjectMemberSize(this, node->identifier->name);
         std::cout <<  "                                         # PUSHED MEMBERSIZE ONTO THE STACK BOUTTA CALL CONSTRUCTOR." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                                             # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                                            # move stack pointer past the malloc argument." << std::endl;

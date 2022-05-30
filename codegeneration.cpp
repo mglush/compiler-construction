@@ -429,11 +429,12 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
     if (node->identifier_2) {
         std::cout << getIndent(TAB_COUNTER) << "mov ";
         std::string object_name = findVariableObjectName(this, this->currentClassName, node->identifier_1->name);
-        std::cout << "BUG BUG BUG BUG BUG" << std::endl;
-        std::cout << object_name << std::endl;
+
         while (!(this->classTable->at(object_name).methods->count(node->identifier_2->name)))
             object_name = this->classTable->at(object_name).superClassName;
         
+        std::cout << "BUG BUG BUG BUG BUG" << std::endl;
+
         std::cout << findVariableOffset(this, object_name, node->identifier_1->name) << "(%ebp), %ebx";
         std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;

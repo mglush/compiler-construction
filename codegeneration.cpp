@@ -2,7 +2,7 @@
 
 int TAB_COUNTER = 0;                // keeps track of tabs to use when printing assembly code.
 bool INDENT_ON = true;              // set to false if no indentation is wanted.
-bool COMMENTS_ON = true;           // set to false if you don't want the generated assembly to generate comments.
+bool COMMENTS_ON = false;           // set to false if you don't want the generated assembly to generate comments.
 int COMMENT_OFFSET_TABS = 20;       // change up or down to move assembly coes closer or further from the code.
 
 // returns the appropriate space to indent the assembly.
@@ -435,7 +435,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
             std::cout << getIndent(TAB_COUNTER) << "mov " << findMemberOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebx), %ebx";
             std::cout << getIndent(TAB_COUNTER) << "           # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
         }
-        
+
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << object_name << "_" << node->identifier_2->name;
         std::cout << "                     # perform the appropriate method call." << std::endl;

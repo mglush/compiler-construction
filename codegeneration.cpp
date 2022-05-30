@@ -25,7 +25,7 @@ int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::stri
 
 // helper function to find the proper offset of a given class's member.
 int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
-    std::cout << "BUG BUG BUG" << std::endl;
+    // std::cout << "BUG BUG BUG" << std::endl;
     if (visitor->classTable->at(class_name).members->count(name))
         return visitor->classTable->at(class_name).members->at(name).offset;
     std::cout << "BUG BUG BUG" << std::endl;

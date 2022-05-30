@@ -425,7 +425,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         while (!(this->classTable->at(object_name).methods->count(node->identifier_2->name)))
             object_name = this->classTable->at(object_name).superClassName;
         
-        // check if its a local variable
+               // check if its a local variable
         if (this->currentMethodInfo.variables->count(node->identifier_1->name) || this->currentClassName == "Main") {
             std::cout << findVariableOffset(this, object_name, node->identifier_1->name) << "(%ebp), %ebx";
             std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;

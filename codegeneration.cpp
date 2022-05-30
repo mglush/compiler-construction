@@ -17,17 +17,16 @@ std::string getIndent(int num_tabs) {
     }
 }
 
-// helper function to find the proper offset of a given class's member.
-int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
-    if (visitor->classTable->at(class_name).members->count(name))
-        return visitor->classTable->at(class_name).members->at(name).offset;
-}
-
 // helper function to find the proper offset of a current class's variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
     if (visitor->currentMethodInfo.variables->count(name))
        return visitor->currentMethodInfo.variables->at(name).offset;
-    findMemberOffset(visitor, class_name, name);
+}
+
+// helper function to find the proper offset of a given class's member.
+int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
+    if (visitor->classTable->at(class_name).members->count(name))
+        return visitor->classTable->at(class_name).members->at(name).offset;
 }
 
 // helper function to find the classObjectName of a variable with the given name.
@@ -434,7 +433,7 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
         while (!(this->classTable->at(object_name).methods->count(node->identifier_2->name)))
             object_name = this->classTable->at(object_name).superClassName;
 
-        std::cout << findVariableOffset(this, object_name, node->identifier_1->name) << "(%ebp), %ebx";
+        std::cout << findVariableOffset(this, this->currentClassName, object_name) << "(%ebp), %ebx";
         std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "push %ebx" << "                        # push the receiver object self pointer." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call " << object_name << "_" << node->identifier_2->name << "                     # perform the appropriate method call." << std::endl;

@@ -322,7 +322,7 @@ void TypeCheck::visitClassNode(ClassNode* node) {
         (*(members))[it->first] = it->second;
         this->currentMemberOffset += 4;
       } else {
-        (*(members))[it->first].offset += 4;
+        members->at(it->first).offset += 4;
         this->currentMemberOffset += 4;
       }
 

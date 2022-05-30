@@ -39,7 +39,7 @@ int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::stri
 int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
     int result = 0;
     if (visitor->classTable->at(class_name).members->count(name))
-        return visitor->classTable->at(name).membersSize;
+        return visitor->classTable->at(class_name).members->at(name).offset;
     class_name = visitor->classTable->at(class_name).superClassName;
     while (visitor->classTable->at(class_name).members->count(name) == 0)
         class_name = visitor->classTable->at(class_name).superClassName;
@@ -182,7 +182,7 @@ void CodeGenerator::visitAssignmentNode(AssignmentNode* node) {
             std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebp)";
         } else {
             std::cout << getIndent(TAB_COUNTER) << "mov 8(%ebp), %ebx" << std::endl;
-            std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findVariableOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebx)";
+            std::cout << getIndent(TAB_COUNTER) << "mov %eax, " << findMemberOffset(this, this->currentClassName, node->identifier_1->name) << "(%ebx)";
         }
         std::cout << getIndent(TAB_COUNTER) << "              # store value of right-hand side expression at the right place in memory." << std::endl << std::endl;
     }
@@ -514,7 +514,7 @@ void CodeGenerator::visitNewNode(NewNode* node) {
     if (this->classTable->at(node->identifier->name).methods->count(node->identifier->name) == 0) {
         // no constructor exists, allocate space and das it.
         std::cout << getIndent(TAB_COUNTER) << "pushl $" << this->classTable->at(node->identifier->name).membersSize;
-        std::cout <<  "                      # push the size of the new object onto the stack." << std::endl;
+        std::cout <<  "                      # PUSHED MEMBERSIZE ONTO THE STACK." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                      # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                     # move stack pointer past the malloc argument." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "push %eax" << "                        # push pointer to the allocated space onto the stack." << std::endl << std::endl;
@@ -532,8 +532,8 @@ void CodeGenerator::visitNewNode(NewNode* node) {
             for (std::list<ExpressionNode*>::reverse_iterator it = node->expression_list->rbegin(); it != node->expression_list->rend(); ++it)
                 (*(it))->accept(this);
 
-        std::cout << getIndent(TAB_COUNTER) << "pushl $" << 1000;
-        std::cout <<  "                                         # PUSHING HERE." << std::endl;
+        std::cout << getIndent(TAB_COUNTER) << "pushl $" << this->classTable->at(node->identifier->name).membersSize;
+        std::cout <<  "                                         # PUSHED MEMBERSIZE ONTO THE STACK BOUTTA CALL CONSTRUCTOR." << std::endl;
         std::cout << getIndent(TAB_COUNTER) << "call malloc" << "                                             # allocate space for object on the heap." << std::endl;
         std::cout << genIndent(TAB_COUNTER) << "add $4, %esp" << "                                            # move stack pointer past the malloc argument." << std::endl;
 

@@ -48,7 +48,13 @@ std::string findVariableObjectName(CodeGenerator* visitor, std::string class_nam
 }
 
 int findObjectMemberSize(CodeGenerator* visitor, std::string name) {
-    return visitor->classTable->at(name).membersSize;
+    int result = visitor->classTable->at(name).membersSize;
+    std::string superclass = visitor->classTable->at(name).superClassName;
+    while (superclass.length()) {
+        result += visitor->classTable->at(superclass).membersSize;
+        superclass = visitor->classTable->at(superclass).superClassName;
+    }
+    return result;
 }
 
 void CodeGenerator::visitProgramNode(ProgramNode* node) {

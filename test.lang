@@ -1,37 +1,59 @@
-classB {
-    integer x;
+class0 {
+    integer member0;
+    integer member1;
+    integer member2;
 
-    classB() -> none {
-        x = 1;
-    }
-
-    fib() -> none {
-      print x;
-    }
-
-    dofib() -> none {
-      print x;
-      fib();
-      print x;
+    class0(integer arg0) -> none {
+        member0 = 40;
+        member1 = 98;
+        member2 = 111;
     }
 
 }
 
+class2 extends class0 {
+    integer member0;
+    integer member1;
+    class0 member2;
 
-Main {
 
-    tester() -> none {
-      print 9999;
+    f0(integer arg0) -> boolean {
+        print 11111;
+        print member2.member1;
+        return true;
     }
 
-     main() -> none {
-	    classB b;
+    class2(integer arg1) -> none {
+        integer i0, i1;
+        member1 = 98;
+        member0 = 40;
+        member2 = new class0(245 * 16);
+    }
 
-	    b = new classB();
-	    b.dofib();
+}
 
-      tester();
-	    
-     }
+class3 extends class2 {
+    integer member0;
+    class2 member1;
 
+    class3(integer arg0) -> none {
+        member0 = arg0;
+        member1 = new class2(10);
+
+        member1.f0(47);
+
+    }
+}
+
+
+
+
+
+Main {
+    main() -> none {
+        class3 local5;
+
+        local5 = new class3(250 * 64 * 61);
+
+    }
 }

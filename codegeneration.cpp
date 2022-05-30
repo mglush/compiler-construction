@@ -494,7 +494,7 @@ void CodeGenerator::visitMemberAccessNode(MemberAccessNode* node) {
         std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl;
     }
     std::cout << getIndent(TAB_COUNTER) << "push " << findMemberOffset(this, findVariableObjectName(this, this->currentClassName, node->identifier_1->name), node->identifier_2->name) << "(%ebx)";
-    std::cout << getIndent(TAB_COUNTER) << "              # LOOKIE HERE LOOKIE HERE." << std::endl << std::endl;
+    std::cout << getIndent(TAB_COUNTER) << "              # IS THIS THE LINE IN QUESTION?????" << std::endl << std::endl;
 }
 
 void CodeGenerator::visitNewNode(NewNode* node) {

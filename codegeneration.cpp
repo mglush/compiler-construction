@@ -17,17 +17,17 @@ std::string getIndent(int num_tabs) {
     }
 }
 
+// helper function to find the proper offset of a given class's member.
+int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
+    if (visitor->classTable->at(class_name).members->count(name))
+        return visitor->classTable->at(class_name).members->at(name).offset;
+}
+
 // helper function to find the proper offset of a current class's variable/member.
 int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
     if (visitor->currentMethodInfo.variables->count(name))
        return visitor->currentMethodInfo.variables->at(name).offset;
     findMemberOffset(visitor, class_name, name);
-}
-
-// helper function to find the proper offset of a given class's member.
-int findMemberOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
-    if (visitor->classTable->at(class_name).members->count(name))
-        return visitor->classTable->at(class_name).members->at(name).offset;
 }
 
 // helper function to find the classObjectName of a variable with the given name.

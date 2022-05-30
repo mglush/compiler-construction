@@ -21,6 +21,10 @@ std::string getIndent(int num_tabs) {
 int findVariableOffset(CodeGenerator* visitor, std::string class_name, std::string name) {
     if (visitor->currentMethodInfo.variables->count(name))
        return visitor->currentMethodInfo.variables->at(name).offset;
+
+    std::cout << "BUG BUG BUG BUG BUG" << std::endl;
+    std::cout << class_name << "   WELL WELL WELL " << name << std::endl;
+    std::cout << "BUG BUG BUG BUG BUG" << std::endl;
 }
 
 // helper function to find the proper offset of a given class's member.
@@ -432,10 +436,6 @@ void CodeGenerator::visitMethodCallNode(MethodCallNode* node) {
 
         while (!(this->classTable->at(object_name).methods->count(node->identifier_2->name)))
             object_name = this->classTable->at(object_name).superClassName;
-        
-        std::cout << "BUG BUG BUG BUG BUG" << std::endl;
-        std::cout << node->identifier_1->name << std::endl;
-        std::cout << "BUG BUG BUG BUG BUG" << std::endl;
 
         std::cout << findVariableOffset(this, object_name, node->identifier_1->name) << "(%ebp), %ebx";
         std::cout << getIndent(TAB_COUNTER) << "              # get the object self pointer from the right place in memory, put it into %ebx." << std::endl << std::endl;

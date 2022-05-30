@@ -263,6 +263,29 @@ void methodArgumentTypeMismatch(TypeCheck* visitor, std::list<ExpressionNode*>* 
   }
 }
 
+// helper function to insert to superclass member variables
+// into the child class variable tables.
+// void modifySymbolTable(TypeCheck* visitor) {
+//     std::string superclass;
+//     int counter;
+//     for (std::map<std::string, ClassInfo>::iterator it = visitor->classTable->begin(); it != visitor->classTable->end(); it++) {
+//         superclass = it->second.superClassName;
+//         while (superclass.length()) {
+//           // go throough every member variable, and increase its offset.
+//           counter = 0;
+//           for (std::map<std::string, VariableInfo>::reverse_iterator iter = visitor->classTable->at(superclass).members->rbegin(); iter != visitor->classTable->at(superclass).members->rend(); iter++) {  
+//             VariableInfo newVariableInfo = {{iter->second.type.baseType, iter->second.type.objectClassName}, iter->second.offset + it->second.membersSize, iter->second.size};
+//             (*(it->second.members))[iter->first] = newVariableInfo;
+//             counter++;
+//           }
+//           ClassInfo newClassInfo = {superclass, it->second.methods, it->second.members, it->second.membersSize + 4 * counter};
+//           visitor->classTable->erase(it);
+//           visitor->classTable->insert(std::make_pair(it->first, newClassInfo));
+//           superclass = visitor->classTable->at(superclass).superClassName;
+//         }
+//     }
+// }
+
 /* These node visitor functions will be used 
  * to build the symbol table for the program,
  * using helper functions to type-check it along the way. */
@@ -276,17 +299,35 @@ void TypeCheck::visitProgramNode(ProgramNode* node) {
   noMainClass(this);
   mainClassMembersPresent(this);
   noMainMethod(this);
+
+  // modifySymbolTable(this);
 }
 
 void TypeCheck::visitClassNode(ClassNode* node) {
   std::string superclass_name = "";
   VariableTable* members = new VariableTable();
   MethodTable* methods = new MethodTable();
+  int size = 0;
+  
+  this->currentMemberOffset = 0;
   
   // record superclass information if it's available.
   if (node->identifier_2) {
     superclass_name = node->identifier_2->name;
     undefinedClass(this, superclass_name);
+
+    // add superclass variables to this bad boy.
+    for (std::map<std::string, VariableInfo>::iterator it = this->classTable->at(superclass_name).members->begin(); it != this->classTable->at(superclass_name).members->end(); it++) {
+      if (!(members->count(it->first))) {
+        (*(members))[it->first] = it->second;
+        this->currentMemberOffset += 4;
+      } else {
+        members->at(it->first).offset += 4;
+        this->currentMemberOffset += 4;
+      }
+
+      size += 4;
+    }
   }
 
   // set current-info trackers.
@@ -294,11 +335,10 @@ void TypeCheck::visitClassNode(ClassNode* node) {
   this->currentMethodTable = methods;
   this->currentVariableTable = members;
   this->currentLocalOffset = -4;        // -4, -8, -12, ...
-  this->currentMemberOffset = 0;        // 0, 4, 8, ...
   this->currentParameterOffset = 12;    // 12, 16, 20, ...
 
   // create and insert the entry of this class into the classTable.
-  ClassInfo cur_class_info = {superclass_name, methods, members, 0};
+  ClassInfo cur_class_info = {superclass_name, methods, members, size};
   std::pair<std::string, ClassInfo> cur_class = std::make_pair(this->currentClassName, cur_class_info);
   this->classTable->insert(cur_class);
   
@@ -306,7 +346,7 @@ void TypeCheck::visitClassNode(ClassNode* node) {
   node->visit_children(this);
 
   // get the member size information into this class's ClassInfo.
-  (*(this->classTable))[this->currentClassName].membersSize = 4 * members->size();
+  (*(this->classTable))[this->currentClassName].membersSize = 4 * members->size() + size;
 }
 
 void TypeCheck::visitMethodNode(MethodNode* node) {
@@ -359,9 +399,7 @@ void TypeCheck::visitParameterNode(ParameterNode* node) {
   node->visit_children(this);
 
   VariableInfo cur_var_info = {{node->type->basetype, node->type->objectClassName}, this->currentParameterOffset, 4};
-  std::pair<std::string, VariableInfo> new_variable = std::make_pair(node->identifier->name, cur_var_info);
-  this->currentVariableTable->insert(new_variable);
-
+  (*(this->currentVariableTable))[node->identifier->name] = cur_var_info;
   this->currentParameterOffset += 4;
 }
 
@@ -379,8 +417,7 @@ void TypeCheck::visitDeclarationNode(DeclarationNode* node) {
       cur_var_info = {{node->type->basetype, node->type->objectClassName}, this->currentMemberOffset, 4};
       this->currentMemberOffset += 4;
     }
-    std::pair<std::string, VariableInfo> new_variable = std::make_pair((*temp)->name, cur_var_info);
-    this->currentVariableTable->insert(new_variable);
+    (*(this->currentVariableTable))[(*temp)->name] = cur_var_info;
     COUNTER++;
   }
 }
@@ -431,9 +468,8 @@ void TypeCheck::visitDoWhileNode(DoWhileNode* node) {
 }
 
 void TypeCheck::visitPrintNode(PrintNode* node) {
-  if (node) {
+  if (node)
     node->visit_children(this);
-  }
 }
 
 void TypeCheck::visitCallNode(CallNode* node) {

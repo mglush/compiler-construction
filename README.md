@@ -2,7 +2,7 @@
 #### By Michael Glushchenko for UCSB CS160 Spring 2022 (Transaltion of Programming Languages).
 
 ## Table of Contents
-* [Programming Language Description](https://github.com/mglush/code_generation/blob/main/README.md#how-to-run)
+* [Programming Language Description](https://github.com/mglush/code_generation/blob/main/README.md#programming-language-description)
 * [How To Run](https://github.com/mglush/code_generation/blob/main/README.md#how-to-run)
 * [Project 1: Bottom-up Parser Generator](https://github.com/mglush/code_generation/blob/main/README.md#project-1-bottom-up-parser-generator)
 * [Project 2: Abstract Syntax Tree Builder](https://github.com/mglush/code_generation/blob/main/README.md#project-2-abstract-syntax-tree-builder)
@@ -120,3 +120,6 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
   - Uses the symbol table to generate x86 assembly code by doing a walk on the abstract syntax tree.
   - Runs on Linux, needs minor tweaks to work on Mac OS.
   - Completes the compiler-building process; the last project in this repository.
+
+
+2022 © Michael Glushchenko.

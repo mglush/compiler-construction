@@ -2,15 +2,27 @@
 #### By Michael Glushchenko for UCSB CS160 Spring 2022 (Transaltion of Programming Languages).
 
 ## Table of Contents
-* [Programming Language Description](https://github.com/mglush/compiler-construction/blob/main/README.md#programming-language-description)
+* [Purpose](https://github.com/mglush/compiler-construction/blob/main/README.md#purpose)
 * [How To Run](https://github.com/mglush/compiler-construction/blob/main/README.md#how-to-run)
+* [Programming Language Description](https://github.com/mglush/compiler-construction/blob/main/README.md#programming-language-description)
 * [Project 1: Bottom-up Parser Generator](https://github.com/mglush/compiler-construction/blob/main/README.md#project-1-bottom-up-parser-generator)
 * [Project 2: Abstract Syntax Tree Builder](https://github.com/mglush/compiler-construction/blob/main/README.md#project-2-abstract-syntax-tree-builder)
 * [Project 3: Symbol Table & Type Checker](https://github.com/mglush/compiler-construction/blob/main/README.md#project-3-symbol-table-type-checker)
 * [Project 4: Stack-Based x86 Code Generation](https://github.com/mglush/compiler-construction/blob/main/README.md#project-4-stack-based-x86-code-generation)
 
+## Purpose
+The [compiler construction repository](https://github.com/mglush/compiler-construction) contains all projects that aided me in learning about the compiler-building process and in actually implementing a compiler that works on a small, object-oriented prorgamming language.
+
+## How To Run
+~~~
+make clean && make                        # create the lang executable.
+./lang < input_language_file > code.s     # run the executable on an input language,
+                                          # and save the generated assembly to a file called code.s.
+gcc -m32 -o executable tester.c code.s    # link the generated assembly to the tester.c driver.
+./executable                              # execute the generated assembly.
+~~~
+
 ## Programming Language Description
-  - The compiler is designed to work on a small programming language.
   - Language specification is in the *lang.def* file.
   - This language only supports integer, boolean, and object types.
   - Expressions within the language support the following operations:
@@ -18,13 +30,6 @@
   - Function overloading is not allowed, but virtual functions are supported.
   - Inheritance is supported with the *extends* keyword.
   - Every program must have a "Main" class, and every "Main" class must have a "main" method.
-
-## How To Run
-~~~
-./lang < input_language > code.s          # save the generated assembly to a file called code.s.
-gcc -m32 -o executable tester.c code.s    # link the generated assembly to the tester.c driver.
-./executable                              # execute the generated assembly.
-~~~
 
 ## Project 1: Bottom-up Parser Generator
 - Uses Flex scanner generator to consume input one token at a time and pass it on to the parser.

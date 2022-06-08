@@ -120,6 +120,3 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
   - Uses the symbol table to generate x86 assembly code by doing a walk on the abstract syntax tree.
   - Runs on Linux, needs minor tweaks to work on Mac OS.
   - Completes the compiler-building process; the last project in this repository.
-
-
-2022 © Michael Glushchenko.

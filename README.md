@@ -1,4 +1,4 @@
-# Compiler Implementation in C++.
+# Compiler Construction in C++.
 #### By Michael Glushchenko for UCSB CS160 Spring 2022 (Transaltion of Programming Languages).
 
 ## Table of Contents

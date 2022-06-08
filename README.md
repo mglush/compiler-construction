@@ -27,10 +27,9 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
 ~~~
 
 ## Project 1: Bottom-up Parser Generator
-**Project aspects**:
-  - Uses Flex scanner generator to consume input one token at a time and pass it on to the parser.
-  - Uses Bison parser to parse the input program, bottom-up.
-  - Performs no action during parsing (to be implemented in the next project).
+- Uses Flex scanner generator to consume input one token at a time and pass it on to the parser.
+- Uses Bison parser to parse the input program, bottom-up.
+- Performs no action during parsing (to be implemented in the next project).
 
 **New Files Implemented**:
   - lexer.l
@@ -44,8 +43,7 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
   - Otherwise, outputs the line number on which an scan/parse error occurs.
 
 ## Project 2: Abstract Syntax Tree Builder
-**Project aspects**:
-  - Wrote rules for each action in the context-free grammar in parser.y to build an abstract syntax tree during parsing process.
+- Wrote rules for each action in the context-free grammar in parser.y to build an abstract syntax tree during parsing process.
 
 **Existing Files Modified**:
   - parser.y
@@ -58,31 +56,30 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
     - Outputs an abstract syntax tree of the input program.
 
 ## Project 3: Symbol Table & Type Checker
-**Project aspects**:
-  - Part 1: build a symbol table based on the AST generated during parsing.
-    - Each program has one class table.
-    - Each class table has a variable table for its members, and a method table for its methods.
-    - Each method table contains a variable table for the parameters and local variables.
-    - Each variable table contains name, type, and offset information of a given variable (to be used in code generation).
-  - Part 2: use the symbol table to typecheck the input program for the following errors:
-    - Undefined Variable
-    - Undefined Method
-    - Undefined Class
-    - Undefined Member
-    - Not An Object
-    - Expression Type Mismatch
-    - Argument Number Mismatch
-    - Argument Type Mismatch
-    - While Predicate Type Mismatch - while_predicate_type_mismatch
-    - Do While Predicate Type Mismatch
-    - If-Else Predicate Type Mismatch
-    - Assignment Type Mismatch
-    - Return Type Mismatch
-    - Constructor Returns Type (shouldn't return anything).
-    - No "Main" Class
-    - Main Class Has Members
-    - No "main" Method in the Main Class
-    - "main" Method has Incorrect Signature
+- Part 1: build a symbol table based on the AST generated during parsing.
+  - Each program has one class table.
+  - Each class table has a variable table for its members, and a method table for its methods.
+  - Each method table contains a variable table for the parameters and local variables.
+  - Each variable table contains name, type, and offset information of a given variable (to be used in code generation).
+- Part 2: use the symbol table to typecheck the input program for the following errors:
+  - Undefined Variable
+  - Undefined Method
+  - Undefined Class
+  - Undefined Member
+  - Not An Object
+  - Expression Type Mismatch
+  - Argument Number Mismatch
+  - Argument Type Mismatch
+  - While Predicate Type Mismatch - while_predicate_type_mismatch
+  - Do While Predicate Type Mismatch
+  - If-Else Predicate Type Mismatch
+  - Assignment Type Mismatch
+  - Return Type Mismatch
+  - Constructor Returns Type (shouldn't return anything).
+  - No "Main" Class
+  - Main Class Has Members
+  - No "main" Method in the Main Class
+  - "main" Method has Incorrect Signature
 
 **New Files Implenented**:
   - typecheck.cpp
@@ -96,10 +93,9 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
     - Otherwise, outputs one of the type errors listed below.
 
 ## Project 4: Stack-Based x86 Code Generation
-**Project aspects**:
-  - Uses the symbol table to generate x86 assembly code by doing a walk on the abstract syntax tree.
-  - Runs on Linux, needs minor tweaks to work on Mac OS.
-  - Completes the compiler-building process; the last project in this repository.
+- Uses the symbol table to generate x86 assembly code by doing a walk on the abstract syntax tree.
+- Runs on Linux, needs minor tweaks to work on Mac OS.
+- Completes the compiler-building process; the last project in this repository.
 
 **Existing Files Modified**:
   - typecheck.cpp

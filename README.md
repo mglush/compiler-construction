@@ -27,6 +27,11 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
 ~~~
 
 ## Project 1: Bottom-up Parser Generator
+**Project aspects**:
+  - Uses Flex scanner generator to consume input one token at a time and pass it on to the parser.
+  - Uses Bison parser to parse the input program, bottom-up.
+  - Performs no action during parsing (to be implemented in the next project).
+
 **New Files Implemented**:
   - lexer.l
   - parser.y
@@ -38,12 +43,10 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
   - If input is a valid program in our language, there is no output.
   - Otherwise, outputs the line number on which an scan/parse error occurs.
 
-**Project aspects**:
-  - Uses Flex scanner generator to consume input one token at a time and pass it on to the parser.
-  - Uses Bison parser to parse the input program, bottom-up.
-  - Performs no action during parsing (to be implemented in the next project).
-
 ## Project 2: Abstract Syntax Tree Builder
+**Project aspects**:
+  - Wrote rules for each action in the context-free grammar in parser.y to build an abstract syntax tree during parsing process.
+
 **Existing Files Modified**:
   - parser.y
 
@@ -54,21 +57,7 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
   - Given no scanner/parser errors:
     - Outputs an abstract syntax tree of the input program.
 
-**Project aspects**:
-  - Wrote rules for each action in the context-free grammar in parser.y to build an abstract syntax tree during parsing process.
-
 ## Project 3: Symbol Table & Type Checker
-**New Files Implenented**:
-  - typecheck.cpp
-
-**Input**:
-  - Program written in a small object-oriented programming language.
-
-**Output**:
-  - Given no scanner or parser errors:
-    - If input is a valid program in the language, outputs the symbol table of the input program.
-    - Otherwise, outputs one of the type errors listed below.
-
 **Project aspects**:
   - Part 1: build a symbol table based on the AST generated during parsing.
     - Each program has one class table.
@@ -95,7 +84,23 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
     - No "main" Method in the Main Class
     - "main" Method has Incorrect Signature
 
+**New Files Implenented**:
+  - typecheck.cpp
+
+**Input**:
+  - Program written in a small object-oriented programming language.
+
+**Output**:
+  - Given no scanner or parser errors:
+    - If input is a valid program in the language, outputs the symbol table of the input program.
+    - Otherwise, outputs one of the type errors listed below.
+
 ## Project 4: Stack-Based x86 Code Generation
+**Project aspects**:
+  - Uses the symbol table to generate x86 assembly code by doing a walk on the abstract syntax tree.
+  - Runs on Linux, needs minor tweaks to work on Mac OS.
+  - Completes the compiler-building process; the last project in this repository.
+
 **Existing Files Modified**:
   - typecheck.cpp
     - Modified to have every class include its superclass' member variables in its own variable table.
@@ -115,8 +120,3 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
       gcc -m32 -o executable tester.c code.s    # link the generated assembly to the tester.c driver.
       ./executable                              # execute the generated assembly.
       ~~~
-
-**Project aspects**:
-  - Uses the symbol table to generate x86 assembly code by doing a walk on the abstract syntax tree.
-  - Runs on Linux, needs minor tweaks to work on Mac OS.
-  - Completes the compiler-building process; the last project in this repository.

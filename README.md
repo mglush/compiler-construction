@@ -2,12 +2,12 @@
 #### By Michael Glushchenko for UCSB CS160 Spring 2022 (Transaltion of Programming Languages).
 
 ## Table of Contents
-* [Programming Language Description](https://github.com/mglush/code_generation/blob/main/README.md#programming-language-description)
-* [How To Run](https://github.com/mglush/code_generation/blob/main/README.md#how-to-run)
-* [Project 1: Bottom-up Parser Generator](https://github.com/mglush/code_generation/blob/main/README.md#project-1-bottom-up-parser-generator)
-* [Project 2: Abstract Syntax Tree Builder](https://github.com/mglush/code_generation/blob/main/README.md#project-2-abstract-syntax-tree-builder)
-* [Project 3: Symbol Table & Type Checker](https://github.com/mglush/code_generation/blob/main/README.md#project-3-symbol-table-type-checker)
-* [Project 4: Stack-Based x86 Code Generation](https://github.com/mglush/code_generation/blob/main/README.md#project-4-stack-based-x86-code-generation)
+* [Programming Language Description](https://github.com/mglush/compiler-construction/blob/main/README.md#programming-language-description)
+* [How To Run](https://github.com/mglush/compiler-construction/blob/main/README.md#how-to-run)
+* [Project 1: Bottom-up Parser Generator](https://github.com/mglush/compiler-construction/blob/main/README.md#project-1-bottom-up-parser-generator)
+* [Project 2: Abstract Syntax Tree Builder](https://github.com/mglush/compiler-construction/blob/main/README.md#project-2-abstract-syntax-tree-builder)
+* [Project 3: Symbol Table & Type Checker](https://github.com/mglush/compiler-construction/blob/main/README.md#project-3-symbol-table-type-checker)
+* [Project 4: Stack-Based x86 Code Generation](https://github.com/mglush/compiler-construction/blob/main/README.md#project-4-stack-based-x86-code-generation)
 
 ## Programming Language Description
   - The compiler is designed to work on a small programming language.
@@ -43,7 +43,8 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
   - Otherwise, outputs the line number on which an scan/parse error occurs.
 
 ## Project 2: Abstract Syntax Tree Builder
-- Wrote rules for each action in the context-free grammar in parser.y to build an abstract syntax tree during parsing process.
+- Chose AST as our Intermediate Code (IC) representation.
+- Wrote rules for each action in the context-free grammar in parser.y to build the AST during the parsing process.
 
 **Existing Files Modified**:
   - parser.y

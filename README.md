@@ -116,9 +116,4 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
 **Output**:
   - Given no scanner/parser/type errors:
     - Translation of program to x86 assembly.
-    - The assembly can be run with the following commands:
-      ~~~
-      ./lang < input_language > code.s          # save the generated assembly to a file called code.s.
-      gcc -m32 -o executable tester.c code.s    # link the generated assembly to the tester.c driver.
-      ./executable                              # execute the generated assembly.
-      ~~~
+    - The commands on how to run the finished version of this project are [here](https://github.com/mglush/compiler-construction/blob/main/README.md#how-to-run).

@@ -117,3 +117,5 @@ gcc -m32 -o executable tester.c code.s    # link the generated assembly to the t
   - Given no scanner/parser/type errors:
     - Translation of program to x86 assembly.
     - The commands on how to run the finished version of this project are [here](https://github.com/mglush/compiler-construction/blob/main/README.md#how-to-run).
+
+Michael Glushchenko &copy; 2022

@@ -20,6 +20,7 @@ cd compiler-construction                                    # enter repository f
 make clean && make                                          # create the lang executable.
 ./lang < input_language_file > code.s                       # run the executable on an input language,
                                                             # and save the generated assembly to a file called code.s.
+cat code.s                                                  # view generated assembly code (optional).
 gcc -m32 -o executable tester.c code.s                      # link the generated assembly to the tester.c driver.
 ./executable                                                # execute the generated assembly.
 ~~~

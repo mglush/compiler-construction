@@ -11,7 +11,7 @@
 * [Project 4: Stack-Based x86 Code Generation](https://github.com/mglush/compiler-construction/blob/main/README.md#project-4-stack-based-x86-code-generation)
 
 ## Purpose
-The [compiler construction repository](https://github.com/mglush/compiler-construction/blob/main/README.md) contains all projects that aided me in learning about the compiler-building process and in actually implementing a compiler that works on a small, object-oriented prorgamming language. All .cpp files were implemented, fully, by myself. runtests.py, as well as the ast and typecheck hpp files were provided for me.
+The [compiler construction repository](https://github.com/mglush/compiler-construction/blob/main/README.md) contains all projects that aided me in learning about the compiler-building process and in actually implementing a compiler that works on a small, object-oriented prorgamming language. All .cpp files were implemented, fully, by myself. runtests.py, as well as the ast.hpp and typecheck.hpp files were provided for me.
 
 ## How To Run
 ~~~
